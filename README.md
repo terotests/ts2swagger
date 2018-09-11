@@ -1,2 +1,5 @@
-# ts2swagger
-Create Swagger API from TypeScript classes
+
+# TypeScript to Swagger
+
+The project readme.
+

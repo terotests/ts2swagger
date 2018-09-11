@@ -1,0 +1,369 @@
+{
+  "swagger": "2.0",
+  "basePath": "/v1/",
+  "paths": {
+    "/user/{id}": {
+      "put": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TestUser"
+            }
+          }
+        ],
+        "description": "",
+        "summary": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TestUser"
+            }
+          }
+        }
+      }
+    },
+    "/newfn/{s}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "s",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "",
+        "summary": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/getDevices/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "List all devices in the system",
+        "summary": "List all devices in the system",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Device"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/allUsers/": {
+      "get": {
+        "parameters": [],
+        "description": "",
+        "summary": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TestUser"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "Fetch all users",
+        "summary": "Fetch all users",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TestUser"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createUser/": {
+      "post": {
+        "parameters": [
+          {
+            "name": "u",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateUser"
+            }
+          }
+        ],
+        "description": "",
+        "summary": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "/setDeviceData/": {
+      "post": {
+        "parameters": [
+          {
+            "name": "createNewDevice",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateDevice"
+            }
+          }
+        ],
+        "description": "ok, looks good",
+        "summary": "ok, looks good",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SomeReturnValue"
+            }
+          }
+        }
+      }
+    },
+    "/obj/{v}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "v",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "description": "",
+        "summary": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SomeReturnValue"
+            }
+          }
+        }
+      }
+    },
+    "/test3/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "description": "",
+        "summary": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SomeReturnValue"
+            }
+          }
+        }
+      }
+    },
+    "/HelloWorld/{name}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "",
+        "summary": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/hello/{name}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "",
+        "summary": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "TestUser": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Device": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateUser": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "age": {
+          "type": "number"
+        }
+      }
+    },
+    "SomeReturnValue": {
+      "type": "object",
+      "properties": {
+        "myValue": {
+          "type": "number"
+        },
+        "response": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateDevice": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "info": {
+    "version": "1.0.1",
+    "title": "First service",
+    "description": "APIn kuvaus jne.",
+    "termsOfService": ""
+  }
+}
