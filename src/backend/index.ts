@@ -30,6 +30,24 @@ function automaticServices(app:any, server:ServerInterface) {
       res.json( e.message );
     }
   })
+  // Service endpoint for getUser
+  app.get('/v1/user/:id', function( req, res ) {
+    try {
+      res.json( server.getUser(req.params.id) );
+    } catch(e) {
+      res.status(400);
+      res.json( e.message );
+    }
+  })
+  // Service endpoint for deleteUser
+  app.delete('/v1/user/:id', function( req, res ) {
+    try {
+      res.json( server.deleteUser(req.params.id) );
+    } catch(e) {
+      res.status(400);
+      res.json( e.message );
+    }
+  })
   // Service endpoint for newfn
   app.get('/v1/newfn/:s', function( req, res ) {
     try {

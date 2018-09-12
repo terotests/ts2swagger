@@ -1,10 +1,21 @@
 
+
+/**
+ * @model true 
+ */
+export class SomeKeyWord {
+  name = ''
+}
+
+
 /**
  * @model true 
  */
 export class SomeReturnValue {
   myValue = 100
   response = ''
+  someList : string[]
+  keys : SomeKeyWord[]
 }
 
 

@@ -38,14 +38,42 @@ var ServerInterface = /** @class */ (function () {
      * @method put
      * @param id set user to some value
      * @param user
+     * @tag user
+     * @tagdescription System users
      */
     ServerInterface.prototype.putUser = function (id, user) {
         var u = new model_1.TestUser();
         u.name = user.name;
         return u;
     };
+    /**
+     *
+     * @alias user
+     * @method get
+     * @param id set user to some value
+     * @param user
+     * @tag user
+     * @tagdescription System users
+     */
+    ServerInterface.prototype.getUser = function (id) {
+        var u = new model_1.TestUser();
+        return u;
+    };
+    /**
+     *
+     * @alias user
+     * @method delete
+     * @param id set user to some value
+     * @param user
+     * @tag user
+     * @tagdescription System users
+     */
+    ServerInterface.prototype.deleteUser = function (id) {
+        var u = new model_1.TestUser();
+        return u;
+    };
     ServerInterface.prototype.newfn = function (s) {
-        return 'ok';
+        return 'Simple string answer';
     };
     /**
      * List all devices in the system

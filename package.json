@@ -1,6 +1,6 @@
 {
   "name": "ts2swagger",
-  "version": "1.0.0",
+  "version": "0.0.6",
   "description": "Convert TypeScript classes into Swagger docs and Express API",
   "main": "dist/src/index.js",
   "bin": {

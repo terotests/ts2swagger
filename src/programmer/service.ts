@@ -18,13 +18,15 @@ export const initSwagger = (wr:R.CodeWriter, service:any) : R.CodeWriter => {
     "definitions" : {
 
     },
+    "schemes":["http", "https"],
     "info": {
       "version": service.version,
       "title": service.title || '',
       "description": service.description || '',      
       "termsOfService": service.tos || '',
-    }  
-  } 
+    },
+    tags : []  
+  }; 
   wr.getState().swagger = base
   return wr
 }
@@ -47,7 +49,19 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
   const getHTTPMethod = () : string => {
     return methodInfo.tags.method || httpMethod
   } 
-
+  const addTag = (tagname:string, description:string) => {
+    const swagger = wr.getState().swagger;
+    if( swagger.tags.filter( t => t.name === tagname).length === 0 ) {
+      swagger.tags.push({name:tagname, description})
+    }
+  }
+  const addTagDescription = (tagname:string, description?:string) => {
+    const swagger = wr.getState().swagger;
+    const tag = swagger.tags.filter( t => t.name === tagname).pop();
+    if(tag && description) {
+      tag.description = description;
+    }
+  };  
   wr.out(`// Service endpoint for ${methodName}`, true);
   wr.out(`app.${getHTTPMethod()}('/v1/${getMethodAlias()}/${getParamStr}', function( req, res ) {` , true)
   wr.indent(1)
@@ -78,14 +92,19 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
 
   const createClassDef = (className:string) => {
     const modelClass = utils.findModel(project, className)
-    if(modelClass) {
+    if(modelClass && !definitions[modelClass.getName()]) {
       definitions[modelClass.getName()] = {
         type : 'object',
         properties : {
           ...modelClass.getProperties().reduce( (prev, curr) => {
+            const rArr = getTypePath( curr.getType() )
+            const is_array = rArr[0] === 'Array'
+            const rType = rArr.pop()            
+            const swType = getSwaggerType( rType, is_array )
+            createClassDef( rType )
             return { ...prev,
               [curr.getName()] : {
-                'type' : getTypeName( curr.getType() )
+                ...swType
               }
             }
           },{})
@@ -107,8 +126,15 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
   const state = wr.getState().swagger
   const validParams = method.getParameters(); 
   const axiosGetVars = getParams.map( param => ('{' + param.getName() + '}' ) ).join('/')
-
+  const taglist = [];
+  if( methodInfo.tags.tag ) {
+    taglist.push( methodInfo.tags.tag );
+    addTag( methodInfo.tags.tag, '' )
+    addTagDescription( methodInfo.tags.tag, methodInfo.tags.tagdescription )
+  }
+  const previous = state.paths['/' + getMethodAlias() + '/' + axiosGetVars]
   state.paths['/' + getMethodAlias() + '/' + axiosGetVars] = {
+    ...previous,
     [getHTTPMethod()]: {
       "parameters" : [
         ...getParams.map( (param) => {
@@ -152,7 +178,8 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
       ],
       "responses": {
         ...successResponse,
-      }
+      },
+      "tags" : taglist
     }
   }  
   state.definitions = Object.assign( state.definitions, definitions )

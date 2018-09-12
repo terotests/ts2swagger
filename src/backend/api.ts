@@ -34,6 +34,8 @@ export class ServerInterface {
    * @method put
    * @param id set user to some value
    * @param user 
+   * @tag user
+   * @tagdescription System users
    */
   putUser(id:string, user:TestUser) : TestUser {
     const u = new TestUser()
@@ -41,9 +43,36 @@ export class ServerInterface {
     return u
   }
 
+  /**
+   * 
+   * @alias user
+   * @method get
+   * @param id set user to some value
+   * @param user 
+   * @tag user
+   * @tagdescription System users
+   */
+  getUser(id:string) : TestUser {
+    const u = new TestUser()
+    return u
+  }  
+
+  /**
+   * 
+   * @alias user
+   * @method delete
+   * @param id set user to some value
+   * @param user 
+   * @tag user
+   * @tagdescription System users
+   */
+  deleteUser(id:string) : TestUser {
+    const u = new TestUser()
+    return u
+  }   
 
   newfn(s:string) {
-    return 'ok'
+    return 'Simple string answer'
   }
 
   /**

@@ -28,8 +28,30 @@ export declare class ServerInterface {
      * @method put
      * @param id set user to some value
      * @param user
+     * @tag user
+     * @tagdescription System users
      */
     putUser(id: string, user: TestUser): TestUser;
+    /**
+     *
+     * @alias user
+     * @method get
+     * @param id set user to some value
+     * @param user
+     * @tag user
+     * @tagdescription System users
+     */
+    getUser(id: string): TestUser;
+    /**
+     *
+     * @alias user
+     * @method delete
+     * @param id set user to some value
+     * @param user
+     * @tag user
+     * @tagdescription System users
+     */
+    deleteUser(id: string): TestUser;
     newfn(s: string): string;
     /**
      * List all devices in the system

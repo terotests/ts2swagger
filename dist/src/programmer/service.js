@@ -23,12 +23,14 @@ exports.initSwagger = function (wr, service) {
         "basePath": service.endpoint || '/v1/',
         "paths": {},
         "definitions": {},
+        "schemes": ["http", "https"],
         "info": {
             "version": service.version,
             "title": service.title || '',
             "description": service.description || '',
             "termsOfService": service.tos || '',
-        }
+        },
+        tags: []
     };
     wr.getState().swagger = base;
     return wr;
@@ -51,6 +53,19 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     };
     var getHTTPMethod = function () {
         return methodInfo.tags.method || httpMethod;
+    };
+    var addTag = function (tagname, description) {
+        var swagger = wr.getState().swagger;
+        if (swagger.tags.filter(function (t) { return t.name === tagname; }).length === 0) {
+            swagger.tags.push({ name: tagname, description: description });
+        }
+    };
+    var addTagDescription = function (tagname, description) {
+        var swagger = wr.getState().swagger;
+        var tag = swagger.tags.filter(function (t) { return t.name === tagname; }).pop();
+        if (tag && description) {
+            tag.description = description;
+        }
     };
     wr.out("// Service endpoint for " + methodName, true);
     wr.out("app." + getHTTPMethod() + "('/v1/" + getMethodAlias() + "/" + getParamStr + "', function( req, res ) {", true);
@@ -79,14 +94,17 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     var definitions = {};
     var createClassDef = function (className) {
         var modelClass = utils.findModel(project, className);
-        if (modelClass) {
+        if (modelClass && !definitions[modelClass.getName()]) {
             definitions[modelClass.getName()] = {
                 type: 'object',
                 properties: __assign({}, modelClass.getProperties().reduce(function (prev, curr) {
                     var _a;
-                    return __assign({}, prev, (_a = {}, _a[curr.getName()] = {
-                        'type': getTypeName(curr.getType())
-                    }, _a));
+                    var rArr = getTypePath(curr.getType());
+                    var is_array = rArr[0] === 'Array';
+                    var rType = rArr.pop();
+                    var swType = getSwaggerType(rType, is_array);
+                    createClassDef(rType);
+                    return __assign({}, prev, (_a = {}, _a[curr.getName()] = __assign({}, swType), _a));
                 }, {}))
             };
         }
@@ -103,41 +121,47 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     var state = wr.getState().swagger;
     var validParams = method.getParameters();
     var axiosGetVars = getParams.map(function (param) { return ('{' + param.getName() + '}'); }).join('/');
-    state.paths['/' + getMethodAlias() + '/' + axiosGetVars] = (_a = {},
-        _a[getHTTPMethod()] = {
-            "parameters": getParams.map(function (param) {
-                return {
-                    name: param.getName(),
-                    in: "path",
-                    description: methodInfo.tags[param.getName()] || '',
-                    required: true,
-                    type: getTypeName(param.getType())
+    var taglist = [];
+    if (methodInfo.tags.tag) {
+        taglist.push(methodInfo.tags.tag);
+        addTag(methodInfo.tags.tag, '');
+        addTagDescription(methodInfo.tags.tag, methodInfo.tags.tagdescription);
+    }
+    var previous = state.paths['/' + getMethodAlias() + '/' + axiosGetVars];
+    state.paths['/' + getMethodAlias() + '/' + axiosGetVars] = __assign({}, previous, (_a = {}, _a[getHTTPMethod()] = {
+        "parameters": getParams.map(function (param) {
+            return {
+                name: param.getName(),
+                in: "path",
+                description: methodInfo.tags[param.getName()] || '',
+                required: true,
+                type: getTypeName(param.getType())
+            };
+        }).concat(postParams.map(function (param) {
+            var rArr = getTypePath(param.getType());
+            var is_array = rArr[0] === 'Array';
+            var rType = rArr.pop();
+            var tDef = {
+                schema: __assign({}, getSwaggerType(rType, is_array))
+            };
+            if (isSimpleType(param.getType())) {
+                tDef = {
+                    type: rType
                 };
-            }).concat(postParams.map(function (param) {
-                var rArr = getTypePath(param.getType());
-                var is_array = rArr[0] === 'Array';
-                var rType = rArr.pop();
-                var tDef = {
-                    schema: __assign({}, getSwaggerType(rType, is_array))
-                };
-                if (isSimpleType(param.getType())) {
-                    tDef = {
-                        type: rType
-                    };
-                }
-                else {
-                    createClassDef(rType);
-                }
-                return __assign({ name: param.getName(), in: "body", description: methodInfo.tags[param.getName()] || '', required: true }, tDef);
-            })),
-            "description": methodInfo.tags.description || methodInfo.comment,
-            "summary": methodInfo.tags.summary || methodInfo.tags.description || methodInfo.comment,
-            "produces": [
-                "application/json"
-            ],
-            "responses": __assign({}, successResponse)
-        },
-        _a);
+            }
+            else {
+                createClassDef(rType);
+            }
+            return __assign({ name: param.getName(), in: "body", description: methodInfo.tags[param.getName()] || '', required: true }, tDef);
+        })),
+        "description": methodInfo.tags.description || methodInfo.comment,
+        "summary": methodInfo.tags.summary || methodInfo.tags.description || methodInfo.comment,
+        "produces": [
+            "application/json"
+        ],
+        "responses": __assign({}, successResponse),
+        "tags": taglist
+    }, _a));
     state.definitions = Object.assign(state.definitions, definitions);
     return wr;
 };

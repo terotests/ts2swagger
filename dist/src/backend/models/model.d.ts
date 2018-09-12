@@ -1,9 +1,17 @@
 /**
  * @model true
  */
+export declare class SomeKeyWord {
+    name: string;
+}
+/**
+ * @model true
+ */
 export declare class SomeReturnValue {
     myValue: number;
     response: string;
+    someList: string[];
+    keys: SomeKeyWord[];
 }
 /**
  * @model true
