@@ -31,8 +31,9 @@ export declare class CreateUser {
 /**
  * @model true
  */
-export declare class TestUser {
+export interface TestUser {
     name: string;
+    isHidden?: boolean;
 }
 /**
  * @model true

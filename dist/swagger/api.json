@@ -13,6 +13,13 @@
             "type": "string"
           },
           {
+            "name": "overwrite",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "boolean"
+          },
+          {
             "name": "user",
             "in": "body",
             "description": "",
@@ -20,33 +27,6 @@
             "schema": {
               "$ref": "#/definitions/TestUser"
             }
-          }
-        ],
-        "description": "",
-        "summary": "",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/TestUser"
-            }
-          }
-        },
-        "tags": [
-          "user"
-        ]
-      },
-      "get": {
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "type": "string"
           }
         ],
         "description": "",
@@ -86,6 +66,114 @@
             "description": "",
             "schema": {
               "$ref": "#/definitions/TestUser"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "Fetch all users",
+        "summary": "Fetch all users",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TestUser"
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/searchByKeyword": {
+      "get": {
+        "parameters": [
+          {
+            "name": "searchKeyword",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "Etsi dokumentaatiosta tietoja hakusanalla",
+        "summary": "Etsi dokumentaatiosta tietoja hakusanalla",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "tags": [
+          "document"
+        ]
+      }
+    },
+    "/users/{userId}/friends/{friendId}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "friendId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "description": "",
+        "summary": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TestUser"
+              }
             }
           }
         },
@@ -151,7 +239,7 @@
         "tags": []
       }
     },
-    "/allUsers/": {
+    "/allUsers": {
       "get": {
         "parameters": [],
         "description": "",
@@ -173,37 +261,7 @@
         "tags": []
       }
     },
-    "/users/{id}": {
-      "get": {
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "description": "Fetch all users",
-        "summary": "Fetch all users",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/TestUser"
-              }
-            }
-          }
-        },
-        "tags": []
-      }
-    },
-    "/createUser/": {
+    "/createUser": {
       "post": {
         "parameters": [
           {
@@ -232,7 +290,7 @@
         "tags": []
       }
     },
-    "/setDeviceData/": {
+    "/setDeviceData": {
       "post": {
         "parameters": [
           {
@@ -299,8 +357,8 @@
             "type": "number"
           }
         ],
-        "description": "",
-        "summary": "",
+        "description": "Foobar...",
+        "summary": "Foobar...",
         "produces": [
           "application/json"
         ],
@@ -353,8 +411,8 @@
             "type": "string"
           }
         ],
-        "description": "",
-        "summary": "",
+        "description": "Async function returning stuff...",
+        "summary": "Async function returning stuff...",
         "produces": [
           "application/json"
         ],
@@ -376,6 +434,9 @@
       "properties": {
         "name": {
           "type": "string"
+        },
+        "isHidden": {
+          "type": "boolean"
         }
       }
     },
@@ -461,6 +522,10 @@
     {
       "name": "user",
       "description": "System users"
+    },
+    {
+      "name": "document",
+      "description": ""
     }
   ]
 }

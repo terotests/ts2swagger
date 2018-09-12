@@ -39,8 +39,9 @@ export class CreateUser {
 /**
  * @model true 
  */
-export class TestUser {
+export interface TestUser {
   name:string
+  isHidden?:boolean
 }
 
 /**

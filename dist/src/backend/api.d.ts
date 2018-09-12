@@ -31,10 +31,10 @@ export declare class ServerInterface {
      * @tag user
      * @tagdescription System users
      */
-    putUser(id: string, user: TestUser): TestUser;
+    putUser(id: string, overwrite: boolean, user: TestUser): TestUser;
     /**
      *
-     * @alias user
+     * @alias users
      * @method get
      * @param id set user to some value
      * @param user
@@ -42,6 +42,25 @@ export declare class ServerInterface {
      * @tagdescription System users
      */
     getUser(id: string): TestUser;
+    /**
+     * Etsi dokumentaatiosta tietoja hakusanalla
+     * @method get
+     * @alias searchByKeyword
+     * @query searchKeyword
+     * @tag document
+     * @tagdescription
+     */
+    searchByKeyword(searchKeyword: string): string[];
+    /**
+     *
+     * @alias users/friends
+     * @method get
+     * @param id set user to some value
+     * @param user
+     * @tag user
+     * @tagdescription System users
+     */
+    getUserFriends(userId: number, friendId: number, filter?: string): TestUser[];
     /**
      *
      * @alias user
@@ -75,7 +94,14 @@ export declare class ServerInterface {
      * @nogenerate true
      */
     test2(id: number): SomeReturnValue;
-    test3(id: number): SomeReturnValue;
+    /**
+     * Foobar...
+     * @param id
+     */
+    test3(id: number): Promise<SomeReturnValue>;
     HelloWorld(name: string): string;
-    hello(name: string): string;
+    /**
+     * Async function returning stuff...
+     */
+    hello(name: string): Promise<string>;
 }

@@ -37,15 +37,19 @@ export class ServerInterface {
    * @tag user
    * @tagdescription System users
    */
-  putUser(id:string, user:TestUser) : TestUser {
-    const u = new TestUser()
-    u.name = user.name
-    return u
+  putUser(id:string, overwrite:boolean, user:TestUser) : TestUser {
+    console.log('overwrite: ', overwrite)
+    if( overwrite ) {
+      console.log('TRUE')
+    } else {
+      console.log('FALSE')
+    }
+    return {name:'foobar'}
   }
 
   /**
    * 
-   * @alias user
+   * @alias users
    * @method get
    * @param id set user to some value
    * @param user 
@@ -53,9 +57,36 @@ export class ServerInterface {
    * @tagdescription System users
    */
   getUser(id:string) : TestUser {
-    const u = new TestUser()
-    return u
+    return {name:'foobar'}
   }  
+
+  /**
+   * Etsi dokumentaatiosta tietoja hakusanalla
+   * @method get
+   * @alias searchByKeyword
+   * @query searchKeyword
+   * @tag document
+   * @tagdescription 
+   */
+  searchByKeyword(searchKeyword:string) : string[] {
+    return ['a', 'b']
+  }    
+
+  /**
+   * 
+   * @alias users/friends
+   * @method get
+   * @param id set user to some value
+   * @param user 
+   * @tag user
+   * @tagdescription System users
+   */
+  getUserFriends(userId:number, friendId:number, filter?:string) : TestUser[] {
+    console.log('filter: ', filter)
+    return [{
+      name : 'foobar'
+    }]
+  }    
 
   /**
    * 
@@ -67,8 +98,7 @@ export class ServerInterface {
    * @tagdescription System users
    */
   deleteUser(id:string) : TestUser {
-    const u = new TestUser()
-    return u
+    return {name:'foobar'}
   }   
 
   newfn(s:string) {
@@ -145,7 +175,11 @@ export class ServerInterface {
     return value
   } 
   
-  test3(id:number) : SomeReturnValue  {
+  /**
+   * Foobar...
+   * @param id 
+   */
+  async test3(id:number) : Promise<SomeReturnValue>  {
     if(id > 12) {
       throw new Error('Invalid ID number')
     }
@@ -158,7 +192,10 @@ export class ServerInterface {
     return `Hello World ${name}`
   }
 
-  hello(name:string) : string {
+  /**
+   * Async function returning stuff...
+   */
+  async hello(name:string) : Promise<string> {
     return `Hello ${name}!!!`
   }  
 }

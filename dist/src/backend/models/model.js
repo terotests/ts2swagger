@@ -42,15 +42,6 @@ exports.CreateUser = CreateUser;
 /**
  * @model true
  */
-var TestUser = /** @class */ (function () {
-    function TestUser() {
-    }
-    return TestUser;
-}());
-exports.TestUser = TestUser;
-/**
- * @model true
- */
 var Device = /** @class */ (function () {
     function Device() {
     }

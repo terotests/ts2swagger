@@ -12,11 +12,18 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var ts = require("typescript");
-// Interface method signatures
 exports.findModel = function (project, className) {
     var res = null;
     project.getSourceFiles().forEach(function (s) {
         s.getClasses().forEach(function (cl) {
+            if (cl.getName() === className) {
+                var info = exports.getClassDoc(cl);
+                if (info.tags.model) {
+                    res = cl;
+                }
+            }
+        });
+        s.getInterfaces().forEach(function (cl) {
             if (cl.getName() === className) {
                 var info = exports.getClassDoc(cl);
                 if (info.tags.model) {
@@ -97,7 +104,7 @@ exports.getSwaggerType = function (name, is_array) {
             type: 'array',
             items: __assign({}, exports.getSwaggerType(name))
         };
-    if (name === 'string' || name === 'number')
+    if (name === 'string' || name === 'number' || name === 'boolean')
         return { type: name };
     return { '$ref': '#/definitions/' + name };
 };
@@ -107,6 +114,16 @@ exports.isSimpleType = function (cType) {
         return true;
     }
     if (tp.flags & ts.TypeFlags.String) {
+        return true;
+    }
+    if (tp.flags & ts.TypeFlags.Boolean) {
+        return true;
+    }
+    return false;
+};
+exports.isBoolean = function (cType) {
+    var tp = cType.compilerType;
+    if (tp.flags & ts.TypeFlags.Boolean) {
         return true;
     }
     return false;
@@ -119,6 +136,9 @@ exports.getTypePath = function (cType, current) {
     }
     if (tp.flags & ts.TypeFlags.String) {
         return ['string'];
+    }
+    if (tp.flags & ts.TypeFlags.Boolean) {
+        return ['boolean'];
     }
     if (tp.symbol) {
         var res = [tp.symbol.escapedName];
@@ -140,6 +160,9 @@ exports.getTypeName = function (cType) {
     if (tp.flags & ts.TypeFlags.String) {
         return 'string';
     }
+    if (tp.flags & ts.TypeFlags.Boolean) {
+        return 'boolean';
+    }
     if (tp.symbol) {
         var typeName = tp.symbol.escapedName + '';
         if (cType.getTypeArguments().length > 0) {
@@ -160,6 +183,9 @@ exports.getMethodReturnTypeName = function (checker, m) {
     }
     if (tp.flags & ts.TypeFlags.String) {
         return 'string';
+    }
+    if (tp.flags & ts.TypeFlags.Boolean) {
+        return 'boolean';
     }
     if (tp.flags & ts.TypeFlags.Union) {
         console.log('-union type found');

@@ -11,6 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var ts_simple_ast_1 = require("ts-simple-ast");
 var utils = require("../utils");
 var getTypeName = utils.getTypeName;
 var isSimpleType = utils.isSimpleType;
@@ -41,19 +42,48 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     if (methodInfo.tags.nogenerate)
         return wr;
     var methodName = method.getName();
-    var getParams = method.getParameters().filter(function (param) { return isSimpleType(param.getType()); });
-    var postParams = method.getParameters().filter(function (param) { return !isSimpleType(param.getType()); });
-    var is_post = method.getParameters().filter(function (project) { return !isSimpleType(project.getType()); }).length > 0;
-    var httpMethod = is_post ? 'post' : 'get';
-    var getParamStr = getParams.map(function (param) {
+    var methodAlias = methodInfo.tags.alias || methodName;
+    var pathParams = [];
+    var queryParams = [];
+    var bodyParams = [];
+    var path = methodAlias.split('/'); // for example "users/documents"
+    var methodParams = method.getParameters();
+    // TODO: create setting for making params in the query
+    // methodInfo.tags.queryparams
+    for (var i = 0; i < path.length; i++) {
+        if (methodParams[i] && !(methodParams[i].getName() === methodInfo.tags.query) && isSimpleType(methodParams[i].getType())) {
+            // only ID types here
+            pathParams.push(methodParams[i]);
+        }
+        else {
+            break; // no more
+        }
+    }
+    // collect query parameters after the path parameters
+    for (var i = pathParams.length; i < methodParams.length; i++) {
+        if (isSimpleType(methodParams[i].getType())) {
+            // only ID types here
+            queryParams.push(methodParams[i]);
+        }
+        else {
+            break; // no more
+        }
+    }
+    // collect post parameters after the path parameters
+    for (var i = (pathParams.length + queryParams.length); i < methodParams.length; i++) {
+        bodyParams.push(methodParams[i]);
+    }
+    // the old way of creating params
+    /*
+    const getParams = method.getParameters().filter( param => isSimpleType(param.getType()) )
+    const postParams = method.getParameters().filter( param => !isSimpleType(param.getType()) )
+    const is_post = method.getParameters().filter( project => !isSimpleType(project.getType()) ).length > 0
+    */
+    var is_post = bodyParams.length > 0;
+    var httpMethod = methodInfo.tags.method || (is_post ? 'post' : 'get');
+    var pathParamStr = pathParams.map(function (param) {
         return ':' + param.getName();
     }).join('/');
-    var getMethodAlias = function () {
-        return methodInfo.tags.alias || methodName;
-    };
-    var getHTTPMethod = function () {
-        return methodInfo.tags.method || httpMethod;
-    };
     var addTag = function (tagname, description) {
         var swagger = wr.getState().swagger;
         if (swagger.tags.filter(function (t) { return t.name === tagname; }).length === 0) {
@@ -67,17 +97,32 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
             tag.description = description;
         }
     };
+    // build the path for api path
+    var apiPath = '';
+    path.forEach(function (pathPart, i) {
+        apiPath += pathPart + '/';
+        if (pathParams[i]) {
+            apiPath += ':' + pathParams[i].getName() + '/';
+        }
+    });
     wr.out("// Service endpoint for " + methodName, true);
-    wr.out("app." + getHTTPMethod() + "('/v1/" + getMethodAlias() + "/" + getParamStr + "', function( req, res ) {", true);
+    wr.out("app." + httpMethod + "('/v1/" + apiPath + "', async function( req, res ) {", true);
     wr.indent(1);
     wr.out('try {', true);
     wr.indent(1);
-    var argParams = getParams.map(function (param) { return 'req.params.' + param.getName(); });
-    var postArgs = postParams.length > 0 ? ['req.body'] : [];
-    var paramList = argParams.concat(postArgs).join(',');
+    var pathArgs = pathParams.map(function (param) { return 'req.params.' + param.getName(); });
+    var queryArgs = queryParams.map(function (param) {
+        var pname = 'req.query.' + param.getName();
+        if (getTypeName(param.getType()) === 'boolean') {
+            return "typeof(" + pname + ") === 'undefined' ? " + pname + " : " + pname + " === 'true'";
+        }
+        return 'req.query.' + param.getName();
+    });
+    var postArgs = bodyParams.length > 0 ? ['req.body'] : [];
+    var paramList = pathArgs.concat(queryArgs, postArgs).join(', ');
     // name of the server
     var servername = methodInfo.tags['using'] || 'server';
-    wr.out("res.json( " + servername + "." + methodName + "(" + paramList + ") );", true);
+    wr.out("res.json( await " + servername + "." + methodName + "(" + paramList + ") );", true);
     wr.indent(-1);
     wr.out('} catch(e) {', true);
     wr.indent(1);
@@ -94,10 +139,13 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     var definitions = {};
     var createClassDef = function (className) {
         var modelClass = utils.findModel(project, className);
-        if (modelClass && !definitions[modelClass.getName()]) {
+        // TODO: find out how to fix this in TypeScript, this if and the if below repeat
+        // code too much...
+        if (modelClass instanceof ts_simple_ast_1.ClassDeclaration && !definitions[modelClass.getName()]) {
+            var props = modelClass.getProperties();
             definitions[modelClass.getName()] = {
                 type: 'object',
-                properties: __assign({}, modelClass.getProperties().reduce(function (prev, curr) {
+                properties: __assign({}, props.reduce(function (prev, curr) {
                     var _a;
                     var rArr = getTypePath(curr.getType());
                     var is_array = rArr[0] === 'Array';
@@ -108,8 +156,20 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
                 }, {}))
             };
         }
-        else {
-            // throw `Model definition for ${className} was not found`
+        if (modelClass instanceof ts_simple_ast_1.InterfaceDeclaration && !definitions[modelClass.getName()]) {
+            var props = modelClass.getProperties();
+            definitions[modelClass.getName()] = {
+                type: 'object',
+                properties: __assign({}, props.reduce(function (prev, curr) {
+                    var _a;
+                    var rArr = getTypePath(curr.getType());
+                    var is_array = rArr[0] === 'Array';
+                    var rType = rArr.pop();
+                    var swType = getSwaggerType(rType, is_array);
+                    createClassDef(rType);
+                    return __assign({}, prev, (_a = {}, _a[curr.getName()] = __assign({}, swType), _a));
+                }, {}))
+            };
         }
     };
     successResponse['200'] = {
@@ -120,16 +180,30 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     // generate swagger docs of this endpoin, a simple version so far
     var state = wr.getState().swagger;
     var validParams = method.getParameters();
-    var axiosGetVars = getParams.map(function (param) { return ('{' + param.getName() + '}'); }).join('/');
+    // build the path for swagger
+    var swaggerPath = '';
+    path.forEach(function (pathPart, i) {
+        swaggerPath += '/' + pathPart;
+        if (pathParams[i]) {
+            swaggerPath += '/{' + pathParams[i].getName() + '}';
+        }
+    });
+    // the old simple mapping...
+    // const axiosGetVars = getParams.map( param => ('{' + param.getName() + '}' ) ).join('/')
     var taglist = [];
     if (methodInfo.tags.tag) {
         taglist.push(methodInfo.tags.tag);
         addTag(methodInfo.tags.tag, '');
         addTagDescription(methodInfo.tags.tag, methodInfo.tags.tagdescription);
     }
-    var previous = state.paths['/' + getMethodAlias() + '/' + axiosGetVars];
-    state.paths['/' + getMethodAlias() + '/' + axiosGetVars] = __assign({}, previous, (_a = {}, _a[getHTTPMethod()] = {
-        "parameters": getParams.map(function (param) {
+    // NOTE: in Swagger parameter types are
+    // -path
+    // -query
+    // -header (not implemented)
+    // -cookie (not implemented)
+    var previous = state.paths[swaggerPath];
+    state.paths[swaggerPath] = __assign({}, previous, (_a = {}, _a[httpMethod] = {
+        "parameters": pathParams.map(function (param) {
             return {
                 name: param.getName(),
                 in: "path",
@@ -137,7 +211,15 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
                 required: true,
                 type: getTypeName(param.getType())
             };
-        }).concat(postParams.map(function (param) {
+        }).concat(queryParams.map(function (param) {
+            return {
+                name: param.getName(),
+                in: "query",
+                description: methodInfo.tags[param.getName()] || '',
+                required: !param.isOptional(),
+                type: getTypeName(param.getType())
+            };
+        }), bodyParams.map(function (param) {
             var rArr = getTypePath(param.getType());
             var is_array = rArr[0] === 'Array';
             var rType = rArr.pop();
@@ -152,7 +234,7 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
             else {
                 createClassDef(rType);
             }
-            return __assign({ name: param.getName(), in: "body", description: methodInfo.tags[param.getName()] || '', required: true }, tDef);
+            return __assign({ name: param.getName(), in: "body", description: methodInfo.tags[param.getName()] || '', required: !param.isOptional() }, tDef);
         })),
         "description": methodInfo.tags.description || methodInfo.comment,
         "summary": methodInfo.tags.summary || methodInfo.tags.description || methodInfo.comment,

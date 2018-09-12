@@ -1,12 +1,22 @@
 import * as ts from 'typescript'
-import { TypeChecker, SourceFile, Project, FunctionDeclaration, ArrowFunction, MethodDeclaration, ClassDeclaration } from "ts-simple-ast";
+import { TypeChecker, SourceFile, Project, FunctionDeclaration, ArrowFunction, MethodDeclaration, ClassDeclaration, InterfaceDeclaration } from "ts-simple-ast";
 
 // Interface method signatures
 
-export const findModel = ( project:Project, className:string ) : ClassDeclaration => {
-  let res:ClassDeclaration = null
+export type InterfaceOrClass = ClassDeclaration | InterfaceDeclaration
+
+export const findModel = ( project:Project, className:string ) : InterfaceOrClass => {
+  let res:InterfaceOrClass = null
   project.getSourceFiles().forEach( s => {
     s.getClasses().forEach( cl => {
+      if( cl.getName() === className ) {
+        const info = getClassDoc( cl )
+        if(info.tags.model) {
+          res = cl
+        }            
+      }
+    })
+    s.getInterfaces().forEach( cl => {
       if( cl.getName() === className ) {
         const info = getClassDoc( cl )
         if(info.tags.model) {
@@ -60,7 +70,7 @@ export const getMethodDoc = ( method:MethodDeclaration) : JSDocParams => {
   return res
 }
 
-export const getClassDoc = ( method:ClassDeclaration) : JSDocParams => {
+export const getClassDoc = ( method:InterfaceOrClass) : JSDocParams => {
   const res = new JSDocParams
   method.getJsDocs().forEach( doc => {
     if(doc.getComment()) {
@@ -83,7 +93,7 @@ export const getSwaggerType = function(name:string, is_array:boolean = false) : 
     type : 'array',
     items : {...getSwaggerType( name )}
   }
-  if(name ==='string' || name === 'number') return { type:name };
+  if(name ==='string' || name === 'number' || name === 'boolean') return { type:name };
   return {'$ref' : '#/definitions/' + name}
 }
 
@@ -94,7 +104,18 @@ export const isSimpleType = function(cType:any) : boolean {
   }            
   if(tp.flags & ts.TypeFlags.String) {
     return true
-  }            
+  }      
+  if(tp.flags & ts.TypeFlags.Boolean) {
+    return true
+  }         
+  return false
+}
+
+export const isBoolean = function(cType:any) : boolean {
+  const tp = cType.compilerType
+  if(tp.flags & ts.TypeFlags.Boolean) {
+    return true
+  }         
   return false
 }
 
@@ -105,7 +126,10 @@ export const getTypePath = function(cType:any, current:string[] = []) : string[]
   }            
   if(tp.flags & ts.TypeFlags.String) {
     return ['string']
-  }            
+  } 
+  if(tp.flags & ts.TypeFlags.Boolean) {
+    return ['boolean']
+  }              
   if(tp.symbol) {
     const res = [tp.symbol.escapedName]
     let end = []
@@ -126,7 +150,10 @@ export const getTypeName = function(cType:any) : string {
   }            
   if(tp.flags & ts.TypeFlags.String) {
     return 'string'
-  }            
+  }
+  if(tp.flags & ts.TypeFlags.Boolean) {
+    return 'boolean'
+  }               
   if(tp.symbol) {
     let typeName = tp.symbol.escapedName + '';
     if(cType.getTypeArguments().length > 0 ) {
@@ -148,7 +175,10 @@ export const getMethodReturnTypeName = function(checker:TypeChecker, m:MethodDec
   }            
   if(tp.flags & ts.TypeFlags.String) {
     return 'string'
-  }            
+  }    
+  if(tp.flags & ts.TypeFlags.Boolean) {
+    return 'boolean'
+  }           
   if(tp.flags & ts.TypeFlags.Union) {
     console.log('-union type found')
     return cType.getUnionTypes().map( t => getTypeName(t) ).join('|')
