@@ -1,6 +1,6 @@
 {
   "swagger": "2.0",
-  "basePath": "/v1/",
+  "basePath": "/sometest/v1/",
   "paths": {
     "/hello/{id}": {
       "get": {

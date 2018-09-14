@@ -43,6 +43,7 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
         return wr;
     var methodName = method.getName();
     var methodAlias = methodInfo.tags.alias || methodName;
+    var basePath = wr.getState().swagger.basePath;
     var pathParams = [];
     var queryParams = [];
     var bodyParams = [];
@@ -106,7 +107,7 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
         }
     });
     wr.out("// Service endpoint for " + methodName, true);
-    wr.out("app." + httpMethod + "('/v1/" + apiPath + "', async function( req, res ) {", true);
+    wr.out("app." + httpMethod + "('" + basePath + apiPath + "', async function( req, res ) {", true);
     wr.indent(1);
     wr.out('try {', true);
     wr.indent(1);

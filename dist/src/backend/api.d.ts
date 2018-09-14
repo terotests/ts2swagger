@@ -5,7 +5,7 @@ import { SomeReturnValue, TestUser, Device, CreateDevice, CreateUser } from './m
  * @swagger /src/swagger/server2.json
  * @title JeeJee
  * @service service2
- * @endpoint /v1/
+ * @endpoint /sometest/v1/
  * @version 1.0.1
  */
 export declare class Server2 {
@@ -17,7 +17,7 @@ export declare class Server2 {
  * @swagger /src/swagger/api.json
  * @title First service
  * @service service1
- * @endpoint /v1/
+ * @endpoint /sometest2/v1/
  * @version 1.0.1
  *
  */

@@ -40,6 +40,7 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
   let methodName = method.getName()
   const methodAlias = methodInfo.tags.alias || methodName
 
+  const basePath = wr.getState().swagger.basePath
   const pathParams = []
   const queryParams = []
   const bodyParams = []
@@ -111,7 +112,7 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
   })
 
   wr.out(`// Service endpoint for ${methodName}`, true);
-  wr.out(`app.${httpMethod}('/v1/${apiPath}', async function( req, res ) {` , true)
+  wr.out(`app.${httpMethod}('${basePath}${apiPath}', async function( req, res ) {` , true)
   wr.indent(1)
 
   wr.out('try {', true)

@@ -1,6 +1,6 @@
 {
   "swagger": "2.0",
-  "basePath": "/v1/",
+  "basePath": "/sometest2/v1/",
   "paths": {
     "/user/{id}": {
       "put": {

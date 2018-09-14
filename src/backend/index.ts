@@ -22,7 +22,7 @@ import {ServerInterface} from './api';
  */
 function automaticServices(app:any, server:ServerInterface) {
   // Service endpoint for putUser
-  app.put('/v1/user/:id/', async function( req, res ) {
+  app.put('/sometest2/v1/user/:id/', async function( req, res ) {
     try {
       res.json( await server.putUser(req.params.id, typeof(req.query.overwrite) === 'undefined' ? req.query.overwrite : req.query.overwrite === 'true', req.body) );
     } catch(e) {
@@ -31,7 +31,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for getUser
-  app.get('/v1/users/:id/', async function( req, res ) {
+  app.get('/sometest2/v1/users/:id/', async function( req, res ) {
     try {
       res.json( await server.getUser(req.params.id) );
     } catch(e) {
@@ -40,7 +40,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for searchByKeyword
-  app.get('/v1/searchByKeyword/', async function( req, res ) {
+  app.get('/sometest2/v1/searchByKeyword/', async function( req, res ) {
     try {
       res.json( await server.searchByKeyword(req.query.searchKeyword) );
     } catch(e) {
@@ -49,7 +49,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for getUserFriends
-  app.get('/v1/users/:userId/friends/:friendId/', async function( req, res ) {
+  app.get('/sometest2/v1/users/:userId/friends/:friendId/', async function( req, res ) {
     try {
       res.json( await server.getUserFriends(req.params.userId, req.params.friendId, req.query.filter) );
     } catch(e) {
@@ -58,7 +58,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for deleteUser
-  app.delete('/v1/user/:id/', async function( req, res ) {
+  app.delete('/sometest2/v1/user/:id/', async function( req, res ) {
     try {
       res.json( await server.deleteUser(req.params.id) );
     } catch(e) {
@@ -67,7 +67,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for newfn
-  app.get('/v1/newfn/:s/', async function( req, res ) {
+  app.get('/sometest2/v1/newfn/:s/', async function( req, res ) {
     try {
       res.json( await server.newfn(req.params.s) );
     } catch(e) {
@@ -76,7 +76,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for getDevices
-  app.get('/v1/getDevices/:id/', async function( req, res ) {
+  app.get('/sometest2/v1/getDevices/:id/', async function( req, res ) {
     try {
       res.json( await server.getDevices(req.params.id) );
     } catch(e) {
@@ -85,7 +85,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for allUsers
-  app.get('/v1/allUsers/', async function( req, res ) {
+  app.get('/sometest2/v1/allUsers/', async function( req, res ) {
     try {
       res.json( await server.allUsers() );
     } catch(e) {
@@ -94,7 +94,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for users
-  app.get('/v1/users/:id/', async function( req, res ) {
+  app.get('/sometest2/v1/users/:id/', async function( req, res ) {
     try {
       res.json( await server.users(req.params.id) );
     } catch(e) {
@@ -103,7 +103,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for createUser
-  app.post('/v1/createUser/', async function( req, res ) {
+  app.post('/sometest2/v1/createUser/', async function( req, res ) {
     try {
       res.json( await server.createUser(req.body) );
     } catch(e) {
@@ -112,7 +112,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for setDeviceData
-  app.post('/v1/setDeviceData/', async function( req, res ) {
+  app.post('/sometest2/v1/setDeviceData/', async function( req, res ) {
     try {
       res.json( await server.setDeviceData(req.body) );
     } catch(e) {
@@ -121,7 +121,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for obj
-  app.get('/v1/obj/:v/', async function( req, res ) {
+  app.get('/sometest2/v1/obj/:v/', async function( req, res ) {
     try {
       res.json( await server.obj(req.params.v) );
     } catch(e) {
@@ -130,7 +130,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for test3
-  app.get('/v1/test3/:id/', async function( req, res ) {
+  app.get('/sometest2/v1/test3/:id/', async function( req, res ) {
     try {
       res.json( await server.test3(req.params.id) );
     } catch(e) {
@@ -139,7 +139,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for HelloWorld
-  app.get('/v1/HelloWorld/:name/', async function( req, res ) {
+  app.get('/sometest2/v1/HelloWorld/:name/', async function( req, res ) {
     try {
       res.json( await server.HelloWorld(req.params.name) );
     } catch(e) {
@@ -148,7 +148,7 @@ function automaticServices(app:any, server:ServerInterface) {
     }
   })
   // Service endpoint for hello
-  app.get('/v1/hello/:name/', async function( req, res ) {
+  app.get('/sometest2/v1/hello/:name/', async function( req, res ) {
     try {
       res.json( await server.hello(req.params.name) );
     } catch(e) {
