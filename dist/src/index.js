@@ -40,28 +40,65 @@ var R = require("robowr");
 var ProgrammerBase = require("./programmer/service");
 var utils_1 = require("./utils");
 var path = require('path');
+var InterfaceState = /** @class */ (function () {
+    function InterfaceState() {
+    }
+    return InterfaceState;
+}());
+exports.InterfaceState = InterfaceState;
+var SomeClass = /** @class */ (function () {
+    function SomeClass() {
+    }
+    SomeClass.prototype.say = function () {
+        console.log('say..', this.x);
+    };
+    return SomeClass;
+}());
+var SomeClass2 = /** @class */ (function () {
+    function SomeClass2() {
+    }
+    SomeClass2.prototype.say = function () {
+        console.log('say..', this.x);
+    };
+    return SomeClass2;
+}());
+function abc(obj) {
+    obj.say();
+    // console.log('abc called...', obj.x.length)
+}
+/*
+project:Project, clName:ClassDeclaration, method:MethodDeclaration
+*/
 function createProject(settings) {
     return __awaiter(this, void 0, void 0, function () {
-        var project, RFs, webclient, services;
+        var project, RFs, obj1, obj2, baseWriter, baseState, services;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     project = new ts_simple_ast_1.default();
                     project.addExistingSourceFiles([settings.path + "/**/*.ts"]); // , "!**/*.d.ts"
                     RFs = new R.CodeFileSystem();
-                    webclient = RFs.getFile('/src/frontend/api/', 'index.ts').getWriter();
-                    services = webclient.getState().services = {};
+                    obj1 = new SomeClass();
+                    obj2 = new SomeClass();
+                    abc(obj1);
+                    abc(obj2);
+                    baseWriter = RFs.getFile('/', 'index.ts').getWriter();
+                    baseState = new InterfaceState();
+                    baseState.currentProject = project;
+                    // continuer with this...
+                    baseWriter.setState(baseState);
+                    services = baseWriter.getState().services = {};
                     // mapeservice classes to the properties
                     project.getSourceFiles().forEach(function (sourceFile) {
                         sourceFile.getClasses().forEach(function (c) {
                             c.getJsDocs().forEach(function (doc) {
                                 var is_service = doc.getTags().filter(function (tag) { return tag.getName() === 'service'; }).length > 0;
                                 if (is_service) {
-                                    webclient.getState().services[c.getName()] = {
+                                    baseWriter.getState().services[c.getName()] = {
                                         description: doc.getComment()
                                     };
                                     doc.getTags().forEach(function (tag) {
-                                        webclient.getState().services[c.getName()][tag.getName()] = tag.getComment();
+                                        baseWriter.getState().services[c.getName()][tag.getName()] = tag.getComment();
                                     });
                                 }
                             });
@@ -69,7 +106,7 @@ function createProject(settings) {
                         sourceFile.getClasses().forEach(function (c) {
                             if (services[c.getName()]) {
                                 var serviceinfo_1 = services[c.getName()];
-                                ProgrammerBase.initSwagger(webclient, serviceinfo_1);
+                                ProgrammerBase.initSwagger(baseWriter, serviceinfo_1);
                                 var injectWriter_1 = new R.CodeWriter();
                                 c.getMethods().forEach(function (m) {
                                     ProgrammerBase.WriteEndpoint(injectWriter_1, project, c, m);

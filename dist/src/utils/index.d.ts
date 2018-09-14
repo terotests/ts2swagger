@@ -1,6 +1,4 @@
 import { TypeChecker, Project, FunctionDeclaration, MethodDeclaration, ClassDeclaration, InterfaceDeclaration } from "ts-simple-ast";
-export declare type InterfaceOrClass = ClassDeclaration | InterfaceDeclaration;
-export declare const findModel: (project: Project, className: string) => InterfaceOrClass;
 export declare class JSDocParams {
     comment: string;
     tags: {
@@ -9,7 +7,10 @@ export declare class JSDocParams {
     params: {
         [key: string]: string;
     };
+    hasTag(name: string): boolean;
 }
+export declare type InterfaceOrClass = ClassDeclaration | InterfaceDeclaration;
+export declare const findModel: (project: Project, className: string) => InterfaceOrClass;
 export declare const getFunctionDoc: (method: FunctionDeclaration) => JSDocParams;
 export declare const getMethodDoc: (method: MethodDeclaration) => JSDocParams;
 export declare const getClassDoc: (method: InterfaceOrClass) => JSDocParams;

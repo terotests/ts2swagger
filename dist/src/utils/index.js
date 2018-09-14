@@ -12,6 +12,18 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var ts = require("typescript");
+var JSDocParams = /** @class */ (function () {
+    function JSDocParams() {
+        this.comment = '';
+        this.tags = {};
+        this.params = {};
+    }
+    JSDocParams.prototype.hasTag = function (name) {
+        return (typeof (this.tags[name]) !== 'undefined');
+    };
+    return JSDocParams;
+}());
+exports.JSDocParams = JSDocParams;
 exports.findModel = function (project, className) {
     var res = null;
     project.getSourceFiles().forEach(function (s) {
@@ -34,15 +46,6 @@ exports.findModel = function (project, className) {
     });
     return res;
 };
-var JSDocParams = /** @class */ (function () {
-    function JSDocParams() {
-        this.comment = '';
-        this.tags = {};
-        this.params = {};
-    }
-    return JSDocParams;
-}());
-exports.JSDocParams = JSDocParams;
 exports.getFunctionDoc = function (method) {
     var res = new JSDocParams;
     method.getJsDocs().forEach(function (doc) {

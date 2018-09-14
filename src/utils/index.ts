@@ -1,7 +1,15 @@
 import * as ts from 'typescript'
 import { TypeChecker, SourceFile, Project, FunctionDeclaration, ArrowFunction, MethodDeclaration, ClassDeclaration, InterfaceDeclaration } from "ts-simple-ast";
 
-// Interface method signatures
+export class JSDocParams {
+  comment : string = ''
+  tags : {[key:string] : string} = {}
+  params : {[key:string] : string} = {}
+
+  hasTag(name:string) {
+    return (typeof(this.tags[name]) !== 'undefined')
+  }
+}
 
 export type InterfaceOrClass = ClassDeclaration | InterfaceDeclaration
 
@@ -26,12 +34,6 @@ export const findModel = ( project:Project, className:string ) : InterfaceOrClas
     })
   })  
   return res
-}
-
-export class JSDocParams {
-  comment : string = ''
-  tags : {[key:string] : string} = {}
-  params : {[key:string] : string} = {}
 }
 
 export const getFunctionDoc = ( method:FunctionDeclaration) : JSDocParams => {
