@@ -1,5 +1,14 @@
 import * as ts from 'typescript'
-import { TypeChecker, SourceFile, Project, FunctionDeclaration, ArrowFunction, MethodDeclaration, ClassDeclaration, InterfaceDeclaration } from "ts-simple-ast";
+import { 
+  TypeChecker, 
+  SourceFile, 
+  Project, 
+  FunctionDeclaration, 
+  ArrowFunction,
+  MethodDeclaration, 
+  ClassDeclaration, 
+  InterfaceDeclaration, 
+  ParameterDeclaration } from "ts-simple-ast";
 
 export class JSDocParams {
   comment : string = ''
@@ -9,9 +18,42 @@ export class JSDocParams {
   hasTag(name:string) {
     return (typeof(this.tags[name]) !== 'undefined')
   }
+  getTag(name:string) {
+    return this.tags[name] || ''
+  }
 }
 
 export type InterfaceOrClass = ClassDeclaration | InterfaceDeclaration
+
+export const findClass = ( project:Project, className:string ) : ClassDeclaration => {
+  let res:ClassDeclaration = null
+  project.getSourceFiles().forEach( s => {
+    s.getClasses().forEach( cl => {
+      if( cl.getName() === className ) {
+        const info = getClassDoc( cl )
+        if(info.tags.model) {
+          res = cl
+        }            
+      }
+    })
+  })  
+  return res
+}
+
+export const findInterface = ( project:Project, className:string ) : InterfaceDeclaration => {
+  let res:InterfaceDeclaration = null
+  project.getSourceFiles().forEach( s => {
+    s.getInterfaces().forEach( cl => {
+      if( cl.getName() === className ) {
+        const info = getClassDoc( cl )
+        if(info.tags.model) {
+          res = cl
+        }            
+      }
+    })
+  })  
+  return res
+}
 
 export const findModel = ( project:Project, className:string ) : InterfaceOrClass => {
   let res:InterfaceOrClass = null
@@ -36,7 +78,7 @@ export const findModel = ( project:Project, className:string ) : InterfaceOrClas
   return res
 }
 
-export const getFunctionDoc = ( method:FunctionDeclaration) : JSDocParams => {
+export const getFunctionDoc = ( method:FunctionDeclaration|MethodDeclaration) : JSDocParams => {
   const res = new JSDocParams
   method.getJsDocs().forEach( doc => {
     if(doc.getComment()) {
@@ -54,7 +96,7 @@ export const getFunctionDoc = ( method:FunctionDeclaration) : JSDocParams => {
   return res
 }
 
-export const getMethodDoc = ( method:MethodDeclaration) : JSDocParams => {
+export const getMethodDoc = ( method:FunctionDeclaration|MethodDeclaration) : JSDocParams => {
   const res = new JSDocParams
   method.getJsDocs().forEach( doc => {
     if(doc.getComment()) {
@@ -97,6 +139,26 @@ export const getSwaggerType = function(name:string, is_array:boolean = false) : 
   }
   if(name ==='string' || name === 'number' || name === 'boolean') return { type:name };
   return {'$ref' : '#/definitions/' + name}
+}
+
+export interface IFTypeDefinition {
+  typePath?: string[] // like ['Array', 'string']
+  is_array?: boolean
+  lastType?: string
+  swaggerType?: string
+  modelClass?: ParameterDeclaration
+}
+
+export const toSwaggerType = function( cType:any ) : IFTypeDefinition {
+  const rArr = getTypePath( cType )
+  const is_array = rArr[0] === 'Array'
+  const rType = rArr.pop()
+  return {
+    typePath: getTypePath( cType ),
+    is_array,
+    lastType: rType,
+    swaggerType : getSwaggerType( rType, is_array )
+  }           
 }
 
 export const isSimpleType = function(cType:any) : boolean {

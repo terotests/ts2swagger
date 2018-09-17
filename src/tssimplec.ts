@@ -1,6 +1,9 @@
 
 import {createProject} from './index'
+import * as defaults from './index'
 
 createProject({
-  path:'src'
+  path:'src',
+  isServiceClass : defaults.isServiceClass,
+  initSwaggerForService : defaults.initSwaggerForService
 })

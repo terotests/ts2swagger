@@ -21,9 +21,40 @@ var JSDocParams = /** @class */ (function () {
     JSDocParams.prototype.hasTag = function (name) {
         return (typeof (this.tags[name]) !== 'undefined');
     };
+    JSDocParams.prototype.getTag = function (name) {
+        return this.tags[name] || '';
+    };
     return JSDocParams;
 }());
 exports.JSDocParams = JSDocParams;
+exports.findClass = function (project, className) {
+    var res = null;
+    project.getSourceFiles().forEach(function (s) {
+        s.getClasses().forEach(function (cl) {
+            if (cl.getName() === className) {
+                var info = exports.getClassDoc(cl);
+                if (info.tags.model) {
+                    res = cl;
+                }
+            }
+        });
+    });
+    return res;
+};
+exports.findInterface = function (project, className) {
+    var res = null;
+    project.getSourceFiles().forEach(function (s) {
+        s.getInterfaces().forEach(function (cl) {
+            if (cl.getName() === className) {
+                var info = exports.getClassDoc(cl);
+                if (info.tags.model) {
+                    res = cl;
+                }
+            }
+        });
+    });
+    return res;
+};
 exports.findModel = function (project, className) {
     var res = null;
     project.getSourceFiles().forEach(function (s) {
@@ -110,6 +141,17 @@ exports.getSwaggerType = function (name, is_array) {
     if (name === 'string' || name === 'number' || name === 'boolean')
         return { type: name };
     return { '$ref': '#/definitions/' + name };
+};
+exports.toSwaggerType = function (cType) {
+    var rArr = exports.getTypePath(cType);
+    var is_array = rArr[0] === 'Array';
+    var rType = rArr.pop();
+    return {
+        typePath: exports.getTypePath(cType),
+        is_array: is_array,
+        lastType: rType,
+        swaggerType: exports.getSwaggerType(rType, is_array)
+    };
 };
 exports.isSimpleType = function (cType) {
     var tp = cType.compilerType;

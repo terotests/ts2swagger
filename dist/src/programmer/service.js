@@ -49,6 +49,14 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     var bodyParams = [];
     var path = methodAlias.split('/'); // for example "users/documents"
     var methodParams = method.getParameters();
+    methodParams.forEach(function (p) {
+        p.getDecorators().forEach(function (dec) {
+            console.log('**** decorator: ', dec.getName());
+            dec.getArguments().forEach(function (arg) {
+                console.log(' - ', arg.getText());
+            });
+        });
+    });
     // TODO: create setting for making params in the query
     // methodInfo.tags.queryparams
     for (var i = 0; i < path.length; i++) {
@@ -148,6 +156,9 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
                 type: 'object',
                 properties: __assign({}, props.reduce(function (prev, curr) {
                     var _a;
+                    curr.getJsDocs().forEach(function (doc) {
+                        console.log('Property comment', curr.getName(), doc.getComment());
+                    });
                     var rArr = getTypePath(curr.getType());
                     var is_array = rArr[0] === 'Array';
                     var rType = rArr.pop();

@@ -49,6 +49,15 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
 
   const methodParams = method.getParameters()
 
+  methodParams.forEach( p => {
+    p.getDecorators().forEach( dec=>{
+      console.log('**** decorator: ', dec.getName())
+      dec.getArguments().forEach( arg=> {
+        console.log(' - ', arg.getText())
+      })
+    })
+  })
+
   // TODO: create setting for making params in the query
   // methodInfo.tags.queryparams
   for( let i=0; i < path.length; i++) {
@@ -157,6 +166,9 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
         type : 'object',
         properties : {
           ...props.reduce( (prev, curr) => {
+            curr.getJsDocs().forEach( doc => {
+              console.log('Property comment', curr.getName(), doc.getComment())
+            })
             const rArr = getTypePath( curr.getType() )
             const is_array = rArr[0] === 'Array'
             const rType = rArr.pop()            

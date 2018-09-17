@@ -1,13 +1,17 @@
 
 import { SomeReturnValue, TestUser, Device, CreateDevice, CreateUser } from './models/model'
 
+import {
+  Query,
+  Position
+} from '../utils/decorators'
 /** 
  * APIn kuvaus jne.
  * 
  * @swagger /src/swagger/server2.json
  * @title JeeJee
  * @service service2 
- * @endpoint /sometest/v1/
+ * @endpoint /foo/v1/
  * @version 1.0.1  
  */
 export class Server2 {
@@ -22,7 +26,7 @@ export class Server2 {
  * @swagger /src/swagger/api.json
  * @title First service
  * @service service1
- * @endpoint /sometest2/v1/
+ * @endpoint /foo2/v1/
  * @version 1.0.1
  * 
  */
@@ -68,7 +72,8 @@ export class ServerInterface {
    * @tag document
    * @tagdescription 
    */
-  searchByKeyword(searchKeyword:string) : string[] {
+  searchByKeyword( @Position('body') searchKeyword:string) : string[] {
+    console.log('keyword: ' ,searchKeyword)
     return ['a', 'b']
   }    
 

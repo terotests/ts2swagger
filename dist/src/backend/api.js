@@ -1,4 +1,16 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -36,13 +48,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var model_1 = require("./models/model");
+var decorators_1 = require("../utils/decorators");
 /**
  * APIn kuvaus jne.
  *
  * @swagger /src/swagger/server2.json
  * @title JeeJee
  * @service service2
- * @endpoint /sometest/v1/
+ * @endpoint /foo/v1/
  * @version 1.0.1
  */
 var Server2 = /** @class */ (function () {
@@ -60,7 +73,7 @@ exports.Server2 = Server2;
  * @swagger /src/swagger/api.json
  * @title First service
  * @service service1
- * @endpoint /sometest2/v1/
+ * @endpoint /foo2/v1/
  * @version 1.0.1
  *
  */
@@ -107,6 +120,7 @@ var ServerInterface = /** @class */ (function () {
      * @tagdescription
      */
     ServerInterface.prototype.searchByKeyword = function (searchKeyword) {
+        console.log('keyword: ', searchKeyword);
         return ['a', 'b'];
     };
     /**
@@ -232,6 +246,12 @@ var ServerInterface = /** @class */ (function () {
             });
         });
     };
+    __decorate([
+        __param(0, decorators_1.Position('body')),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [String]),
+        __metadata("design:returntype", Array)
+    ], ServerInterface.prototype, "searchByKeyword", null);
     return ServerInterface;
 }());
 exports.ServerInterface = ServerInterface;

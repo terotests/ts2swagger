@@ -1,6 +1,6 @@
 {
   "swagger": "2.0",
-  "basePath": "/sometest2/v1/",
+  "basePath": "/foo2/v1/",
   "paths": {
     "/user/{id}": {
       "put": {
@@ -515,7 +515,7 @@
   "info": {
     "version": "1.0.1",
     "title": "First service",
-    "description": "APIn kuvaus jne.",
+    "description": "",
     "termsOfService": ""
   },
   "tags": [

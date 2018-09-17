@@ -1,6 +1,6 @@
 {
   "swagger": "2.0",
-  "basePath": "/sometest/v1/",
+  "basePath": "/foo/v1/",
   "paths": {
     "/hello/{id}": {
       "get": {
@@ -38,7 +38,7 @@
   "info": {
     "version": "1.0.1  ",
     "title": "JeeJee",
-    "description": "APIn kuvaus jne.",
+    "description": "",
     "termsOfService": ""
   },
   "tags": []

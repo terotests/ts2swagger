@@ -54,7 +54,7 @@ var api_1 = require("./api");
  */
 function automaticServices(app, server) {
     // Service endpoint for putUser
-    app.put('/sometest2/v1/user/:id/', function (req, res) {
+    app.put('/foo2/v1/user/:id/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_1;
             return __generator(this, function (_c) {
@@ -77,7 +77,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for getUser
-    app.get('/sometest2/v1/users/:id/', function (req, res) {
+    app.get('/foo2/v1/users/:id/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_2;
             return __generator(this, function (_c) {
@@ -100,7 +100,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for searchByKeyword
-    app.get('/sometest2/v1/searchByKeyword/', function (req, res) {
+    app.get('/foo2/v1/searchByKeyword/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_3;
             return __generator(this, function (_c) {
@@ -123,7 +123,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for getUserFriends
-    app.get('/sometest2/v1/users/:userId/friends/:friendId/', function (req, res) {
+    app.get('/foo2/v1/users/:userId/friends/:friendId/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_4;
             return __generator(this, function (_c) {
@@ -146,7 +146,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for deleteUser
-    app.delete('/sometest2/v1/user/:id/', function (req, res) {
+    app.delete('/foo2/v1/user/:id/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_5;
             return __generator(this, function (_c) {
@@ -169,7 +169,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for newfn
-    app.get('/sometest2/v1/newfn/:s/', function (req, res) {
+    app.get('/foo2/v1/newfn/:s/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_6;
             return __generator(this, function (_c) {
@@ -192,7 +192,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for getDevices
-    app.get('/sometest2/v1/getDevices/:id/', function (req, res) {
+    app.get('/foo2/v1/getDevices/:id/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_7;
             return __generator(this, function (_c) {
@@ -215,7 +215,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for allUsers
-    app.get('/sometest2/v1/allUsers/', function (req, res) {
+    app.get('/foo2/v1/allUsers/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_8;
             return __generator(this, function (_c) {
@@ -238,7 +238,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for users
-    app.get('/sometest2/v1/users/:id/', function (req, res) {
+    app.get('/foo2/v1/users/:id/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_9;
             return __generator(this, function (_c) {
@@ -261,7 +261,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for createUser
-    app.post('/sometest2/v1/createUser/', function (req, res) {
+    app.post('/foo2/v1/createUser/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_10;
             return __generator(this, function (_c) {
@@ -284,7 +284,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for setDeviceData
-    app.post('/sometest2/v1/setDeviceData/', function (req, res) {
+    app.post('/foo2/v1/setDeviceData/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_11;
             return __generator(this, function (_c) {
@@ -307,7 +307,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for obj
-    app.get('/sometest2/v1/obj/:v/', function (req, res) {
+    app.get('/foo2/v1/obj/:v/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_12;
             return __generator(this, function (_c) {
@@ -330,7 +330,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for test3
-    app.get('/sometest2/v1/test3/:id/', function (req, res) {
+    app.get('/foo2/v1/test3/:id/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_13;
             return __generator(this, function (_c) {
@@ -353,7 +353,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for HelloWorld
-    app.get('/sometest2/v1/HelloWorld/:name/', function (req, res) {
+    app.get('/foo2/v1/HelloWorld/:name/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_14;
             return __generator(this, function (_c) {
@@ -376,7 +376,7 @@ function automaticServices(app, server) {
         });
     });
     // Service endpoint for hello
-    app.get('/sometest2/v1/hello/:name/', function (req, res) {
+    app.get('/foo2/v1/hello/:name/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_15;
             return __generator(this, function (_c) {

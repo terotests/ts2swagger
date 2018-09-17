@@ -24,8 +24,11 @@ export declare class CreateDevice {
  * @model true
  */
 export declare class CreateUser {
+    /** users name is here... */
     name: string;
+    /** users address, not ginve with any specificity */
     address: string;
+    /** ---> Age of the user... */
     age: number;
 }
 /**

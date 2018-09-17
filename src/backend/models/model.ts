@@ -31,8 +31,11 @@ export class CreateDevice {
  * @model true 
  */
 export class CreateUser {
-  name: string
+  /** users name is here... */
+  name: string 
+  /** users address, not ginve with any specificity */
   address: string
+  /** ---> Age of the user... */
   age:number
 }
 

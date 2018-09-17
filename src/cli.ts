@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import {createProject} from './index'
+import * as defaults from './index'
 
 const args = process.argv.slice(2);
 if( args.length === 0 ) {
@@ -8,5 +9,7 @@ if( args.length === 0 ) {
   process.exit()
 }
 createProject({
-  path: args[0]
+  path: args[0],
+  isServiceClass : defaults.isServiceClass,
+  initSwaggerForService : defaults.initSwaggerForService
 })
