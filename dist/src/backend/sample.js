@@ -37,69 +37,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var app = express();
-var bodyParser = require('body-parser');
-app.use(bodyParser.json());
-var swaggerUi = require('swagger-ui-express');
-// sample server...
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('../../swagger/sample.json')));
-// app.use('/api-docs2', swaggerUi.serve, swaggerUi.setup(require('../../swagger/server2.json')));
-// generated routes for the app 
-var sample_1 = require("./sample");
 /**
+ * Freeform test of the API comes here
+ *
+ * @swagger /src/swagger/sample.json
+ * @title The title of the Doc
  * @service myserviceid
+ * @endpoint /sometest/v1/
+ * @version 1.0.1
  */
-function bootstrap(app, server) {
-    // Automatically generated endpoint for ping
-    app.get('/sometest/v1/ping/:message/', function (req, res) {
+var MyService = /** @class */ (function () {
+    function MyService(req, res) {
+        this.req = req;
+        this.res = res;
+    }
+    MyService.prototype.ping = function (message) {
+        return "you sent " + message;
+    };
+    /**
+     * @alias hello
+     */
+    MyService.prototype.sayHello = function (name) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b, e_1;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        _c.trys.push([0, 2, , 3]);
-                        _b = (_a = res).json;
-                        return [4 /*yield*/, server(req, res).ping(req.params.message)];
-                    case 1:
-                        _b.apply(_a, [_c.sent()]);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        e_1 = _c.sent();
-                        res.status(e_1.statusCode || 400);
-                        res.json(e_1);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+            return __generator(this, function (_a) {
+                if (name === 'foo')
+                    throw { errorCode: 404, message: 'User not found' };
+                return [2 /*return*/, "Hello " + name + "!!!"];
             });
         });
-    });
-    // Automatically generated endpoint for sayHello
-    app.get('/sometest/v1/hello/:name/', function (req, res) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a, _b, e_2;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        _c.trys.push([0, 2, , 3]);
-                        _b = (_a = res).json;
-                        return [4 /*yield*/, server(req, res).sayHello(req.params.name)];
-                    case 1:
-                        _b.apply(_a, [_c.sent()]);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        e_2 = _c.sent();
-                        res.status(e_2.statusCode || 400);
-                        res.json(e_2);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    });
-}
-// initialize the API endpoint
-bootstrap(app, function (req, res) { return new sample_1.MyService(req, res); });
-if (!module.parent) {
-    app.listen(1337);
-    console.log('listening on port 1337');
-}
-//# sourceMappingURL=index.js.map
+    };
+    return MyService;
+}());
+exports.MyService = MyService;
+//# sourceMappingURL=sample.js.map

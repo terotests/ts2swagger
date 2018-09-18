@@ -100,7 +100,7 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
             apiPath += ':' + pathParams[i].getName() + '/';
         }
     });
-    wr.out("// Service endpoint for " + methodName, true);
+    wr.out("// Automatically generated endpoint for " + methodName, true);
     wr.out("app." + httpMethod + "('" + basePath + apiPath + "', async function( req, res ) {", true);
     wr.indent(1);
     wr.out('try {', true);
