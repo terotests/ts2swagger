@@ -1,6 +1,6 @@
 
 import { SomeReturnValue, TestUser, Device, CreateDevice, CreateUser } from './models/model'
-
+import * as express from 'express'
 /** 
  * APIn kuvaus jne.
  * 
@@ -12,6 +12,7 @@ import { SomeReturnValue, TestUser, Device, CreateDevice, CreateUser } from './m
  */
 export class Server2 {
   hello(id:string) : string {
+    let r:express.Request
     return 'hi there!'
   } 
 }
@@ -28,6 +29,9 @@ export class Server2 {
  */
 export class ServerInterface {
 
+  constructor( private req:express.Request, private res: express.Response) {
+    
+  }
   /**
    * 
    * @alias user
@@ -134,8 +138,8 @@ export class ServerInterface {
     ]
   }
 
-  createUser( u: CreateUser) : number {
-    return 100
+  createUser( u: CreateUser) : TestUser {
+    return {name:'foobar'}
   }
 
   /**
@@ -189,14 +193,29 @@ export class ServerInterface {
   }   
 
   HelloWorld(name:string) : string {
+    if(name === 'tero') throw {errorCode:403, message:'What the...'}
     return `Hello World ${name}`
   }
 
   /**
    * Async function returning stuff...
+   * @error 403 ErrorNotFound
    */
   async hello(name:string) : Promise<string> {
+    console.log(this.req.headers)
+    this.res.cookie('hahaa', 'Just set you a cookie')
+    if(name === 'tero') throw {errorCode:403, message:'User not found'}
     return `Hello ${name}!!!`
   }  
+
+  /**
+   * Custom endpoint behaviour, not well defined at this point
+   * @param name 
+   * @custom true
+   */
+  async custom(name:string) : Promise<void> {
+    console.log(this.req.headers)
+    this.res.sendFile(__dirname + '/index.js')
+  }   
 }
 

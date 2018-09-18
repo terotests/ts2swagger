@@ -18,6 +18,36 @@ var isSimpleType = utils.isSimpleType;
 var getTypePath = utils.getTypePath;
 var getSwaggerType = utils.getSwaggerType;
 var getMethodDoc = utils.getMethodDoc;
+/*
+  wr.out(`// Service endpoint for ${methodName}`, true);
+  wr.out(`app.${httpMethod}('${basePath}${apiPath}', async function( req, res ) {` , true)
+  wr.indent(1)
+
+  wr.out('try {', true)
+  wr.indent(1)
+    const pathArgs = pathParams.map( param => 'req.params.'+ param.getName() );
+    const queryArgs = queryParams.map( param => {
+      const pname = 'req.query.'+ param.getName()
+      if(getTypeName( param.getType() ) === 'boolean') {
+        return `typeof(${pname}) === 'undefined' ? ${pname} : ${pname} === 'true'`
+      }
+      return 'req.query.'+ param.getName()
+    } );
+    const postArgs = bodyParams.length > 0 ? ['req.body'] : []
+    const paramList = [...pathArgs ,...queryArgs, ...postArgs].join(', ')
+    // name of the server
+    const servername = methodInfo.tags['using'] || 'server';
+    wr.out(`res.json( await ${servername}.${methodName}(${paramList}) );`, true)
+  wr.indent(-1)
+  wr.out('} catch(e) {', true)
+    wr.indent(1)
+    wr.out('res.status(400);', true)
+    wr.out(`res.json( e.message );`, true)
+    wr.indent(-1)
+  wr.out('}', true)
+  wr.indent(-1)
+  wr.out(`})`, true)
+*/
 exports.initSwagger = function (wr, service) {
     var base = {
         "swagger": "2.0",
@@ -106,6 +136,8 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
             apiPath += ':' + pathParams[i].getName() + '/';
         }
     });
+    var endpointWriter = function () {
+    };
     wr.out("// Service endpoint for " + methodName, true);
     wr.out("app." + httpMethod + "('" + basePath + apiPath + "', async function( req, res ) {", true);
     wr.indent(1);
@@ -123,12 +155,18 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     var paramList = pathArgs.concat(queryArgs, postArgs).join(', ');
     // name of the server
     var servername = methodInfo.tags['using'] || 'server';
-    wr.out("res.json( await " + servername + "." + methodName + "(" + paramList + ") );", true);
+    var rParam = '';
+    if (methodInfo.tags.custom != null) {
+        wr.out("await " + servername + "(req, res)." + methodName + "(" + rParam + paramList + ");", true);
+    }
+    else {
+        wr.out("res.json( await " + servername + "(req, res)." + methodName + "(" + rParam + paramList + ") );", true);
+    }
     wr.indent(-1);
     wr.out('} catch(e) {', true);
     wr.indent(1);
-    wr.out('res.status(400);', true);
-    wr.out("res.json( e.message );", true);
+    wr.out('res.status(e.errorCode || 400);', true);
+    wr.out("res.json( e );", true);
     wr.indent(-1);
     wr.out('}', true);
     wr.indent(-1);
@@ -148,6 +186,9 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
                 type: 'object',
                 properties: __assign({}, props.reduce(function (prev, curr) {
                     var _a;
+                    curr.getJsDocs().forEach(function (doc) {
+                        console.log('Property comment', curr.getName(), doc.getComment());
+                    });
                     var rArr = getTypePath(curr.getType());
                     var is_array = rArr[0] === 'Array';
                     var rType = rArr.pop();
@@ -177,6 +218,14 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
         description: '',
         schema: __assign({}, getSwaggerType(rType, is_array))
     };
+    Object.keys(methodInfo.errors).forEach(function (code) {
+        console.log('Error', code);
+        successResponse[code] = {
+            description: '',
+            schema: __assign({}, getSwaggerType(methodInfo.errors[code], false))
+        };
+        createClassDef(methodInfo.errors[code]);
+    });
     createClassDef(rType);
     // generate swagger docs of this endpoin, a simple version so far
     var state = wr.getState().swagger;

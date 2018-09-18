@@ -7,6 +7,14 @@ export class SomeKeyWord {
   name = ''
 }
 
+/**
+ * @model true 
+ */
+export class ErrorNotFound {
+  errorCode = 403
+  message?: string
+}
+
 
 /**
  * @model true 

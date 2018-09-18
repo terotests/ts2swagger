@@ -39,6 +39,7 @@ var JSDocParams = /** @class */ (function () {
         this.comment = '';
         this.tags = {};
         this.params = {};
+        this.errors = {};
     }
     return JSDocParams;
 }());
@@ -50,6 +51,13 @@ exports.getFunctionDoc = function (method) {
             res.comment = doc.getComment();
         }
         doc.getTags().forEach(function (tag) {
+            if (tag.getName() === 'error') {
+                var str = tag.getComment();
+                var code = str.split(' ')[0];
+                var comment = str.split(' ').pop();
+                res.errors[code] = comment;
+                return;
+            }
             if (tag.getName() === 'param') {
                 var cn = tag.compilerNode;
                 res.params[cn.name.escapedText] = tag.getComment();
@@ -68,6 +76,13 @@ exports.getMethodDoc = function (method) {
             res.comment = doc.getComment();
         }
         doc.getTags().forEach(function (tag) {
+            if (tag.getName() === 'error') {
+                var str = tag.getComment();
+                var code = str.split(' ')[0];
+                var comment = str.split(' ').pop();
+                res.errors[code] = comment;
+                return;
+            }
             if (tag.getName() === 'param') {
                 var cn = tag.compilerNode;
                 res.params[cn.name.escapedText] = tag.getComment();

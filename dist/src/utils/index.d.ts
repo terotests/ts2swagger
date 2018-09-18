@@ -9,6 +9,9 @@ export declare class JSDocParams {
     params: {
         [key: string]: string;
     };
+    errors: {
+        [key: string]: string;
+    };
 }
 export declare const getFunctionDoc: (method: FunctionDeclaration) => JSDocParams;
 export declare const getMethodDoc: (method: MethodDeclaration) => JSDocParams;

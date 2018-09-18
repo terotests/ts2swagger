@@ -7,6 +7,13 @@ export declare class SomeKeyWord {
 /**
  * @model true
  */
+export declare class ErrorNotFound {
+    errorCode: number;
+    message?: string;
+}
+/**
+ * @model true
+ */
 export declare class SomeReturnValue {
     myValue: number;
     response: string;

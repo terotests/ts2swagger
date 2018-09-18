@@ -1,4 +1,5 @@
 import { SomeReturnValue, TestUser, Device, CreateDevice, CreateUser } from './models/model';
+import * as express from 'express';
 /**
  * APIn kuvaus jne.
  *
@@ -22,6 +23,9 @@ export declare class Server2 {
  *
  */
 export declare class ServerInterface {
+    private req;
+    private res;
+    constructor(req: express.Request, res: express.Response);
     /**
      *
      * @alias user
@@ -83,7 +87,7 @@ export declare class ServerInterface {
      * @param id of course the user id
      */
     users(id: string): TestUser[];
-    createUser(u: CreateUser): number;
+    createUser(u: CreateUser): TestUser;
     /**
      * Will set the device data
      * @description ok, looks good
@@ -102,6 +106,13 @@ export declare class ServerInterface {
     HelloWorld(name: string): string;
     /**
      * Async function returning stuff...
+     * @error 403 ErrorNotFound
      */
     hello(name: string): Promise<string>;
+    /**
+     * Custom endpoint behaviour, not well defined at this point
+     * @param name
+     * @custom true
+     */
+    custom(name: string): Promise<void>;
 }
