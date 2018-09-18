@@ -11,21 +11,21 @@ var SomeKeyWord = /** @class */ (function () {
 }());
 exports.SomeKeyWord = SomeKeyWord;
 /**
- * @model 1
+ * @model true
  */
 var ErrorNotFound = /** @class */ (function () {
     function ErrorNotFound() {
-        this.errorCode = 404;
+        this.statusCode = 404;
     }
     return ErrorNotFound;
 }());
 exports.ErrorNotFound = ErrorNotFound;
 /**
- * @model
+ * @model true
  */
 var ErrorForbidden = /** @class */ (function () {
     function ErrorForbidden() {
-        this.errorCode = 404;
+        this.statusCode = 403;
     }
     return ErrorForbidden;
 }());

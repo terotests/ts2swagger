@@ -5,17 +5,17 @@ export declare class SomeKeyWord {
     name: string;
 }
 /**
- * @model 1
+ * @model true
  */
 export declare class ErrorNotFound {
-    errorCode: number;
+    statusCode: number;
     message?: string;
 }
 /**
- * @model
+ * @model true
  */
 export declare class ErrorForbidden {
-    errorCode: number;
+    statusCode: number;
     message?: string;
 }
 /**

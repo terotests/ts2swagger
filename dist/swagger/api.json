@@ -543,7 +543,7 @@
     "ErrorNotFound": {
       "type": "object",
       "properties": {
-        "errorCode": {
+        "statusCode": {
           "type": "number"
         },
         "message": {
