@@ -7,7 +7,7 @@ import {getFunctionDoc} from './utils'
 
 const path = require('path')
 
-interface GenerationOptions {
+export interface GenerationOptions {
   path: string
 }
 
@@ -64,7 +64,7 @@ export async function createProject( settings:GenerationOptions) {
         if( swaggerPath ) {
           const swagger = RFs.getFile(path.dirname(swaggerPath), path.basename(swaggerPath)).getWriter()
           swagger.raw( JSON.stringify( swagger.getState().swagger, null, 2 ) )        
-        }
+        }        
       }
     })        
   })  

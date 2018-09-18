@@ -11,7 +11,7 @@ var SomeKeyWord = /** @class */ (function () {
 }());
 exports.SomeKeyWord = SomeKeyWord;
 /**
- * @model true
+ * @model 1
  */
 var ErrorNotFound = /** @class */ (function () {
     function ErrorNotFound() {
@@ -20,6 +20,16 @@ var ErrorNotFound = /** @class */ (function () {
     return ErrorNotFound;
 }());
 exports.ErrorNotFound = ErrorNotFound;
+/**
+ * @model
+ */
+var ErrorForbidden = /** @class */ (function () {
+    function ErrorForbidden() {
+        this.errorCode = 404;
+    }
+    return ErrorForbidden;
+}());
+exports.ErrorForbidden = ErrorForbidden;
 /**
  * @model true
  */
