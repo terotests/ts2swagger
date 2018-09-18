@@ -31,7 +31,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).putUser(req.params.id, typeof(req.query.overwrite) === 'undefined' ? req.query.overwrite : req.query.overwrite === 'true', req.body) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -40,7 +40,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).getUser(req.params.id) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -49,7 +49,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).searchByKeyword(req.query.searchKeyword) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -58,7 +58,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).getUserFriends(req.params.userId, req.params.friendId, req.query.filter) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -67,7 +67,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).deleteUser(req.params.id) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -76,7 +76,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).newfn(req.params.s) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -85,7 +85,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).getDevices(req.params.id) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -94,7 +94,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).allUsers() );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -103,7 +103,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).users(req.params.id) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -112,7 +112,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).createUser(req.body) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -121,7 +121,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).setDeviceData(req.body) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -130,7 +130,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).obj(req.params.v) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -139,7 +139,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).test3(req.params.id) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -148,7 +148,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).HelloWorld(req.params.name) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -157,7 +157,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       res.json( await server(req, res).hello(req.params.name) );
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })
@@ -166,7 +166,7 @@ function automaticServices(app:any, server:serverFactory) {
     try {
       await server(req, res).custom(req.params.name);
     } catch(e) {
-      res.status(e.errorCode || 400);
+      res.status(e.statusCode || 400);
       res.json( e );
     }
   })

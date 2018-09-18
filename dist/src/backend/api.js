@@ -229,7 +229,7 @@ var ServerInterface = /** @class */ (function () {
     };
     /**
      * Async function returning stuff...
-     * @error 403 ErrorNotFound
+     * @error 404 ErrorNotFound
      */
     ServerInterface.prototype.hello = function (name) {
         return __awaiter(this, void 0, void 0, function () {
@@ -252,7 +252,7 @@ var ServerInterface = /** @class */ (function () {
             return __generator(this, function (_a) {
                 console.log(this.req.headers);
                 this.res.sendFile(__dirname + '/index.js');
-                return [2 /*return*/];
+                return [2 /*return*/, 'ok'];
             });
         });
     };

@@ -199,7 +199,7 @@ export class ServerInterface {
 
   /**
    * Async function returning stuff...
-   * @error 403 ErrorNotFound
+   * @error 404 ErrorNotFound
    */
   async hello(name:string) : Promise<string> {
     console.log(this.req.headers)
@@ -213,9 +213,10 @@ export class ServerInterface {
    * @param name 
    * @custom true
    */
-  async custom(name:string) : Promise<void> {
+  async custom(name:string) : Promise<string> {
     console.log(this.req.headers)
     this.res.sendFile(__dirname + '/index.js')
+    return 'ok'
   }   
 }
 

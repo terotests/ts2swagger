@@ -108,7 +108,7 @@ export const getSwaggerType = function(name:string, is_array:boolean = false) : 
     type : 'array',
     items : {...getSwaggerType( name )}
   }
-  if(name ==='string' || name === 'number' || name === 'boolean') return { type:name };
+  if(name ==='string' || name === 'number' || name === 'boolean' || name === 'any') return { type:name };
   return {'$ref' : '#/definitions/' + name}
 }
 

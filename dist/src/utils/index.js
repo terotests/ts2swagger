@@ -119,7 +119,7 @@ exports.getSwaggerType = function (name, is_array) {
             type: 'array',
             items: __assign({}, exports.getSwaggerType(name))
         };
-    if (name === 'string' || name === 'number' || name === 'boolean')
+    if (name === 'string' || name === 'number' || name === 'boolean' || name === 'any')
         return { type: name };
     return { '$ref': '#/definitions/' + name };
 };

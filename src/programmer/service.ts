@@ -135,7 +135,7 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
   wr.indent(-1)
   wr.out('} catch(e) {', true)
     wr.indent(1)
-    wr.out('res.status(e.errorCode || 400);', true)
+    wr.out('res.status(e.statusCode || 400);', true)
     wr.out(`res.json( e );`, true)
     wr.indent(-1)
   wr.out('}', true)
@@ -205,7 +205,6 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
     }
   }  
   Object.keys( methodInfo.errors ).forEach( code => {
-    console.log('Error', code)
     successResponse[code] = {
       description : '',
       schema : {

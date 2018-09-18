@@ -11,7 +11,7 @@ export class SomeKeyWord {
  * @model true 
  */
 export class ErrorNotFound {
-  errorCode = 403
+  errorCode = 404
   message?: string
 }
 

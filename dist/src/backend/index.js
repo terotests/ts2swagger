@@ -68,7 +68,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_1 = _c.sent();
-                        res.status(e_1.errorCode || 400);
+                        res.status(e_1.statusCode || 400);
                         res.json(e_1);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -91,7 +91,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_2 = _c.sent();
-                        res.status(e_2.errorCode || 400);
+                        res.status(e_2.statusCode || 400);
                         res.json(e_2);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -114,7 +114,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_3 = _c.sent();
-                        res.status(e_3.errorCode || 400);
+                        res.status(e_3.statusCode || 400);
                         res.json(e_3);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -137,7 +137,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_4 = _c.sent();
-                        res.status(e_4.errorCode || 400);
+                        res.status(e_4.statusCode || 400);
                         res.json(e_4);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -160,7 +160,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_5 = _c.sent();
-                        res.status(e_5.errorCode || 400);
+                        res.status(e_5.statusCode || 400);
                         res.json(e_5);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -183,7 +183,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_6 = _c.sent();
-                        res.status(e_6.errorCode || 400);
+                        res.status(e_6.statusCode || 400);
                         res.json(e_6);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -206,7 +206,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_7 = _c.sent();
-                        res.status(e_7.errorCode || 400);
+                        res.status(e_7.statusCode || 400);
                         res.json(e_7);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -229,7 +229,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_8 = _c.sent();
-                        res.status(e_8.errorCode || 400);
+                        res.status(e_8.statusCode || 400);
                         res.json(e_8);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -252,7 +252,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_9 = _c.sent();
-                        res.status(e_9.errorCode || 400);
+                        res.status(e_9.statusCode || 400);
                         res.json(e_9);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -275,7 +275,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_10 = _c.sent();
-                        res.status(e_10.errorCode || 400);
+                        res.status(e_10.statusCode || 400);
                         res.json(e_10);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -298,7 +298,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_11 = _c.sent();
-                        res.status(e_11.errorCode || 400);
+                        res.status(e_11.statusCode || 400);
                         res.json(e_11);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -321,7 +321,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_12 = _c.sent();
-                        res.status(e_12.errorCode || 400);
+                        res.status(e_12.statusCode || 400);
                         res.json(e_12);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -344,7 +344,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_13 = _c.sent();
-                        res.status(e_13.errorCode || 400);
+                        res.status(e_13.statusCode || 400);
                         res.json(e_13);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -367,7 +367,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_14 = _c.sent();
-                        res.status(e_14.errorCode || 400);
+                        res.status(e_14.statusCode || 400);
                         res.json(e_14);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -390,7 +390,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_15 = _c.sent();
-                        res.status(e_15.errorCode || 400);
+                        res.status(e_15.statusCode || 400);
                         res.json(e_15);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -412,7 +412,7 @@ function automaticServices(app, server) {
                         return [3 /*break*/, 3];
                     case 2:
                         e_16 = _a.sent();
-                        res.status(e_16.errorCode || 400);
+                        res.status(e_16.statusCode || 400);
                         res.json(e_16);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];

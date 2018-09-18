@@ -423,7 +423,7 @@
               "type": "string"
             }
           },
-          "403": {
+          "404": {
             "description": "",
             "schema": {
               "$ref": "#/definitions/ErrorNotFound"
@@ -453,7 +453,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/any"
+              "type": "string"
             }
           }
         },

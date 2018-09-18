@@ -106,7 +106,7 @@ export declare class ServerInterface {
     HelloWorld(name: string): string;
     /**
      * Async function returning stuff...
-     * @error 403 ErrorNotFound
+     * @error 404 ErrorNotFound
      */
     hello(name: string): Promise<string>;
     /**
@@ -114,5 +114,5 @@ export declare class ServerInterface {
      * @param name
      * @custom true
      */
-    custom(name: string): Promise<void>;
+    custom(name: string): Promise<string>;
 }

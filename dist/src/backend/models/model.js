@@ -15,7 +15,7 @@ exports.SomeKeyWord = SomeKeyWord;
  */
 var ErrorNotFound = /** @class */ (function () {
     function ErrorNotFound() {
-        this.errorCode = 403;
+        this.errorCode = 404;
     }
     return ErrorNotFound;
 }());
