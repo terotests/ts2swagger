@@ -49,6 +49,7 @@ var Server2 = /** @class */ (function () {
     function Server2() {
     }
     Server2.prototype.hello = function (id) {
+        var r;
         return 'hi there!';
     };
     return Server2;
@@ -65,7 +66,9 @@ exports.Server2 = Server2;
  *
  */
 var ServerInterface = /** @class */ (function () {
-    function ServerInterface() {
+    function ServerInterface(req, res) {
+        this.req = req;
+        this.res = res;
     }
     /**
      *
@@ -167,7 +170,7 @@ var ServerInterface = /** @class */ (function () {
         ];
     };
     ServerInterface.prototype.createUser = function (u) {
-        return 100;
+        return { name: 'foobar' };
     };
     /**
      * Will set the device data
@@ -220,15 +223,36 @@ var ServerInterface = /** @class */ (function () {
         });
     };
     ServerInterface.prototype.HelloWorld = function (name) {
+        if (name === 'tero')
+            throw { errorCode: 403, message: 'What the...' };
         return "Hello World " + name;
     };
     /**
      * Async function returning stuff...
+     * @error 404 ErrorNotFound
      */
     ServerInterface.prototype.hello = function (name) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
+                console.log(this.req.headers);
+                this.res.cookie('hahaa', 'Just set you a cookie');
+                if (name === 'tero')
+                    throw { errorCode: 403, message: 'User not found' };
                 return [2 /*return*/, "Hello " + name + "!!!"];
+            });
+        });
+    };
+    /**
+     * Custom endpoint behaviour, not well defined at this point
+     * @param name
+     * @custom true
+     */
+    ServerInterface.prototype.custom = function (name) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                console.log(this.req.headers);
+                this.res.sendFile(__dirname + '/index.js');
+                return [2 /*return*/, 'ok'];
             });
         });
     };

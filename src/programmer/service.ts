@@ -1,5 +1,5 @@
 import * as R from 'robowr'
-import { MethodDeclaration, ClassDeclaration, Project, InterfaceDeclaration } from 'ts-simple-ast'
+import { MethodDeclaration, ClassDeclaration, Project, InterfaceDeclaration, ParameterDeclaration } from 'ts-simple-ast'
 import * as utils from '../utils'
 import { isBoolean } from 'util';
 
@@ -8,7 +8,6 @@ const isSimpleType = utils.isSimpleType
 const getTypePath = utils.getTypePath
 const getSwaggerType = utils.getSwaggerType
 const getMethodDoc = utils.getMethodDoc
-
 
 export const initSwagger = (wr:R.CodeWriter, service:any) : R.CodeWriter => {
   const base = {  
@@ -41,12 +40,12 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
   const methodAlias = methodInfo.tags.alias || methodName
 
   const basePath = wr.getState().swagger.basePath
-  const pathParams = []
-  const queryParams = []
-  const bodyParams = []
+  
+  let pathParams = []
+  let queryParams = []
+  let bodyParams = []
 
   const path = methodAlias.split('/'); // for example "users/documents"
-
   const methodParams = method.getParameters()
 
   // TODO: create setting for making params in the query
@@ -75,12 +74,6 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
     bodyParams.push( methodParams[i] )
   }  
 
-  // the old way of creating params
-  /*
-  const getParams = method.getParameters().filter( param => isSimpleType(param.getType()) )
-  const postParams = method.getParameters().filter( param => !isSimpleType(param.getType()) )
-  const is_post = method.getParameters().filter( project => !isSimpleType(project.getType()) ).length > 0
-  */
   const is_post = bodyParams.length > 0 
   let httpMethod = methodInfo.tags.method || ( is_post ? 'post' : 'get' );
 
@@ -111,6 +104,10 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
     }
   })
 
+  let endpointWriter = () => {
+
+  }
+
   wr.out(`// Service endpoint for ${methodName}`, true);
   wr.out(`app.${httpMethod}('${basePath}${apiPath}', async function( req, res ) {` , true)
   wr.indent(1)
@@ -129,12 +126,17 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
     const paramList = [...pathArgs ,...queryArgs, ...postArgs].join(', ')
     // name of the server
     const servername = methodInfo.tags['using'] || 'server'; 
-    wr.out(`res.json( await ${servername}.${methodName}(${paramList}) );`, true)
+    let rParam = '';
+    if( methodInfo.tags.custom != null ) {
+      wr.out(`await ${servername}(req, res).${methodName}(${rParam}${paramList});`, true)
+    } else {
+      wr.out(`res.json( await ${servername}(req, res).${methodName}(${rParam}${paramList}) );`, true)
+    }
   wr.indent(-1)
   wr.out('} catch(e) {', true)
     wr.indent(1)
-    wr.out('res.status(400);', true)
-    wr.out(`res.json( e.message );`, true)
+    wr.out('res.status(e.statusCode || 400);', true)
+    wr.out(`res.json( e );`, true)
     wr.indent(-1)
   wr.out('}', true)
   wr.indent(-1)
@@ -157,6 +159,9 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
         type : 'object',
         properties : {
           ...props.reduce( (prev, curr) => {
+            curr.getJsDocs().forEach( doc => {
+              console.log('Property comment', curr.getName(), doc.getComment())
+            })
             const rArr = getTypePath( curr.getType() )
             const is_array = rArr[0] === 'Array'
             const rType = rArr.pop()            
@@ -199,6 +204,15 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
       ...getSwaggerType( rType, is_array )
     }
   }  
+  Object.keys( methodInfo.errors ).forEach( code => {
+    successResponse[code] = {
+      description : '',
+      schema : {
+        ...getSwaggerType( methodInfo.errors[code], false )
+      }
+    }    
+    createClassDef( methodInfo.errors[code] ) 
+  })
   createClassDef(rType) 
   // generate swagger docs of this endpoin, a simple version so far
   const state = wr.getState().swagger

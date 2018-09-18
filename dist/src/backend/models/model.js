@@ -13,6 +13,16 @@ exports.SomeKeyWord = SomeKeyWord;
 /**
  * @model true
  */
+var ErrorNotFound = /** @class */ (function () {
+    function ErrorNotFound() {
+        this.errorCode = 404;
+    }
+    return ErrorNotFound;
+}());
+exports.ErrorNotFound = ErrorNotFound;
+/**
+ * @model true
+ */
 var SomeReturnValue = /** @class */ (function () {
     function SomeReturnValue() {
         this.myValue = 100;

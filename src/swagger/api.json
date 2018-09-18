@@ -283,7 +283,7 @@
           "200": {
             "description": "",
             "schema": {
-              "type": "number"
+              "$ref": "#/definitions/TestUser"
             }
           }
         },
@@ -422,6 +422,39 @@
             "schema": {
               "type": "string"
             }
+          },
+          "404": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ErrorNotFound"
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/custom/{name}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "Custom endpoint behaviour, not well defined at this point",
+        "summary": "Custom endpoint behaviour, not well defined at this point",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
           }
         },
         "tags": []
@@ -503,6 +536,17 @@
           "type": "string"
         },
         "description": {
+          "type": "string"
+        }
+      }
+    },
+    "ErrorNotFound": {
+      "type": "object",
+      "properties": {
+        "errorCode": {
+          "type": "number"
+        },
+        "message": {
           "type": "string"
         }
       }

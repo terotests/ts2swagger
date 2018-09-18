@@ -32,6 +32,7 @@ export class JSDocParams {
   comment : string = ''
   tags : {[key:string] : string} = {}
   params : {[key:string] : string} = {}
+  errors: {[key:string ] : string} = {}
 }
 
 export const getFunctionDoc = ( method:FunctionDeclaration) : JSDocParams => {
@@ -41,6 +42,13 @@ export const getFunctionDoc = ( method:FunctionDeclaration) : JSDocParams => {
       res.comment = doc.getComment()
     }
     doc.getTags().forEach( tag => {
+      if(tag.getName() === 'error') {
+        const str = tag.getComment()
+        const code = str.split(' ')[0]
+        const comment = str.split(' ').pop()
+        res.errors[code] = comment
+        return
+      }
       if(tag.getName() === 'param') {
         const cn:any = tag.compilerNode
         res.params[cn.name.escapedText] = tag.getComment()
@@ -59,6 +67,13 @@ export const getMethodDoc = ( method:MethodDeclaration) : JSDocParams => {
       res.comment = doc.getComment()
     }
     doc.getTags().forEach( tag => {
+      if(tag.getName() === 'error') {
+        const str = tag.getComment()
+        const code = str.split(' ')[0]
+        const comment = str.split(' ').pop()
+        res.errors[code] = comment
+        return
+      }
       if(tag.getName() === 'param') {
         const cn:any = tag.compilerNode
         res.params[cn.name.escapedText] = tag.getComment()
@@ -93,7 +108,7 @@ export const getSwaggerType = function(name:string, is_array:boolean = false) : 
     type : 'array',
     items : {...getSwaggerType( name )}
   }
-  if(name ==='string' || name === 'number' || name === 'boolean') return { type:name };
+  if(name ==='string' || name === 'number' || name === 'boolean' || name === 'any') return { type:name };
   return {'$ref' : '#/definitions/' + name}
 }
 

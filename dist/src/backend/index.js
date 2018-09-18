@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express = require('express');
+var express = require("express");
 var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -62,14 +62,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.putUser(req.params.id, typeof (req.query.overwrite) === 'undefined' ? req.query.overwrite : req.query.overwrite === 'true', req.body)];
+                        return [4 /*yield*/, server(req, res).putUser(req.params.id, typeof (req.query.overwrite) === 'undefined' ? req.query.overwrite : req.query.overwrite === 'true', req.body)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_1 = _c.sent();
-                        res.status(400);
-                        res.json(e_1.message);
+                        res.status(e_1.statusCode || 400);
+                        res.json(e_1);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -85,14 +85,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.getUser(req.params.id)];
+                        return [4 /*yield*/, server(req, res).getUser(req.params.id)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_2 = _c.sent();
-                        res.status(400);
-                        res.json(e_2.message);
+                        res.status(e_2.statusCode || 400);
+                        res.json(e_2);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -108,14 +108,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.searchByKeyword(req.query.searchKeyword)];
+                        return [4 /*yield*/, server(req, res).searchByKeyword(req.query.searchKeyword)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_3 = _c.sent();
-                        res.status(400);
-                        res.json(e_3.message);
+                        res.status(e_3.statusCode || 400);
+                        res.json(e_3);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -131,14 +131,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.getUserFriends(req.params.userId, req.params.friendId, req.query.filter)];
+                        return [4 /*yield*/, server(req, res).getUserFriends(req.params.userId, req.params.friendId, req.query.filter)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_4 = _c.sent();
-                        res.status(400);
-                        res.json(e_4.message);
+                        res.status(e_4.statusCode || 400);
+                        res.json(e_4);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -154,14 +154,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.deleteUser(req.params.id)];
+                        return [4 /*yield*/, server(req, res).deleteUser(req.params.id)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_5 = _c.sent();
-                        res.status(400);
-                        res.json(e_5.message);
+                        res.status(e_5.statusCode || 400);
+                        res.json(e_5);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -177,14 +177,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.newfn(req.params.s)];
+                        return [4 /*yield*/, server(req, res).newfn(req.params.s)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_6 = _c.sent();
-                        res.status(400);
-                        res.json(e_6.message);
+                        res.status(e_6.statusCode || 400);
+                        res.json(e_6);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -200,14 +200,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.getDevices(req.params.id)];
+                        return [4 /*yield*/, server(req, res).getDevices(req.params.id)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_7 = _c.sent();
-                        res.status(400);
-                        res.json(e_7.message);
+                        res.status(e_7.statusCode || 400);
+                        res.json(e_7);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -223,14 +223,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.allUsers()];
+                        return [4 /*yield*/, server(req, res).allUsers()];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_8 = _c.sent();
-                        res.status(400);
-                        res.json(e_8.message);
+                        res.status(e_8.statusCode || 400);
+                        res.json(e_8);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -246,14 +246,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.users(req.params.id)];
+                        return [4 /*yield*/, server(req, res).users(req.params.id)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_9 = _c.sent();
-                        res.status(400);
-                        res.json(e_9.message);
+                        res.status(e_9.statusCode || 400);
+                        res.json(e_9);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -269,14 +269,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.createUser(req.body)];
+                        return [4 /*yield*/, server(req, res).createUser(req.body)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_10 = _c.sent();
-                        res.status(400);
-                        res.json(e_10.message);
+                        res.status(e_10.statusCode || 400);
+                        res.json(e_10);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -292,14 +292,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.setDeviceData(req.body)];
+                        return [4 /*yield*/, server(req, res).setDeviceData(req.body)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_11 = _c.sent();
-                        res.status(400);
-                        res.json(e_11.message);
+                        res.status(e_11.statusCode || 400);
+                        res.json(e_11);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -315,14 +315,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.obj(req.params.v)];
+                        return [4 /*yield*/, server(req, res).obj(req.params.v)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_12 = _c.sent();
-                        res.status(400);
-                        res.json(e_12.message);
+                        res.status(e_12.statusCode || 400);
+                        res.json(e_12);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -338,14 +338,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.test3(req.params.id)];
+                        return [4 /*yield*/, server(req, res).test3(req.params.id)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_13 = _c.sent();
-                        res.status(400);
-                        res.json(e_13.message);
+                        res.status(e_13.statusCode || 400);
+                        res.json(e_13);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -361,14 +361,14 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.HelloWorld(req.params.name)];
+                        return [4 /*yield*/, server(req, res).HelloWorld(req.params.name)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_14 = _c.sent();
-                        res.status(400);
-                        res.json(e_14.message);
+                        res.status(e_14.statusCode || 400);
+                        res.json(e_14);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -384,14 +384,36 @@ function automaticServices(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server.hello(req.params.name)];
+                        return [4 /*yield*/, server(req, res).hello(req.params.name)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
                     case 2:
                         e_15 = _c.sent();
-                        res.status(400);
-                        res.json(e_15.message);
+                        res.status(e_15.statusCode || 400);
+                        res.json(e_15);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    });
+    // Service endpoint for custom
+    app.get('/sometest2/v1/custom/:name/', function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var e_16;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, server(req, res).custom(req.params.name)];
+                    case 1:
+                        _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_16 = _a.sent();
+                        res.status(e_16.statusCode || 400);
+                        res.json(e_16);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -399,7 +421,8 @@ function automaticServices(app, server) {
         });
     });
 }
-automaticServices(app, new api_1.ServerInterface());
+// initialize the API endpoint
+automaticServices(app, function (req, res) { return new api_1.ServerInterface(req, res); });
 if (!module.parent) {
     app.listen(1337);
     console.log('listening on port 1337');

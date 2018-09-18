@@ -74,12 +74,6 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     for (var i = (pathParams.length + queryParams.length); i < methodParams.length; i++) {
         bodyParams.push(methodParams[i]);
     }
-    // the old way of creating params
-    /*
-    const getParams = method.getParameters().filter( param => isSimpleType(param.getType()) )
-    const postParams = method.getParameters().filter( param => !isSimpleType(param.getType()) )
-    const is_post = method.getParameters().filter( project => !isSimpleType(project.getType()) ).length > 0
-    */
     var is_post = bodyParams.length > 0;
     var httpMethod = methodInfo.tags.method || (is_post ? 'post' : 'get');
     var pathParamStr = pathParams.map(function (param) {
@@ -106,6 +100,8 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
             apiPath += ':' + pathParams[i].getName() + '/';
         }
     });
+    var endpointWriter = function () {
+    };
     wr.out("// Service endpoint for " + methodName, true);
     wr.out("app." + httpMethod + "('" + basePath + apiPath + "', async function( req, res ) {", true);
     wr.indent(1);
@@ -123,12 +119,18 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     var paramList = pathArgs.concat(queryArgs, postArgs).join(', ');
     // name of the server
     var servername = methodInfo.tags['using'] || 'server';
-    wr.out("res.json( await " + servername + "." + methodName + "(" + paramList + ") );", true);
+    var rParam = '';
+    if (methodInfo.tags.custom != null) {
+        wr.out("await " + servername + "(req, res)." + methodName + "(" + rParam + paramList + ");", true);
+    }
+    else {
+        wr.out("res.json( await " + servername + "(req, res)." + methodName + "(" + rParam + paramList + ") );", true);
+    }
     wr.indent(-1);
     wr.out('} catch(e) {', true);
     wr.indent(1);
-    wr.out('res.status(400);', true);
-    wr.out("res.json( e.message );", true);
+    wr.out('res.status(e.statusCode || 400);', true);
+    wr.out("res.json( e );", true);
     wr.indent(-1);
     wr.out('}', true);
     wr.indent(-1);
@@ -148,6 +150,9 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
                 type: 'object',
                 properties: __assign({}, props.reduce(function (prev, curr) {
                     var _a;
+                    curr.getJsDocs().forEach(function (doc) {
+                        console.log('Property comment', curr.getName(), doc.getComment());
+                    });
                     var rArr = getTypePath(curr.getType());
                     var is_array = rArr[0] === 'Array';
                     var rType = rArr.pop();
@@ -177,6 +182,13 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
         description: '',
         schema: __assign({}, getSwaggerType(rType, is_array))
     };
+    Object.keys(methodInfo.errors).forEach(function (code) {
+        successResponse[code] = {
+            description: '',
+            schema: __assign({}, getSwaggerType(methodInfo.errors[code], false))
+        };
+        createClassDef(methodInfo.errors[code]);
+    });
     createClassDef(rType);
     // generate swagger docs of this endpoin, a simple version so far
     var state = wr.getState().swagger;
