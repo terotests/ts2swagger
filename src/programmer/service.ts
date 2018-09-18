@@ -104,10 +104,6 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
     }
   })
 
-  let endpointWriter = () => {
-
-  }
-
   wr.out(`// Service endpoint for ${methodName}`, true);
   wr.out(`app.${httpMethod}('${basePath}${apiPath}', async function( req, res ) {` , true)
   wr.indent(1)

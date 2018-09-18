@@ -5,9 +5,16 @@ export declare class SomeKeyWord {
     name: string;
 }
 /**
- * @model true
+ * @model 1
  */
 export declare class ErrorNotFound {
+    errorCode: number;
+    message?: string;
+}
+/**
+ * @model
+ */
+export declare class ErrorForbidden {
     errorCode: number;
     message?: string;
 }

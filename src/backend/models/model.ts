@@ -8,9 +8,18 @@ export class SomeKeyWord {
 }
 
 /**
- * @model true 
+ * @model 1 
  */
 export class ErrorNotFound {
+  errorCode = 404
+  message?: string
+}
+
+
+/**
+ * @model 
+ */
+export class ErrorForbidden {
   errorCode = 404
   message?: string
 }
