@@ -171,7 +171,7 @@ Then you can define one or more method error codes like `@error 404 ErrorNotFoun
 
 ```typescript
   /**
-   * @alias methods/hello
+   * @alias hi
    */
   async sayHello(name:string) : Promise<string> {
     if(name==='foo') throw { errorCode:404, message:'User not found'}
