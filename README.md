@@ -288,3 +288,7 @@ if (!module.parent) {
   console.log('listening on port 1337');
 }  
 ```
+
+## License
+
+MIT.
