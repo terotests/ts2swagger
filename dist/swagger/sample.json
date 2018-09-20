@@ -55,9 +55,62 @@
         },
         "tags": []
       }
+    },
+    "/getDevices": {
+      "get": {
+        "parameters": [],
+        "description": "",
+        "summary": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Device"
+              }
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/upload": {
+      "post": {
+        "parameters": [],
+        "description": "",
+        "summary": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "number"
+            }
+          }
+        },
+        "tags": []
+      }
     }
   },
-  "definitions": {},
+  "definitions": {
+    "Device": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  },
   "schemes": [
     "http",
     "https"

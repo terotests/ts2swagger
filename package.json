@@ -1,14 +1,15 @@
 {
   "name": "ts2swagger",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Convert TypeScript classes into Swagger docs and Express API",
   "main": "dist/src/index.js",
   "bin": {
     "ts2swagger": "dist/src/cli.js"
   },
   "scripts": {
+    "build:frontend": "browserify ./dist/src/frontend/index.js -o ./public/index.js",
     "compile": "find ./dist/ -name \"*.d.ts\" -delete && tsc",
-    "test": "npm run compile && node dist/src/tssimplec src/testinput.ts && cp src/swagger/* dist/swagger/ && node dist/src/backend/index"
+    "test": "npm run compile && node dist/src/tssimplec src/testinput.ts && npm run build:frontend && cp src/swagger/* dist/swagger/ && node dist/src/backend/index"
   },
   "keywords": [],
   "author": "Tero Tolonen",
@@ -29,6 +30,7 @@
     "typescript": "^3.0.3"
   },
   "devDependencies": {
+    "browserify": "^16.2.2",
     "chai": "^4.1.2",
     "mocha": "^5.2.0"
   }

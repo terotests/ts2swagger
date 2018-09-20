@@ -1,20 +1,15 @@
 import * as express from 'express'
+import {MyService} from './sample';
 
 const app = express()
 
 const bodyParser = require('body-parser')
 app.use( bodyParser.json() ); 
-
+app.use( express.static('public'))
 const swaggerUi = require('swagger-ui-express');
 
 // sample server...
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('../../swagger/sample.json')));
-// app.use('/api-docs2', swaggerUi.serve, swaggerUi.setup(require('../../swagger/server2.json')));
-
-// generated routes for the app 
-import {MyService} from './sample';
-
-// use the server factory
 
 type serverFactory = (req,res) => MyService
 
@@ -35,6 +30,24 @@ function bootstrap(app:any, server:serverFactory) {
   app.get('/sometest/v1/hello/:name/', async function( req, res ) {
     try {
       res.json( await server(req, res).sayHello(req.params.name) );
+    } catch(e) {
+      res.status(e.statusCode || 400);
+      res.json( e );
+    }
+  })
+  // Automatically generated endpoint for getDevices
+  app.get('/sometest/v1/getDevices/', async function( req, res ) {
+    try {
+      res.json( await server(req, res).getDevices() );
+    } catch(e) {
+      res.status(e.statusCode || 400);
+      res.json( e );
+    }
+  })
+  // Automatically generated endpoint for upload
+  app.post('/sometest/v1/upload/', async function( req, res ) {
+    try {
+      res.json( await server(req, res).upload() );
     } catch(e) {
       res.status(e.statusCode || 400);
       res.json( e );

@@ -12,9 +12,23 @@ export declare class MyService {
     private req;
     private res;
     constructor(req: express.Request, res: express.Response);
+    private getUserName;
     ping(message: string): string;
     /**
      * @alias hello
      */
     sayHello(name: string): Promise<string>;
+    getDevices(): Device[];
+    /**
+     * @method post
+     */
+    upload(): number;
+}
+/**
+ * @model true
+ */
+export declare class Device {
+    id: number;
+    name: string;
+    description?: string;
 }
