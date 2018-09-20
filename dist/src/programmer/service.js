@@ -41,6 +41,11 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     var methodInfo = getMethodDoc(method);
     if (methodInfo.tags.nogenerate)
         return wr;
+    var fc = method.getChildAtIndex(0);
+    if (fc && fc.getText().indexOf('private') === 0) {
+        console.log('**** skipping private method ', method.getName());
+        return wr;
+    }
     var methodName = method.getName();
     var methodAlias = methodInfo.tags.alias || methodName;
     var basePath = wr.getState().swagger.basePath;

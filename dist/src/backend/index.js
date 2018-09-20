@@ -39,6 +39,7 @@ var express = require("express");
 var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
+app.use(express.static('public'));
 var swaggerUi = require('swagger-ui-express');
 // sample server...
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('../../swagger/sample.json')));
@@ -89,6 +90,52 @@ function bootstrap(app, server) {
                         e_2 = _c.sent();
                         res.status(e_2.statusCode || 400);
                         res.json(e_2);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    });
+    // Automatically generated endpoint for getDevices
+    app.get('/sometest/v1/getDevices/', function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, _b, e_3;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 2, , 3]);
+                        _b = (_a = res).json;
+                        return [4 /*yield*/, server(req, res).getDevices()];
+                    case 1:
+                        _b.apply(_a, [_c.sent()]);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_3 = _c.sent();
+                        res.status(e_3.statusCode || 400);
+                        res.json(e_3);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    });
+    // Automatically generated endpoint for upload
+    app.post('/sometest/v1/upload/', function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, _b, e_4;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 2, , 3]);
+                        _b = (_a = res).json;
+                        return [4 /*yield*/, server(req, res).upload()];
+                    case 1:
+                        _b.apply(_a, [_c.sent()]);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_4 = _c.sent();
+                        res.status(e_4.statusCode || 400);
+                        res.json(e_4);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }

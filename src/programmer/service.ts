@@ -34,8 +34,14 @@ export const initSwagger = (wr:R.CodeWriter, service:any) : R.CodeWriter => {
 
 export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDeclaration, method:MethodDeclaration ) : R.CodeWriter => {
   const methodInfo = getMethodDoc(method)
-  if(methodInfo.tags.nogenerate) return wr  
+  if(methodInfo.tags.nogenerate) return wr 
 
+  const fc = method.getChildAtIndex(0)
+  if( fc && fc.getText().indexOf('private') === 0 ) {
+    console.log('**** skipping private method ', method.getName())
+    return wr
+  }
+  
   let methodName = method.getName()
   const methodAlias = methodInfo.tags.alias || methodName
 

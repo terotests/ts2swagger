@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
+var fs_1 = require("fs");
 var app = express();
 /**
  * Freeform test of the API comes here
@@ -51,6 +52,8 @@ var MyService = /** @class */ (function () {
         this.req = req;
         this.res = res;
     }
+    MyService.prototype.getUserName = function () {
+    };
     MyService.prototype.ping = function (message) {
         return "you sent " + message;
     };
@@ -66,7 +69,28 @@ var MyService = /** @class */ (function () {
             });
         });
     };
+    MyService.prototype.getDevices = function () {
+        return [{ id: 1, name: 'iPhone' }];
+    };
+    /**
+     * @method post
+     */
+    MyService.prototype.upload = function () {
+        // output results to some file...
+        // this.req.pipe( )    
+        this.req.pipe(fs_1.default.createWriteStream(__dirname + '/uploadedFile.bin'));
+        return 0;
+    };
     return MyService;
 }());
 exports.MyService = MyService;
+/**
+ * @model true
+ */
+var Device = /** @class */ (function () {
+    function Device() {
+    }
+    return Device;
+}());
+exports.Device = Device;
 //# sourceMappingURL=sample.js.map
