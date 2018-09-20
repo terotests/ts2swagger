@@ -1,6 +1,6 @@
 {
   "name": "ts2swagger",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Convert TypeScript classes into Swagger docs and Express API",
   "main": "dist/src/index.js",
   "bin": {
@@ -11,6 +11,10 @@
     "compile": "find ./dist/ -name \"*.d.ts\" -delete && tsc",
     "test": "npm run compile && node dist/src/tssimplec src/testinput.ts && npm run build:frontend && cp src/swagger/* dist/swagger/ && node dist/src/backend/index"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terotests/ts2swagger.git"
+  },  
   "keywords": [],
   "author": "Tero Tolonen",
   "license": "MIT",
