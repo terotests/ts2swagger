@@ -89,7 +89,6 @@ automatically by detecting their value and with some information from the JSDoc 
    * @alias user
    * @method delete
    * @param id set user to some value
-   * @param user 
    * @tag user
    * @tagdescription System users
    * @error 401 MyErrorClass
