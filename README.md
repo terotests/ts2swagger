@@ -142,7 +142,7 @@ function bootstrap(app:any, server:(req,res) => MyService) {
 }
 ```
 
-After running `ts2swagger` the function `overwritten` will have contents
+After running `ts2swagger` the function `bootstrap` will be overwritten to have contents
 
 ```typescript
 function bootstrap(app:any, server:(req,res) => MyService) {
@@ -288,3 +288,7 @@ if (!module.parent) {
   console.log('listening on port 1337');
 }  
 ```
+
+## License
+
+MIT.
