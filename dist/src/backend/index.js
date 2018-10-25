@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
+var sample_1 = require("./sample");
 var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -43,9 +44,6 @@ app.use(express.static('public'));
 var swaggerUi = require('swagger-ui-express');
 // sample server...
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('../../swagger/sample.json')));
-// app.use('/api-docs2', swaggerUi.serve, swaggerUi.setup(require('../../swagger/server2.json')));
-// generated routes for the app 
-var sample_1 = require("./sample");
 /**
  * @service myserviceid
  */
