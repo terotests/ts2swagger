@@ -1,6 +1,6 @@
 {
   "name": "ts2swagger",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "Convert TypeScript classes into Swagger docs and Express API",
   "main": "dist/src/index.js",
   "bin": {
@@ -29,13 +29,13 @@
     "swagger-ui-express": "^4.0.1",
     "ts-simple-ast": "^14.4.3",
     "typescript": "^3.0.3",
-    "robowr": "^1.0.5"
+    "robowr": "^1.0.6"
   },
   "devDependencies": {
     "@types/chai": "^4.1.6",
     "@types/mocha": "^5.2.5",
     "browserify": "^16.2.2",
     "chai": "^4.1.2",
-    "mocha": "^5.2.0"    
+    "mocha": "^5.2.0"
   }
 }
