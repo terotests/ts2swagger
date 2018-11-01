@@ -42,7 +42,7 @@ var utils_1 = require("./utils");
 var path = require('path');
 function createProject(settings) {
     return __awaiter(this, void 0, void 0, function () {
-        var project, RFs, webclient, services;
+        var project, RFs, webclient, services, clients;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -51,8 +51,39 @@ function createProject(settings) {
                     RFs = new R.CodeFileSystem();
                     webclient = RFs.getFile('/src/frontend/api/', 'index.ts').getWriter();
                     services = webclient.getState().services = {};
+                    clients = webclient.getState().clients = {};
+                    // const client:{[key:string]:FunctionDeclaration} = {}
+                    project.getSourceFiles().forEach(function (sourceFile) {
+                        sourceFile.getFunctions().forEach(function (f) {
+                            f.getJsDocs().forEach(function (doc) {
+                                var serviceName = '';
+                                var is_client = doc.getTags().filter(function (tag) {
+                                    if (tag.getName() === 'client') {
+                                        serviceName = tag.getComment();
+                                        return true;
+                                    }
+                                    return false;
+                                }).length > 0;
+                                if (is_client) {
+                                    if (clients[serviceName]) {
+                                        throw "Duplicate client declaration for service " + serviceName;
+                                    }
+                                    clients[serviceName] = f;
+                                    console.log('Found client ' + f.getName() + ' for service ' + serviceName);
+                                }
+                            });
+                        });
+                    });
                     // mapeservice classes to the properties
                     project.getSourceFiles().forEach(function (sourceFile) {
+                        sourceFile.getFunctions().forEach(function (f) {
+                            f.getJsDocs().forEach(function (doc) {
+                                var is_client = doc.getTags().filter(function (tag) { return tag.getName() === 'client'; }).length > 0;
+                                if (is_client) {
+                                    webclient.getState().clients[f.getName()] = f;
+                                }
+                            });
+                        });
                         sourceFile.getClasses().forEach(function (c) {
                             c.getJsDocs().forEach(function (doc) {
                                 var is_service = doc.getTags().filter(function (tag) { return tag.getName() === 'service'; }).length > 0;
@@ -69,10 +100,23 @@ function createProject(settings) {
                         sourceFile.getClasses().forEach(function (c) {
                             if (services[c.getName()]) {
                                 var serviceinfo_1 = services[c.getName()];
+                                var clientWriter_1;
+                                var clientInnerWriter_1;
+                                var clientFn = clients[serviceinfo_1.service];
+                                // console.log(serviceinfo)
+                                if (clientFn) {
+                                    console.log('^ has a client');
+                                    clientWriter_1 = new R.CodeWriter();
+                                    clientWriter_1.out("return new class " + c.getName() + " {", true);
+                                    clientWriter_1.indent(1);
+                                    clientInnerWriter_1 = clientWriter_1.fork();
+                                    clientWriter_1.indent(-1);
+                                    clientWriter_1.out("}", true);
+                                }
                                 ProgrammerBase.initSwagger(webclient, serviceinfo_1);
                                 var injectWriter_1 = new R.CodeWriter();
                                 c.getMethods().forEach(function (m) {
-                                    ProgrammerBase.WriteEndpoint(injectWriter_1, project, c, m);
+                                    ProgrammerBase.WriteEndpoint(injectWriter_1, project, c, m, clientInnerWriter_1);
                                     // if(clientWriter) ProgrammerBase.WriteClientEndpoint( clientWriter, project, c, m )
                                 });
                                 // inject declaration to some function...
@@ -83,6 +127,13 @@ function createProject(settings) {
                                         if (info.tags.service === serviceinfo_1.service) {
                                             f.setBodyText(function (writer) {
                                                 writer.setIndentationLevel('  ').write(injectWriter_1.getCode());
+                                            });
+                                        }
+                                        if (info.tags.client === serviceinfo_1.service) {
+                                            console.log(clientWriter_1.getCode());
+                                            f.setBodyText(function (writer) {
+                                                // writer.write('/* OK */')
+                                                writer.setIndentationLevel('  ').write(clientWriter_1.getCode());
                                             });
                                         }
                                     });

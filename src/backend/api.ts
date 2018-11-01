@@ -29,9 +29,8 @@ export class Server2 {
  */
 export class ServerInterface {
 
-  constructor( private req:express.Request, private res: express.Response) {
-    
-  }
+  constructor( private req:express.Request, private res: express.Response) {}
+
   /**
    * 
    * @alias user

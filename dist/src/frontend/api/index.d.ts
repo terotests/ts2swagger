@@ -1,1 +1,1 @@
-declare function clientCodeSomeHereSomeDay(): void;
+export {};
