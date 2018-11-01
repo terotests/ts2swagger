@@ -32,13 +32,12 @@ export const initSwagger = (wr:R.CodeWriter, service:any) : R.CodeWriter => {
   return wr
 }
 
-export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDeclaration, method:MethodDeclaration ) : R.CodeWriter => {
+export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDeclaration, method:MethodDeclaration, clientWriter?: R.CodeWriter ) : R.CodeWriter => {
   const methodInfo = getMethodDoc(method)
   if(methodInfo.tags.nogenerate) return wr 
 
   const fc = method.getChildAtIndex(0)
   if( fc && fc.getText().indexOf('private') === 0 ) {
-    console.log('**** skipping private method ', method.getName())
     return wr
   }
   
@@ -143,6 +142,41 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
   wr.out('}', true)
   wr.indent(-1)
   wr.out(`})`, true)
+
+  if(clientWriter) {
+    const writeClientNode = (wr:R.CodeWriter) => {
+      console.log('Could Write Client code...')
+      if(bodyParams.length > 1) throw 'Only one post parameter allowed ' + method.getName()
+      const postParamsStr = bodyParams.map( project => project.getName() ).join(', ')
+      // setting the body / post varas is not as simple...
+      const pathGetVars = pathParams.map( param => ('${' + param.getName() + '}' ) ).join('/') 
+      const axiosGetVars = `{params:{` + queryParams.map( project => project.getName() ).join(', ') + '}}'
+
+      let apiPath = ''
+      path.forEach( (pathPart,i)=>{
+        apiPath += pathPart + '/'
+        if( pathParams[i] ) {
+          apiPath += '${' + pathParams[i].getName() + '}' +'/';
+        }
+      })      
+  /*      
+   wr.out('return (await axios.post(`/v1/' + methodName + '/'+ axiosGetVars+ '`,'+postParamsStr+')).data;', true)
+  */    
+      wr.out(`// client for endpoint ${methodName}`, true);
+      const signatureStr = method.getParameters().map( p => p.getName() + ':' + p.getTypeNode().print()).join(', ');
+      wr.out(`async ${methodName}(${signatureStr}) ${method.getReturnTypeNode() ? ': Promise<' + method.getReturnTypeNode().print() + '>' : ''} {`, true);
+        wr.indent(1)
+        if( httpMethod === 'post' || httpMethod === 'put') {
+          wr.out('return (await axios.'+httpMethod+'(`' + basePath + apiPath+ '`,'+postParamsStr+')).data;', true)
+        } else {
+          wr.out('return (await axios.'+httpMethod+'(`' + basePath + apiPath+ '`,'+axiosGetVars+')).data;', true)
+        }
+        wr.indent(-1)
+      wr.out(`}`, true)     
+    }
+    writeClientNode(clientWriter)
+    console.log('Client was written...')
+  }
   
   const rArr = getTypePath( method.getReturnType() )
   const is_array = rArr[0] === 'Array'
@@ -150,13 +184,21 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
   const successResponse = {}
   const definitions = {}
 
+  const models:{[key:string]:utils.InterfaceOrClass} = {}
+
   const createClassDef = (className:string) => {
-    const modelClass = utils.findModel(project, className);     
+    const modelClass = utils.findModel(project, className);    
 
     // TODO: find out how to fix this in TypeScript, this if and the if below repeat
     // code too much...
     if( modelClass instanceof ClassDeclaration && !definitions[modelClass.getName()]) {
+      
+      // const method = modelClass.addMethod({ isStatic: true, name: "myMethod", returnType: "string" }); 
+      // method.setBodyText( )
+
+      models[modelClass.getName()] = modelClass
       const props = modelClass.getProperties()
+      modelClass.getSourceFile()
       definitions[modelClass.getName()] = {
         type : 'object',
         properties : {
@@ -179,6 +221,7 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
       }              
     } 
     if(modelClass instanceof InterfaceDeclaration && !definitions[modelClass.getName()]) {
+      models[modelClass.getName()] = modelClass
       const props = modelClass.getProperties()
       definitions[modelClass.getName()] = {
         type : 'object',
@@ -307,6 +350,67 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
 }
 
 // write axios client endpoint for method
+export const WriteClient = (wr:R.CodeWriter, project:Project, clName:ClassDeclaration, method:MethodDeclaration ) : R.CodeWriter => {
+
+  const methodInfo = getMethodDoc(method)
+  if(methodInfo.tags.nogenerate) return wr
+
+  let methodName = method.getName()
+  // only simple parameters
+  const validParams = method.getParameters();
+  const getParams = method.getParameters().filter( param => isSimpleType(param.getType()) )  
+  const postParams = method.getParameters().filter( param => !isSimpleType(param.getType()) )  
+  const is_post = method.getParameters().filter( project => !isSimpleType(project.getType()) ).length > 0
+  let httpMethod = is_post ? 'post' : 'get';
+  // method signature
+  const signatureStr = validParams.map( p => {
+    return p.getName() + `: ` + p.getTypeNode().print() 
+  }).join(', ')
+  const paramsStr = getParams.map( project => project.getName() ).join(', ')
+  const postParamsStr = postParams.map( project => project.getName() ).join(', ')
+
+  // setting the body / post varas is not as simple...
+  const axiosGetVars = getParams.map( param => ('${' + param.getName() + '}' ) ).join('/') 
+  
+  if(methodInfo.tags.method) {
+    httpMethod = methodInfo.tags.method
+  }
+  if(methodInfo.tags.alias) {
+    methodName = methodInfo.tags.alias
+  }  
+  switch(httpMethod) {
+    case 'post':
+      wr.out(`// Service endpoint for ${methodName}`, true);
+      wr.out(`async ${methodName}(${signatureStr}) : Promise<${getTypeName(method.getReturnType())}> {`, true)
+        wr.indent(1)
+        if(is_post) wr.out('// should be posted', true)
+        wr.out('return (await axios.post(`/v1/' + methodName + '/'+ axiosGetVars+ '`,'+postParamsStr+')).data;', true)
+        wr.indent(-1)
+      wr.out(`}`, true) 
+      break; 
+    case 'get':
+      wr.out(`// Service endpoint for ${methodName}`, true);
+      wr.out(`async ${methodName}(${signatureStr}) : Promise<${getTypeName(method.getReturnType())}> {`, true)
+        wr.indent(1)
+        if(is_post) wr.out('// should be posted', true)
+        wr.out('return (await axios.get(`/v1/' + methodName + '/'+ axiosGetVars+ '`)).data;', true)
+        wr.indent(-1)
+      wr.out(`}`, true)  
+      break;
+    default:
+      wr.out(`// Service endpoint for ${methodName}`, true);
+      wr.out(`async ${methodName}(${signatureStr}) : Promise<${getTypeName(method.getReturnType())}> {`, true)
+        wr.indent(1)
+        if(is_post) wr.out('// should be posted', true)
+        wr.out('return (await axios.'+httpMethod+'(`/v1/' + methodName + '/'+ axiosGetVars+ '`)).data;', true)
+        wr.indent(-1)
+      wr.out(`}`, true) 
+  }
+  return wr;
+}
+
+
+// write axios client endpoint for method
 export const WriteClientEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDeclaration, method:MethodDeclaration ) : R.CodeWriter => {
 
   const methodInfo = getMethodDoc(method)
@@ -320,8 +424,8 @@ export const WriteClientEndpoint = (wr:R.CodeWriter, project:Project, clName:Cla
   const is_post = method.getParameters().filter( project => !isSimpleType(project.getType()) ).length > 0
   let httpMethod = is_post ? 'post' : 'get';
   // method signature
-  const signatureStr = validParams.map( project => {
-    return project.getName() + `: ` + getTypeName( project.getType()) 
+  const signatureStr = validParams.map( p => {
+    return p.getName() + `: ` + p.getTypeNode().print() 
   }).join(', ')
   const paramsStr = getParams.map( project => project.getName() ).join(', ')
   const postParamsStr = postParams.map( project => project.getName() ).join(', ')

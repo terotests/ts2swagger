@@ -36,14 +36,13 @@ exports.initSwagger = function (wr, service) {
     wr.getState().swagger = base;
     return wr;
 };
-exports.WriteEndpoint = function (wr, project, clName, method) {
+exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
     var _a;
     var methodInfo = getMethodDoc(method);
     if (methodInfo.tags.nogenerate)
         return wr;
     var fc = method.getChildAtIndex(0);
     if (fc && fc.getText().indexOf('private') === 0) {
-        console.log('**** skipping private method ', method.getName());
         return wr;
     }
     var methodName = method.getName();
@@ -138,17 +137,57 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     wr.out('}', true);
     wr.indent(-1);
     wr.out("})", true);
+    if (clientWriter) {
+        var writeClientNode = function (wr) {
+            console.log('Could Write Client code...');
+            if (bodyParams.length > 1)
+                throw 'Only one post parameter allowed ' + method.getName();
+            var postParamsStr = bodyParams.map(function (project) { return project.getName(); }).join(', ');
+            // setting the body / post varas is not as simple...
+            var pathGetVars = pathParams.map(function (param) { return ('${' + param.getName() + '}'); }).join('/');
+            var axiosGetVars = "{params:{" + queryParams.map(function (project) { return project.getName(); }).join(', ') + '}}';
+            var apiPath = '';
+            path.forEach(function (pathPart, i) {
+                apiPath += pathPart + '/';
+                if (pathParams[i]) {
+                    apiPath += '${' + pathParams[i].getName() + '}' + '/';
+                }
+            });
+            /*
+             wr.out('return (await axios.post(`/v1/' + methodName + '/'+ axiosGetVars+ '`,'+postParamsStr+')).data;', true)
+            */
+            wr.out("// client for endpoint " + methodName, true);
+            var signatureStr = method.getParameters().map(function (p) { return p.getName() + ':' + p.getTypeNode().print(); }).join(', ');
+            wr.out("async " + methodName + "(" + signatureStr + ") " + (method.getReturnTypeNode() ? ': Promise<' + method.getReturnTypeNode().print() + '>' : '') + " {", true);
+            wr.indent(1);
+            if (httpMethod === 'post' || httpMethod === 'put') {
+                wr.out('return (await axios.' + httpMethod + '(`' + basePath + apiPath + '`,' + postParamsStr + ')).data;', true);
+            }
+            else {
+                wr.out('return (await axios.' + httpMethod + '(`' + basePath + apiPath + '`,' + axiosGetVars + ')).data;', true);
+            }
+            wr.indent(-1);
+            wr.out("}", true);
+        };
+        writeClientNode(clientWriter);
+        console.log('Client was written...');
+    }
     var rArr = getTypePath(method.getReturnType());
     var is_array = rArr[0] === 'Array';
     var rType = rArr.pop();
     var successResponse = {};
     var definitions = {};
+    var models = {};
     var createClassDef = function (className) {
         var modelClass = utils.findModel(project, className);
         // TODO: find out how to fix this in TypeScript, this if and the if below repeat
         // code too much...
         if (modelClass instanceof ts_simple_ast_1.ClassDeclaration && !definitions[modelClass.getName()]) {
+            // const method = modelClass.addMethod({ isStatic: true, name: "myMethod", returnType: "string" }); 
+            // method.setBodyText( )
+            models[modelClass.getName()] = modelClass;
             var props = modelClass.getProperties();
+            modelClass.getSourceFile();
             definitions[modelClass.getName()] = {
                 type: 'object',
                 properties: __assign({}, props.reduce(function (prev, curr) {
@@ -166,6 +205,7 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
             };
         }
         if (modelClass instanceof ts_simple_ast_1.InterfaceDeclaration && !definitions[modelClass.getName()]) {
+            models[modelClass.getName()] = modelClass;
             var props = modelClass.getProperties();
             definitions[modelClass.getName()] = {
                 type: 'object',
@@ -264,6 +304,65 @@ exports.WriteEndpoint = function (wr, project, clName, method) {
     return wr;
 };
 // write axios client endpoint for method
+exports.WriteClient = function (wr, project, clName, method) {
+    var methodInfo = getMethodDoc(method);
+    if (methodInfo.tags.nogenerate)
+        return wr;
+    var methodName = method.getName();
+    // only simple parameters
+    var validParams = method.getParameters();
+    var getParams = method.getParameters().filter(function (param) { return isSimpleType(param.getType()); });
+    var postParams = method.getParameters().filter(function (param) { return !isSimpleType(param.getType()); });
+    var is_post = method.getParameters().filter(function (project) { return !isSimpleType(project.getType()); }).length > 0;
+    var httpMethod = is_post ? 'post' : 'get';
+    // method signature
+    var signatureStr = validParams.map(function (p) {
+        return p.getName() + ": " + p.getTypeNode().print();
+    }).join(', ');
+    var paramsStr = getParams.map(function (project) { return project.getName(); }).join(', ');
+    var postParamsStr = postParams.map(function (project) { return project.getName(); }).join(', ');
+    // setting the body / post varas is not as simple...
+    var axiosGetVars = getParams.map(function (param) { return ('${' + param.getName() + '}'); }).join('/');
+    if (methodInfo.tags.method) {
+        httpMethod = methodInfo.tags.method;
+    }
+    if (methodInfo.tags.alias) {
+        methodName = methodInfo.tags.alias;
+    }
+    switch (httpMethod) {
+        case 'post':
+            wr.out("// Service endpoint for " + methodName, true);
+            wr.out("async " + methodName + "(" + signatureStr + ") : Promise<" + getTypeName(method.getReturnType()) + "> {", true);
+            wr.indent(1);
+            if (is_post)
+                wr.out('// should be posted', true);
+            wr.out('return (await axios.post(`/v1/' + methodName + '/' + axiosGetVars + '`,' + postParamsStr + ')).data;', true);
+            wr.indent(-1);
+            wr.out("}", true);
+            break;
+        case 'get':
+            wr.out("// Service endpoint for " + methodName, true);
+            wr.out("async " + methodName + "(" + signatureStr + ") : Promise<" + getTypeName(method.getReturnType()) + "> {", true);
+            wr.indent(1);
+            if (is_post)
+                wr.out('// should be posted', true);
+            wr.out('return (await axios.get(`/v1/' + methodName + '/' + axiosGetVars + '`)).data;', true);
+            wr.indent(-1);
+            wr.out("}", true);
+            break;
+        default:
+            wr.out("// Service endpoint for " + methodName, true);
+            wr.out("async " + methodName + "(" + signatureStr + ") : Promise<" + getTypeName(method.getReturnType()) + "> {", true);
+            wr.indent(1);
+            if (is_post)
+                wr.out('// should be posted', true);
+            wr.out('return (await axios.' + httpMethod + '(`/v1/' + methodName + '/' + axiosGetVars + '`)).data;', true);
+            wr.indent(-1);
+            wr.out("}", true);
+    }
+    return wr;
+};
+// write axios client endpoint for method
 exports.WriteClientEndpoint = function (wr, project, clName, method) {
     var methodInfo = getMethodDoc(method);
     if (methodInfo.tags.nogenerate)
@@ -276,8 +375,8 @@ exports.WriteClientEndpoint = function (wr, project, clName, method) {
     var is_post = method.getParameters().filter(function (project) { return !isSimpleType(project.getType()); }).length > 0;
     var httpMethod = is_post ? 'post' : 'get';
     // method signature
-    var signatureStr = validParams.map(function (project) {
-        return project.getName() + ": " + getTypeName(project.getType());
+    var signatureStr = validParams.map(function (p) {
+        return p.getName() + ": " + p.getTypeNode().print();
     }).join(', ');
     var paramsStr = getParams.map(function (project) { return project.getName(); }).join(', ');
     var postParamsStr = postParams.map(function (project) { return project.getName(); }).join(', ');
