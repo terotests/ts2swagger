@@ -94,10 +94,7 @@
           "200": {
             "description": "",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/TestUser"
-              }
+              "$ref": "#/definitions/TestUser"
             }
           }
         },
@@ -124,10 +121,7 @@
           "200": {
             "description": "",
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "type": "string"
             }
           }
         },
@@ -170,10 +164,7 @@
           "200": {
             "description": "",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/TestUser"
-              }
+              "$ref": "#/definitions/TestUser"
             }
           }
         },
@@ -229,10 +220,7 @@
           "200": {
             "description": "",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Device"
-              }
+              "$ref": "#/definitions/Device"
             }
           }
         },
@@ -251,10 +239,7 @@
           "200": {
             "description": "",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/TestUser"
-              }
+              "$ref": "#/definitions/TestUser"
             }
           }
         },
@@ -446,6 +431,25 @@
         ],
         "description": "Custom endpoint behaviour, not well defined at this point",
         "summary": "Custom endpoint behaviour, not well defined at this point",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/test": {
+      "get": {
+        "parameters": [],
+        "description": "",
+        "summary": "",
         "produces": [
           "application/json"
         ],

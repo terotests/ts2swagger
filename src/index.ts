@@ -41,7 +41,6 @@ export async function createProject( settings:GenerationOptions) {
             throw `Duplicate client declaration for service ${serviceName}`
           }
           clients[serviceName] = f
-          console.log('Found client ' + f.getName()+ ' for service ' + serviceName)
         }        
       })
     })
@@ -78,7 +77,6 @@ export async function createProject( settings:GenerationOptions) {
         const clientFn = clients[serviceinfo.service]
         // console.log(serviceinfo)
         if(clientFn) {
-          console.log('^ has a client')
           clientWriter = new R.CodeWriter();
           clientWriter.out(`return new class ${c.getName()} {`, true)
           clientWriter.indent(1)
@@ -96,14 +94,12 @@ export async function createProject( settings:GenerationOptions) {
         project.getSourceFiles().forEach( s => {
           s.getFunctions().forEach( f => {
             const info = getFunctionDoc(f)
-            // console.log(f.getName(), info)
             if(info.tags.service === serviceinfo.service ) {
               f.setBodyText(writer => {
                 writer.setIndentationLevel('  ').write(injectWriter.getCode())
               }) 
             }
             if(info.tags.client === serviceinfo.service ) {
-              console.log(clientWriter.getCode())
               f.setBodyText(writer => {
                 // writer.write('/* OK */')
                 writer.setIndentationLevel('  ').write(clientWriter.getCode())

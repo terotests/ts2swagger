@@ -40,7 +40,7 @@ export class ServerInterface {
    * @tag user
    * @tagdescription System users
    */
-  putUser(id:string, overwrite:boolean, user:TestUser) : TestUser {
+  async putUser(id:string, overwrite:boolean, user:TestUser) : Promise<TestUser> {
     console.log('overwrite: ', overwrite)
     if( overwrite ) {
       console.log('TRUE')
@@ -59,7 +59,7 @@ export class ServerInterface {
    * @tag user
    * @tagdescription System users
    */
-  getUser(id:string) : TestUser {
+  async getUser(id:string) : Promise<TestUser> {
     return {name:'foobar'}
   }  
 
@@ -71,7 +71,7 @@ export class ServerInterface {
    * @tag document
    * @tagdescription 
    */
-  searchByKeyword(searchKeyword:string) : string[] {
+  async searchByKeyword(searchKeyword:string) : Promise<string[]> {
     return ['a', 'b']
   }    
 
@@ -84,7 +84,7 @@ export class ServerInterface {
    * @tag user
    * @tagdescription System users
    */
-  getUserFriends(userId:number, friendId:number, filter?:string) : TestUser[] {
+  async getUserFriends(userId:number, friendId:number, filter?:string) : Promise<TestUser[]> {
     console.log('filter: ', filter)
     return [{
       name : 'foobar'
@@ -100,11 +100,11 @@ export class ServerInterface {
    * @tag user
    * @tagdescription System users
    */
-  deleteUser(id:string) : TestUser {
+  async deleteUser(id:string) : Promise<TestUser> {
     return {name:'foobar'}
   }   
 
-  newfn(s:string) {
+  async newfn(s:string) : Promise<string> {
     return 'Simple string answer'
   }
 
@@ -112,7 +112,7 @@ export class ServerInterface {
    * List all devices in the system
    * @param {string} id here could be the documentation of the ID value
    */
-  getDevices(id:string) : Device[] {
+  async getDevices(id:string) : Promise<Device[]> {
     return [
       {id:1, name:'MacBook Pro'},
       {id:2, name:'iPhone'},
@@ -120,7 +120,7 @@ export class ServerInterface {
     ]
   }  
   
-  allUsers() : TestUser[] {
+  async allUsers() : Promise<TestUser[]> {
     return [
       {name:'First User'},
       {name:'Second User'},
@@ -130,14 +130,14 @@ export class ServerInterface {
    * Fetch all users
    * @param id of course the user id
    */
-  users(id:string) : TestUser[] {
+  async users(id:string) : Promise<TestUser[]> {
     return [
       {name:'First User'},
       {name:'Second User'},
     ]
   }
 
-  createUser( u: CreateUser) : TestUser {
+  async createUser( u: CreateUser) : Promise<TestUser> {
     return {name:'foobar'}
   }
 
@@ -145,13 +145,13 @@ export class ServerInterface {
    * Will set the device data
    * @description ok, looks good
    */
-  setDeviceData( createNewDevice:CreateDevice) : SomeReturnValue {
+  async setDeviceData( createNewDevice:CreateDevice) : Promise<SomeReturnValue> {
     const value = new SomeReturnValue()
     value.response = createNewDevice.description + ' OK '
     return value
   }
 
-  obj(v:number) : SomeReturnValue {
+  async obj(v:number) : Promise<SomeReturnValue> {
 
     // Test inserting function code inside some file
     function compilerInsertTest()  {
@@ -169,7 +169,7 @@ export class ServerInterface {
   /**
    * @nogenerate true
    */
-  test2(id:number) : SomeReturnValue  {
+  async test2(id:number) : Promise<SomeReturnValue>  {
     if(id > 12) {
       throw new Error('Invalid ID number')
     }
@@ -191,7 +191,7 @@ export class ServerInterface {
     return value
   }   
 
-  HelloWorld(name:string) : string {
+  async HelloWorld(name:string) : Promise<string> {
     if(name === 'tero') throw {errorCode:403, message:'What the...'}
     return `Hello World ${name}`
   }
@@ -217,5 +217,9 @@ export class ServerInterface {
     this.res.sendFile(__dirname + '/index.js')
     return 'ok'
   }   
+
+  async test() : Promise<string> {
+    return 'test'
+  }
 }
 
