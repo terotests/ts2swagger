@@ -69,7 +69,6 @@ function createProject(settings) {
                                         throw "Duplicate client declaration for service " + serviceName;
                                     }
                                     clients[serviceName] = f;
-                                    console.log('Found client ' + f.getName() + ' for service ' + serviceName);
                                 }
                             });
                         });
@@ -105,7 +104,6 @@ function createProject(settings) {
                                 var clientFn = clients[serviceinfo_1.service];
                                 // console.log(serviceinfo)
                                 if (clientFn) {
-                                    console.log('^ has a client');
                                     clientWriter_1 = new R.CodeWriter();
                                     clientWriter_1.out("return new class " + c.getName() + " {", true);
                                     clientWriter_1.indent(1);
@@ -123,14 +121,12 @@ function createProject(settings) {
                                 project.getSourceFiles().forEach(function (s) {
                                     s.getFunctions().forEach(function (f) {
                                         var info = utils_1.getFunctionDoc(f);
-                                        // console.log(f.getName(), info)
                                         if (info.tags.service === serviceinfo_1.service) {
                                             f.setBodyText(function (writer) {
                                                 writer.setIndentationLevel('  ').write(injectWriter_1.getCode());
                                             });
                                         }
                                         if (info.tags.client === serviceinfo_1.service) {
-                                            console.log(clientWriter_1.getCode());
                                             f.setBodyText(function (writer) {
                                                 // writer.write('/* OK */')
                                                 writer.setIndentationLevel('  ').write(clientWriter_1.getCode());

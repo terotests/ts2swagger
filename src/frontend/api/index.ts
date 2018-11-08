@@ -10,7 +10,6 @@ import {
   CreateDevice, 
   CreateUser 
 } from '../../backend/models/model'
-import axios from 'axios'
 
 /** 
  * API Client Could be written in here...
@@ -18,7 +17,7 @@ import axios from 'axios'
  * @client service1
  * 
  */
-function N() {
+export function N(axios:any) {
   return new class ServerInterface {
     // client for endpoint putUser
     async putUser(id:string, overwrite:boolean, user:TestUser) : Promise<TestUser> {
@@ -41,7 +40,7 @@ function N() {
       return (await axios.delete(`/sometest2/v1/user/${id}/`,{params:{}})).data;
     }
     // client for endpoint newfn
-    async newfn(s:string)  {
+    async newfn(s:string) : Promise<string> {
       return (await axios.get(`/sometest2/v1/newfn/${s}/`,{params:{}})).data;
     }
     // client for endpoint getDevices
@@ -69,7 +68,7 @@ function N() {
       return (await axios.get(`/sometest2/v1/obj/${v}/`,{params:{}})).data;
     }
     // client for endpoint test3
-    async test3(id:number) : Promise<Promise<SomeReturnValue>> {
+    async test3(id:number) : Promise<SomeReturnValue> {
       return (await axios.get(`/sometest2/v1/test3/${id}/`,{params:{}})).data;
     }
     // client for endpoint HelloWorld
@@ -77,12 +76,16 @@ function N() {
       return (await axios.get(`/sometest2/v1/HelloWorld/${name}/`,{params:{}})).data;
     }
     // client for endpoint hello
-    async hello(name:string) : Promise<Promise<string>> {
+    async hello(name:string) : Promise<string> {
       return (await axios.get(`/sometest2/v1/hello/${name}/`,{params:{}})).data;
     }
     // client for endpoint custom
-    async custom(name:string) : Promise<Promise<string>> {
+    async custom(name:string) : Promise<string> {
       return (await axios.get(`/sometest2/v1/custom/${name}/`,{params:{}})).data;
+    }
+    // client for endpoint test
+    async test() : Promise<string> {
+      return (await axios.get(`/sometest2/v1/test/`,{params:{}})).data;
     }
   }
 }

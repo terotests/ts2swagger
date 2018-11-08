@@ -145,7 +145,6 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
 
   if(clientWriter) {
     const writeClientNode = (wr:R.CodeWriter) => {
-      console.log('Could Write Client code...')
       if(bodyParams.length > 1) throw 'Only one post parameter allowed ' + method.getName()
       const postParamsStr = bodyParams.map( project => project.getName() ).join(', ')
       // setting the body / post varas is not as simple...
@@ -164,7 +163,7 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
   */    
       wr.out(`// client for endpoint ${methodName}`, true);
       const signatureStr = method.getParameters().map( p => p.getName() + ':' + p.getTypeNode().print()).join(', ');
-      wr.out(`async ${methodName}(${signatureStr}) ${method.getReturnTypeNode() ? ': Promise<' + method.getReturnTypeNode().print() + '>' : ''} {`, true);
+      wr.out(`async ${methodName}(${signatureStr}) ${method.getReturnTypeNode() ? ': ' + method.getReturnTypeNode().print() : ''} {`, true);
         wr.indent(1)
         if( httpMethod === 'post' || httpMethod === 'put') {
           wr.out('return (await axios.'+httpMethod+'(`' + basePath + apiPath+ '`,'+postParamsStr+')).data;', true)
@@ -175,7 +174,6 @@ export const WriteEndpoint = (wr:R.CodeWriter, project:Project, clName:ClassDecl
       wr.out(`}`, true)     
     }
     writeClientNode(clientWriter)
-    console.log('Client was written...')
   }
   
   const rArr = getTypePath( method.getReturnType() )

@@ -139,7 +139,6 @@ exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
     wr.out("})", true);
     if (clientWriter) {
         var writeClientNode = function (wr) {
-            console.log('Could Write Client code...');
             if (bodyParams.length > 1)
                 throw 'Only one post parameter allowed ' + method.getName();
             var postParamsStr = bodyParams.map(function (project) { return project.getName(); }).join(', ');
@@ -158,7 +157,7 @@ exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
             */
             wr.out("// client for endpoint " + methodName, true);
             var signatureStr = method.getParameters().map(function (p) { return p.getName() + ':' + p.getTypeNode().print(); }).join(', ');
-            wr.out("async " + methodName + "(" + signatureStr + ") " + (method.getReturnTypeNode() ? ': Promise<' + method.getReturnTypeNode().print() + '>' : '') + " {", true);
+            wr.out("async " + methodName + "(" + signatureStr + ") " + (method.getReturnTypeNode() ? ': ' + method.getReturnTypeNode().print() : '') + " {", true);
             wr.indent(1);
             if (httpMethod === 'post' || httpMethod === 'put') {
                 wr.out('return (await axios.' + httpMethod + '(`' + basePath + apiPath + '`,' + postParamsStr + ')).data;', true);
@@ -170,7 +169,6 @@ exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
             wr.out("}", true);
         };
         writeClientNode(clientWriter);
-        console.log('Client was written...');
     }
     var rArr = getTypePath(method.getReturnType());
     var is_array = rArr[0] === 'Array';

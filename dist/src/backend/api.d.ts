@@ -35,7 +35,7 @@ export declare class ServerInterface {
      * @tag user
      * @tagdescription System users
      */
-    putUser(id: string, overwrite: boolean, user: TestUser): TestUser;
+    putUser(id: string, overwrite: boolean, user: TestUser): Promise<TestUser>;
     /**
      *
      * @alias users
@@ -45,7 +45,7 @@ export declare class ServerInterface {
      * @tag user
      * @tagdescription System users
      */
-    getUser(id: string): TestUser;
+    getUser(id: string): Promise<TestUser>;
     /**
      * Etsi dokumentaatiosta tietoja hakusanalla
      * @method get
@@ -54,7 +54,7 @@ export declare class ServerInterface {
      * @tag document
      * @tagdescription
      */
-    searchByKeyword(searchKeyword: string): string[];
+    searchByKeyword(searchKeyword: string): Promise<string[]>;
     /**
      *
      * @alias users/friends
@@ -64,7 +64,7 @@ export declare class ServerInterface {
      * @tag user
      * @tagdescription System users
      */
-    getUserFriends(userId: number, friendId: number, filter?: string): TestUser[];
+    getUserFriends(userId: number, friendId: number, filter?: string): Promise<TestUser[]>;
     /**
      *
      * @alias user
@@ -74,36 +74,36 @@ export declare class ServerInterface {
      * @tag user
      * @tagdescription System users
      */
-    deleteUser(id: string): TestUser;
-    newfn(s: string): string;
+    deleteUser(id: string): Promise<TestUser>;
+    newfn(s: string): Promise<string>;
     /**
      * List all devices in the system
      * @param {string} id here could be the documentation of the ID value
      */
-    getDevices(id: string): Device[];
-    allUsers(): TestUser[];
+    getDevices(id: string): Promise<Device[]>;
+    allUsers(): Promise<TestUser[]>;
     /**
      * Fetch all users
      * @param id of course the user id
      */
-    users(id: string): TestUser[];
-    createUser(u: CreateUser): TestUser;
+    users(id: string): Promise<TestUser[]>;
+    createUser(u: CreateUser): Promise<TestUser>;
     /**
      * Will set the device data
      * @description ok, looks good
      */
-    setDeviceData(createNewDevice: CreateDevice): SomeReturnValue;
-    obj(v: number): SomeReturnValue;
+    setDeviceData(createNewDevice: CreateDevice): Promise<SomeReturnValue>;
+    obj(v: number): Promise<SomeReturnValue>;
     /**
      * @nogenerate true
      */
-    test2(id: number): SomeReturnValue;
+    test2(id: number): Promise<SomeReturnValue>;
     /**
      * Foobar...
      * @param id
      */
     test3(id: number): Promise<SomeReturnValue>;
-    HelloWorld(name: string): string;
+    HelloWorld(name: string): Promise<string>;
     /**
      * Async function returning stuff...
      * @error 404 ErrorNotFound
@@ -115,4 +115,5 @@ export declare class ServerInterface {
      * @custom true
      */
     custom(name: string): Promise<string>;
+    test(): Promise<string>;
 }

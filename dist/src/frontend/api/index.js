@@ -37,14 +37,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var axios_1 = require("axios");
 /**
  * API Client Could be written in here...
  *
  * @client service1
  *
  */
-function N() {
+function N(axios) {
     return new /** @class */ (function () {
         function ServerInterface() {
         }
@@ -53,7 +52,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.put("/sometest2/v1/user/" + id + "/", { user: user })];
+                        case 0: return [4 /*yield*/, axios.put("/sometest2/v1/user/" + id + "/", user)];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -64,7 +63,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.get("/sometest2/v1/users/" + id + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/users/" + id + "/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -75,7 +74,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.get("/sometest2/v1/searchByKeyword/", { params: { searchKeyword: searchKeyword } })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/searchByKeyword/", { params: { searchKeyword: searchKeyword } })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -86,7 +85,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.get("/sometest2/v1/users/" + userId + "/friends/" + friendId + "/", { params: { filter: filter } })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/users/" + userId + "/friends/" + friendId + "/", { params: { filter: filter } })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -97,7 +96,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.delete("/sometest2/v1/user/" + id + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.delete("/sometest2/v1/user/" + id + "/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -108,7 +107,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.get("/sometest2/v1/newfn/" + s + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/newfn/" + s + "/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -119,7 +118,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.get("/sometest2/v1/getDevices/" + id + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/getDevices/" + id + "/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -130,7 +129,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.get("/sometest2/v1/allUsers/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/allUsers/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -141,7 +140,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.get("/sometest2/v1/users/" + id + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/users/" + id + "/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -152,7 +151,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.post("/sometest2/v1/createUser/", { u: u })];
+                        case 0: return [4 /*yield*/, axios.post("/sometest2/v1/createUser/", u)];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -163,7 +162,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.post("/sometest2/v1/setDeviceData/", { createNewDevice: createNewDevice })];
+                        case 0: return [4 /*yield*/, axios.post("/sometest2/v1/setDeviceData/", createNewDevice)];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -174,7 +173,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.get("/sometest2/v1/obj/" + v + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/obj/" + v + "/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -185,7 +184,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.get("/sometest2/v1/test3/" + id + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/test3/" + id + "/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -196,7 +195,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.get("/sometest2/v1/HelloWorld/" + name + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/HelloWorld/" + name + "/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -207,7 +206,7 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.get("/sometest2/v1/hello/" + name + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/hello/" + name + "/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -218,7 +217,18 @@ function N() {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios_1.default.get("/sometest2/v1/custom/" + name + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/custom/" + name + "/", { params: {} })];
+                        case 1: return [2 /*return*/, (_a.sent()).data];
+                    }
+                });
+            });
+        };
+        // client for endpoint test
+        ServerInterface.prototype.test = function () {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/test/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -227,4 +237,5 @@ function N() {
         return ServerInterface;
     }());
 }
+exports.N = N;
 //# sourceMappingURL=index.js.map

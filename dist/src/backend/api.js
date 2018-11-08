@@ -80,14 +80,18 @@ var ServerInterface = /** @class */ (function () {
      * @tagdescription System users
      */
     ServerInterface.prototype.putUser = function (id, overwrite, user) {
-        console.log('overwrite: ', overwrite);
-        if (overwrite) {
-            console.log('TRUE');
-        }
-        else {
-            console.log('FALSE');
-        }
-        return { name: 'foobar' };
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                console.log('overwrite: ', overwrite);
+                if (overwrite) {
+                    console.log('TRUE');
+                }
+                else {
+                    console.log('FALSE');
+                }
+                return [2 /*return*/, { name: 'foobar' }];
+            });
+        });
     };
     /**
      *
@@ -99,7 +103,11 @@ var ServerInterface = /** @class */ (function () {
      * @tagdescription System users
      */
     ServerInterface.prototype.getUser = function (id) {
-        return { name: 'foobar' };
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, { name: 'foobar' }];
+            });
+        });
     };
     /**
      * Etsi dokumentaatiosta tietoja hakusanalla
@@ -110,7 +118,11 @@ var ServerInterface = /** @class */ (function () {
      * @tagdescription
      */
     ServerInterface.prototype.searchByKeyword = function (searchKeyword) {
-        return ['a', 'b'];
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, ['a', 'b']];
+            });
+        });
     };
     /**
      *
@@ -122,10 +134,14 @@ var ServerInterface = /** @class */ (function () {
      * @tagdescription System users
      */
     ServerInterface.prototype.getUserFriends = function (userId, friendId, filter) {
-        console.log('filter: ', filter);
-        return [{
-                name: 'foobar'
-            }];
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                console.log('filter: ', filter);
+                return [2 /*return*/, [{
+                            name: 'foobar'
+                        }]];
+            });
+        });
     };
     /**
      *
@@ -137,73 +153,111 @@ var ServerInterface = /** @class */ (function () {
      * @tagdescription System users
      */
     ServerInterface.prototype.deleteUser = function (id) {
-        return { name: 'foobar' };
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, { name: 'foobar' }];
+            });
+        });
     };
     ServerInterface.prototype.newfn = function (s) {
-        return 'Simple string answer';
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, 'Simple string answer'];
+            });
+        });
     };
     /**
      * List all devices in the system
      * @param {string} id here could be the documentation of the ID value
      */
     ServerInterface.prototype.getDevices = function (id) {
-        return [
-            { id: 1, name: 'MacBook Pro' },
-            { id: 2, name: 'iPhone' },
-            { id: 3, name: 'Huawei' },
-        ];
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, [
+                        { id: 1, name: 'MacBook Pro' },
+                        { id: 2, name: 'iPhone' },
+                        { id: 3, name: 'Huawei' },
+                    ]];
+            });
+        });
     };
     ServerInterface.prototype.allUsers = function () {
-        return [
-            { name: 'First User' },
-            { name: 'Second User' },
-        ];
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, [
+                        { name: 'First User' },
+                        { name: 'Second User' },
+                    ]];
+            });
+        });
     };
     /**
      * Fetch all users
      * @param id of course the user id
      */
     ServerInterface.prototype.users = function (id) {
-        return [
-            { name: 'First User' },
-            { name: 'Second User' },
-        ];
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, [
+                        { name: 'First User' },
+                        { name: 'Second User' },
+                    ]];
+            });
+        });
     };
     ServerInterface.prototype.createUser = function (u) {
-        return { name: 'foobar' };
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, { name: 'foobar' }];
+            });
+        });
     };
     /**
      * Will set the device data
      * @description ok, looks good
      */
     ServerInterface.prototype.setDeviceData = function (createNewDevice) {
-        var value = new model_1.SomeReturnValue();
-        value.response = createNewDevice.description + ' OK ';
-        return value;
+        return __awaiter(this, void 0, void 0, function () {
+            var value;
+            return __generator(this, function (_a) {
+                value = new model_1.SomeReturnValue();
+                value.response = createNewDevice.description + ' OK ';
+                return [2 /*return*/, value];
+            });
+        });
     };
     ServerInterface.prototype.obj = function (v) {
-        // Test inserting function code inside some file
-        function compilerInsertTest() {
-            for (var i = 0; i < 10; i++) {
-                console.log(i);
+        return __awaiter(this, void 0, void 0, function () {
+            // Test inserting function code inside some file
+            function compilerInsertTest() {
+                for (var i = 0; i < 10; i++) {
+                    console.log(i);
+                }
+                return 1450;
             }
-            return 1450;
-        }
-        // Then the client can use that computer generated code...
-        var value = new model_1.SomeReturnValue();
-        value.myValue = compilerInsertTest();
-        return value;
+            var value;
+            return __generator(this, function (_a) {
+                value = new model_1.SomeReturnValue();
+                value.myValue = compilerInsertTest();
+                return [2 /*return*/, value];
+            });
+        });
     };
     /**
      * @nogenerate true
      */
     ServerInterface.prototype.test2 = function (id) {
-        if (id > 12) {
-            throw new Error('Invalid ID number');
-        }
-        var value = new model_1.SomeReturnValue();
-        value.myValue = 12345;
-        return value;
+        return __awaiter(this, void 0, void 0, function () {
+            var value;
+            return __generator(this, function (_a) {
+                if (id > 12) {
+                    throw new Error('Invalid ID number');
+                }
+                value = new model_1.SomeReturnValue();
+                value.myValue = 12345;
+                return [2 /*return*/, value];
+            });
+        });
     };
     /**
      * Foobar...
@@ -223,9 +277,13 @@ var ServerInterface = /** @class */ (function () {
         });
     };
     ServerInterface.prototype.HelloWorld = function (name) {
-        if (name === 'tero')
-            throw { errorCode: 403, message: 'What the...' };
-        return "Hello World " + name;
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                if (name === 'tero')
+                    throw { errorCode: 403, message: 'What the...' };
+                return [2 /*return*/, "Hello World " + name];
+            });
+        });
     };
     /**
      * Async function returning stuff...
@@ -253,6 +311,13 @@ var ServerInterface = /** @class */ (function () {
                 console.log(this.req.headers);
                 this.res.sendFile(__dirname + '/index.js');
                 return [2 /*return*/, 'ok'];
+            });
+        });
+    };
+    ServerInterface.prototype.test = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, 'test'];
             });
         });
     };
