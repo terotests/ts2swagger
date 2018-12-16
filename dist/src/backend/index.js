@@ -38,12 +38,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var sample_1 = require("./sample");
 var app = express();
-var bodyParser = require('body-parser');
+var bodyParser = require("body-parser");
 app.use(bodyParser.json());
-app.use(express.static('public'));
-var swaggerUi = require('swagger-ui-express');
+app.use(express.static("public"));
+var swaggerUi = require("swagger-ui-express");
 // sample server...
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('../../swagger/sample.json')));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(require("../../swagger/sample.json")));
 /**
  * @service myserviceid
  */
@@ -168,6 +168,6 @@ function bootstrap(app, server) {
 bootstrap(app, function (req, res) { return new sample_1.MyService(req, res); });
 if (!module.parent) {
     app.listen(1337);
-    console.log('listening on port 1337');
+    console.log("listening on port 1337");
 }
 //# sourceMappingURL=index.js.map

@@ -1,5 +1,5 @@
-import { SomeReturnValue, TestUser, Device, CreateDevice, CreateUser } from './models/model';
-import * as express from 'express';
+import { SomeReturnValue, TestUser, Device, CreateDevice, CreateUser } from "./models/model";
+import * as express from "express";
 /**
  * APIn kuvaus jne.
  *

@@ -40,6 +40,10 @@ export function N(axios:any) {
     async testAnyResp(value:string) : Promise<AnyResponse<string, any>> {
       return (await axios.get(`/sometest/v1/testAnyResp/${value}/`,{params:{}})).data;
     }
+    // client for endpoint recursiveTest
+    async recursiveTest() : Promise<TreeModel> {
+      return (await axios.get(`/sometest/v1/recursiveTest/`,{params:{}})).data;
+    }
   }
 }
 

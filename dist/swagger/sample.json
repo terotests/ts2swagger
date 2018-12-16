@@ -110,6 +110,23 @@
         },
         "tags": []
       }
+    },
+    "/recursiveTest": {
+      "get": {
+        "parameters": [],
+        "description": "",
+        "summary": "",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TreeModel"
+            }
+          }
+        },
+        "tags": []
+      }
     }
   },
   "definitions": {
@@ -123,11 +140,25 @@
           "type": "string"
         }
       }
+    },
+    "TreeModel": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TreeModel"
+          }
+        }
+      }
     }
   },
   "schemes": ["http", "https"],
   "info": {
-    "version": "1.0.1  ",
+    "version": "1.0.1",
     "title": "The title of the Doc",
     "description": "Freeform test of the API comes here",
     "termsOfService": ""
