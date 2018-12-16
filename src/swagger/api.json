@@ -31,9 +31,7 @@
         ],
         "description": "",
         "summary": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -42,9 +40,7 @@
             }
           }
         },
-        "tags": [
-          "user"
-        ]
+        "tags": ["user"]
       },
       "delete": {
         "parameters": [
@@ -58,9 +54,7 @@
         ],
         "description": "",
         "summary": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -69,9 +63,7 @@
             }
           }
         },
-        "tags": [
-          "user"
-        ]
+        "tags": ["user"]
       }
     },
     "/users/{id}": {
@@ -87,9 +79,7 @@
         ],
         "description": "Fetch all users",
         "summary": "Fetch all users",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -114,9 +104,7 @@
         ],
         "description": "Etsi dokumentaatiosta tietoja hakusanalla",
         "summary": "Etsi dokumentaatiosta tietoja hakusanalla",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -125,9 +113,7 @@
             }
           }
         },
-        "tags": [
-          "document"
-        ]
+        "tags": ["document"]
       }
     },
     "/users/{userId}/friends/{friendId}": {
@@ -157,9 +143,7 @@
         ],
         "description": "",
         "summary": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -168,9 +152,7 @@
             }
           }
         },
-        "tags": [
-          "user"
-        ]
+        "tags": ["user"]
       }
     },
     "/newfn/{s}": {
@@ -186,9 +168,7 @@
         ],
         "description": "",
         "summary": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -213,9 +193,7 @@
         ],
         "description": "List all devices in the system",
         "summary": "List all devices in the system",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -232,9 +210,7 @@
         "parameters": [],
         "description": "",
         "summary": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -261,9 +237,7 @@
         ],
         "description": "",
         "summary": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -290,9 +264,7 @@
         ],
         "description": "ok, looks good",
         "summary": "ok, looks good",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -317,9 +289,7 @@
         ],
         "description": "",
         "summary": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -344,9 +314,7 @@
         ],
         "description": "Foobar...",
         "summary": "Foobar...",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -371,9 +339,7 @@
         ],
         "description": "",
         "summary": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -398,9 +364,7 @@
         ],
         "description": "Async function returning stuff...",
         "summary": "Async function returning stuff...",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -431,9 +395,7 @@
         ],
         "description": "Custom endpoint behaviour, not well defined at this point",
         "summary": "Custom endpoint behaviour, not well defined at this point",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -450,9 +412,7 @@
         "parameters": [],
         "description": "",
         "summary": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -556,10 +516,7 @@
       }
     }
   },
-  "schemes": [
-    "http",
-    "https"
-  ],
+  "schemes": ["http", "https"],
   "info": {
     "version": "1.0.1",
     "title": "First service",

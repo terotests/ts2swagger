@@ -30,6 +30,14 @@ export declare class SomeReturnValue {
 /**
  * @model true
  */
+export declare class AnyResponse<T, F> {
+    payload?: T;
+    error?: F;
+    constructor(success?: T, failure?: F);
+}
+/**
+ * @model true
+ */
 export declare class CreateDevice {
     name: string;
     description: string;

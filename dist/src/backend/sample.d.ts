@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { AnyResponse } from './models/model';
 /**
  * Freeform test of the API comes here
  *
@@ -13,16 +14,17 @@ export declare class MyService {
     private res;
     constructor(req: express.Request, res: express.Response);
     private getUserName;
-    ping(message: string): string;
+    ping(message: string): Promise<string>;
     /**
      * @alias hello
      */
     sayHello(name: string): Promise<string>;
-    getDevices(): Device[];
+    getDevices(): Promise<Device[]>;
     /**
      * @method post
      */
-    upload(): number;
+    upload(): Promise<number>;
+    testAnyResp(value: string): Promise<AnyResponse<string, any>>;
 }
 /**
  * @model true

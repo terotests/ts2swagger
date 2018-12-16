@@ -15,9 +15,7 @@
         ],
         "description": "",
         "summary": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "",
@@ -31,10 +29,7 @@
     }
   },
   "definitions": {},
-  "schemes": [
-    "http",
-    "https"
-  ],
+  "schemes": ["http", "https"],
   "info": {
     "version": "1.0.1  ",
     "title": "JeeJee",

@@ -129,7 +129,7 @@ exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
         wr.out("res.json( await " + servername + "(req, res)." + methodName + "(" + rParam + paramList + ") );", true);
     }
     wr.indent(-1);
-    wr.out('} catch(e) {', true);
+    wr.out('} catch(e)       {', true);
     wr.indent(1);
     wr.out('res.status(e.statusCode || 400);', true);
     wr.out("res.json( e );", true);

@@ -140,6 +140,29 @@ function bootstrap(app, server) {
             });
         });
     });
+    // Automatically generated endpoint for testAnyResp
+    app.get('/sometest/v1/testAnyResp/:value/', function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, _b, e_5;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 2, , 3]);
+                        _b = (_a = res).json;
+                        return [4 /*yield*/, server(req, res).testAnyResp(req.params.value)];
+                    case 1:
+                        _b.apply(_a, [_c.sent()]);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_5 = _c.sent();
+                        res.status(e_5.statusCode || 400);
+                        res.json(e_5);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    });
 }
 // initialize the API endpoint
 bootstrap(app, function (req, res) { return new sample_1.MyService(req, res); });

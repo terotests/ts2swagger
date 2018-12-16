@@ -39,6 +39,19 @@ export class SomeReturnValue {
 /**
  * @model true 
  */
+export class AnyResponse<T,F> {
+  payload?: T
+  error?: F
+  constructor( success?:T, failure?: F  ) {
+    this.payload = success
+    this.error = failure
+  }
+}
+
+
+/**
+ * @model true 
+ */
 export class CreateDevice {
   name: string
   description: string

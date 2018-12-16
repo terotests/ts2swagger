@@ -143,7 +143,7 @@ function createProject(settings) {
                             }
                         });
                     });
-                    return [4 /*yield*/, RFs.saveTo('./', false)];
+                    return [4 /*yield*/, RFs.saveTo('./', { usePrettier: true })];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, project.save()];
