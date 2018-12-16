@@ -21,7 +21,7 @@ function bootstrap(app:any, server:serverFactory) {
   app.get('/sometest/v1/ping/:message/', async function( req, res ) {
     try {
       res.json( await server(req, res).ping(req.params.message) );
-    } catch(e) {
+    } catch(e)       {
       res.status(e.statusCode || 400);
       res.json( e );
     }
@@ -30,7 +30,7 @@ function bootstrap(app:any, server:serverFactory) {
   app.get('/sometest/v1/hello/:name/', async function( req, res ) {
     try {
       res.json( await server(req, res).sayHello(req.params.name) );
-    } catch(e) {
+    } catch(e)       {
       res.status(e.statusCode || 400);
       res.json( e );
     }
@@ -39,7 +39,7 @@ function bootstrap(app:any, server:serverFactory) {
   app.get('/sometest/v1/getDevices/', async function( req, res ) {
     try {
       res.json( await server(req, res).getDevices() );
-    } catch(e) {
+    } catch(e)       {
       res.status(e.statusCode || 400);
       res.json( e );
     }
@@ -48,7 +48,16 @@ function bootstrap(app:any, server:serverFactory) {
   app.post('/sometest/v1/upload/', async function( req, res ) {
     try {
       res.json( await server(req, res).upload() );
-    } catch(e) {
+    } catch(e)       {
+      res.status(e.statusCode || 400);
+      res.json( e );
+    }
+  })
+  // Automatically generated endpoint for testAnyResp
+  app.get('/sometest/v1/testAnyResp/:value/', async function( req, res ) {
+    try {
+      res.json( await server(req, res).testAnyResp(req.params.value) );
+    } catch(e)       {
       res.status(e.statusCode || 400);
       res.json( e );
     }

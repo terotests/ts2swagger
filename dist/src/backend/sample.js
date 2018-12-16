@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var fs_1 = require("fs");
+var model_1 = require("./models/model");
 var app = express();
 /**
  * Freeform test of the API comes here
@@ -55,7 +56,11 @@ var MyService = /** @class */ (function () {
     MyService.prototype.getUserName = function () {
     };
     MyService.prototype.ping = function (message) {
-        return "you sent " + message;
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, "you sent " + message];
+            });
+        });
     };
     /**
      * @alias hello
@@ -70,16 +75,40 @@ var MyService = /** @class */ (function () {
         });
     };
     MyService.prototype.getDevices = function () {
-        return [{ id: 1, name: 'iPhone' }];
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, [{ id: 1, name: 'iPhone' }]];
+            });
+        });
     };
     /**
      * @method post
      */
     MyService.prototype.upload = function () {
-        // output results to some file...
-        // this.req.pipe( )    
-        this.req.pipe(fs_1.default.createWriteStream(__dirname + '/uploadedFile.bin'));
-        return 0;
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                // output results to some file...
+                // this.req.pipe( )    
+                this.req.pipe(fs_1.default.createWriteStream(__dirname + '/uploadedFile.bin'));
+                return [2 /*return*/, 0];
+            });
+        });
+    };
+    MyService.prototype.testAnyResp = function (value) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                // This example does not work properly
+                try {
+                    if (value === 'error')
+                        throw { mistake: true };
+                    return [2 /*return*/, new model_1.AnyResponse('OK', '')];
+                }
+                catch (e) {
+                    return [2 /*return*/, new model_1.AnyResponse(null, e)];
+                }
+                return [2 /*return*/];
+            });
+        });
     };
     return MyService;
 }());

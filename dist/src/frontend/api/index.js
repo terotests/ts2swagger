@@ -40,201 +40,69 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * API Client Could be written in here...
  *
- * @client service1
+ * @client myserviceid
  *
  */
 function N(axios) {
     return new /** @class */ (function () {
-        function ServerInterface() {
+        function MyService() {
         }
-        // client for endpoint putUser
-        ServerInterface.prototype.putUser = function (id, overwrite, user) {
+        // client for endpoint ping
+        MyService.prototype.ping = function (message) {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.put("/sometest2/v1/user/" + id + "/", user)];
+                        case 0: return [4 /*yield*/, axios.get("/sometest/v1/ping/" + message + "/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
             });
         };
-        // client for endpoint getUser
-        ServerInterface.prototype.getUser = function (id) {
+        // client for endpoint sayHello
+        MyService.prototype.sayHello = function (name) {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/users/" + id + "/", { params: {} })];
-                        case 1: return [2 /*return*/, (_a.sent()).data];
-                    }
-                });
-            });
-        };
-        // client for endpoint searchByKeyword
-        ServerInterface.prototype.searchByKeyword = function (searchKeyword) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/searchByKeyword/", { params: { searchKeyword: searchKeyword } })];
-                        case 1: return [2 /*return*/, (_a.sent()).data];
-                    }
-                });
-            });
-        };
-        // client for endpoint getUserFriends
-        ServerInterface.prototype.getUserFriends = function (userId, friendId, filter) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/users/" + userId + "/friends/" + friendId + "/", { params: { filter: filter } })];
-                        case 1: return [2 /*return*/, (_a.sent()).data];
-                    }
-                });
-            });
-        };
-        // client for endpoint deleteUser
-        ServerInterface.prototype.deleteUser = function (id) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.delete("/sometest2/v1/user/" + id + "/", { params: {} })];
-                        case 1: return [2 /*return*/, (_a.sent()).data];
-                    }
-                });
-            });
-        };
-        // client for endpoint newfn
-        ServerInterface.prototype.newfn = function (s) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/newfn/" + s + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest/v1/hello/" + name + "/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
             });
         };
         // client for endpoint getDevices
-        ServerInterface.prototype.getDevices = function (id) {
+        MyService.prototype.getDevices = function () {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/getDevices/" + id + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest/v1/getDevices/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
             });
         };
-        // client for endpoint allUsers
-        ServerInterface.prototype.allUsers = function () {
+        // client for endpoint upload
+        MyService.prototype.upload = function () {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/allUsers/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.post("/sometest/v1/upload/")];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
             });
         };
-        // client for endpoint users
-        ServerInterface.prototype.users = function (id) {
+        // client for endpoint testAnyResp
+        MyService.prototype.testAnyResp = function (value) {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/users/" + id + "/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest/v1/testAnyResp/" + value + "/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
             });
         };
-        // client for endpoint createUser
-        ServerInterface.prototype.createUser = function (u) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.post("/sometest2/v1/createUser/", u)];
-                        case 1: return [2 /*return*/, (_a.sent()).data];
-                    }
-                });
-            });
-        };
-        // client for endpoint setDeviceData
-        ServerInterface.prototype.setDeviceData = function (createNewDevice) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.post("/sometest2/v1/setDeviceData/", createNewDevice)];
-                        case 1: return [2 /*return*/, (_a.sent()).data];
-                    }
-                });
-            });
-        };
-        // client for endpoint obj
-        ServerInterface.prototype.obj = function (v) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/obj/" + v + "/", { params: {} })];
-                        case 1: return [2 /*return*/, (_a.sent()).data];
-                    }
-                });
-            });
-        };
-        // client for endpoint test3
-        ServerInterface.prototype.test3 = function (id) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/test3/" + id + "/", { params: {} })];
-                        case 1: return [2 /*return*/, (_a.sent()).data];
-                    }
-                });
-            });
-        };
-        // client for endpoint HelloWorld
-        ServerInterface.prototype.HelloWorld = function (name) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/HelloWorld/" + name + "/", { params: {} })];
-                        case 1: return [2 /*return*/, (_a.sent()).data];
-                    }
-                });
-            });
-        };
-        // client for endpoint hello
-        ServerInterface.prototype.hello = function (name) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/hello/" + name + "/", { params: {} })];
-                        case 1: return [2 /*return*/, (_a.sent()).data];
-                    }
-                });
-            });
-        };
-        // client for endpoint custom
-        ServerInterface.prototype.custom = function (name) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/custom/" + name + "/", { params: {} })];
-                        case 1: return [2 /*return*/, (_a.sent()).data];
-                    }
-                });
-            });
-        };
-        // client for endpoint test
-        ServerInterface.prototype.test = function () {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest2/v1/test/", { params: {} })];
-                        case 1: return [2 /*return*/, (_a.sent()).data];
-                    }
-                });
-            });
-        };
-        return ServerInterface;
+        return MyService;
     }());
 }
 exports.N = N;

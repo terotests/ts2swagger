@@ -44,6 +44,17 @@ exports.SomeReturnValue = SomeReturnValue;
 /**
  * @model true
  */
+var AnyResponse = /** @class */ (function () {
+    function AnyResponse(success, failure) {
+        this.payload = success;
+        this.error = failure;
+    }
+    return AnyResponse;
+}());
+exports.AnyResponse = AnyResponse;
+/**
+ * @model true
+ */
 var CreateDevice = /** @class */ (function () {
     function CreateDevice() {
     }

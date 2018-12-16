@@ -116,7 +116,7 @@ export async function createProject( settings:GenerationOptions) {
       }
     })        
   })  
-  await RFs.saveTo('./', false );
+  await RFs.saveTo('./', {usePrettier: true});
   await project.save()  
   console.log('Project saved')
 }

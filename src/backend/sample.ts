@@ -1,6 +1,6 @@
 import * as express from 'express'
 import fs from 'fs'
-
+import {AnyResponse} from './models/model'
 const app = express()
 /** 
  * Freeform test of the API comes here
@@ -19,7 +19,7 @@ export class MyService {
 
   }
   
-  ping(message:string) : string {
+  async ping(message:string) : Promise<string> {
     return `you sent ${message}`
   } 
   /**
@@ -30,19 +30,29 @@ export class MyService {
     return `Hello ${name}!!!`
   }   
 
-  getDevices() : Device[] {
+  async getDevices() : Promise<Device[]> {
     return [{id:1, name:'iPhone'}]
   }   
 
   /**
    * @method post
    */
-  upload() : number {
+  async upload() : Promise<number> {
     // output results to some file...
     // this.req.pipe( )    
     this.req.pipe( fs.createWriteStream(__dirname + '/uploadedFile.bin') )
     return 0
   }     
+
+  async testAnyResp(value:string) : Promise<AnyResponse<string, any >> {
+    // This example does not work properly
+    try {
+      if(value === 'error') throw {mistake:true}
+      return new AnyResponse('OK', '')
+    } catch(e) {
+      return new AnyResponse(null, e)
+    }
+  }  
 }
 
 
