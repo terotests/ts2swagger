@@ -31,7 +31,7 @@
   "definitions": {},
   "schemes": ["http", "https"],
   "info": {
-    "version": "1.0.1  ",
+    "version": "1.0.1",
     "title": "JeeJee",
     "description": "APIn kuvaus jne.",
     "termsOfService": ""

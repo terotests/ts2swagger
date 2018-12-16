@@ -1,6 +1,5 @@
-
-import {createProject} from './index'
+import { createProject } from "./index";
 
 createProject({
-  path:'src'
-})
+  path: "src"
+});

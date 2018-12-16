@@ -50,7 +50,7 @@ var Server2 = /** @class */ (function () {
     }
     Server2.prototype.hello = function (id) {
         var r;
-        return 'hi there!';
+        return "hi there!";
     };
     return Server2;
 }());
@@ -82,14 +82,14 @@ var ServerInterface = /** @class */ (function () {
     ServerInterface.prototype.putUser = function (id, overwrite, user) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                console.log('overwrite: ', overwrite);
+                console.log("overwrite: ", overwrite);
                 if (overwrite) {
-                    console.log('TRUE');
+                    console.log("TRUE");
                 }
                 else {
-                    console.log('FALSE');
+                    console.log("FALSE");
                 }
-                return [2 /*return*/, { name: 'foobar' }];
+                return [2 /*return*/, { name: "foobar" }];
             });
         });
     };
@@ -105,7 +105,7 @@ var ServerInterface = /** @class */ (function () {
     ServerInterface.prototype.getUser = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, { name: 'foobar' }];
+                return [2 /*return*/, { name: "foobar" }];
             });
         });
     };
@@ -120,7 +120,7 @@ var ServerInterface = /** @class */ (function () {
     ServerInterface.prototype.searchByKeyword = function (searchKeyword) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, ['a', 'b']];
+                return [2 /*return*/, ["a", "b"]];
             });
         });
     };
@@ -136,10 +136,12 @@ var ServerInterface = /** @class */ (function () {
     ServerInterface.prototype.getUserFriends = function (userId, friendId, filter) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                console.log('filter: ', filter);
-                return [2 /*return*/, [{
-                            name: 'foobar'
-                        }]];
+                console.log("filter: ", filter);
+                return [2 /*return*/, [
+                        {
+                            name: "foobar"
+                        }
+                    ]];
             });
         });
     };
@@ -155,14 +157,14 @@ var ServerInterface = /** @class */ (function () {
     ServerInterface.prototype.deleteUser = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, { name: 'foobar' }];
+                return [2 /*return*/, { name: "foobar" }];
             });
         });
     };
     ServerInterface.prototype.newfn = function (s) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, 'Simple string answer'];
+                return [2 /*return*/, "Simple string answer"];
             });
         });
     };
@@ -174,9 +176,9 @@ var ServerInterface = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, [
-                        { id: 1, name: 'MacBook Pro' },
-                        { id: 2, name: 'iPhone' },
-                        { id: 3, name: 'Huawei' },
+                        { id: 1, name: "MacBook Pro" },
+                        { id: 2, name: "iPhone" },
+                        { id: 3, name: "Huawei" }
                     ]];
             });
         });
@@ -184,10 +186,7 @@ var ServerInterface = /** @class */ (function () {
     ServerInterface.prototype.allUsers = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, [
-                        { name: 'First User' },
-                        { name: 'Second User' },
-                    ]];
+                return [2 /*return*/, [{ name: "First User" }, { name: "Second User" }]];
             });
         });
     };
@@ -198,17 +197,14 @@ var ServerInterface = /** @class */ (function () {
     ServerInterface.prototype.users = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, [
-                        { name: 'First User' },
-                        { name: 'Second User' },
-                    ]];
+                return [2 /*return*/, [{ name: "First User" }, { name: "Second User" }]];
             });
         });
     };
     ServerInterface.prototype.createUser = function (u) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, { name: 'foobar' }];
+                return [2 /*return*/, { name: "foobar" }];
             });
         });
     };
@@ -221,7 +217,7 @@ var ServerInterface = /** @class */ (function () {
             var value;
             return __generator(this, function (_a) {
                 value = new model_1.SomeReturnValue();
-                value.response = createNewDevice.description + ' OK ';
+                value.response = createNewDevice.description + " OK ";
                 return [2 /*return*/, value];
             });
         });
@@ -251,7 +247,7 @@ var ServerInterface = /** @class */ (function () {
             var value;
             return __generator(this, function (_a) {
                 if (id > 12) {
-                    throw new Error('Invalid ID number');
+                    throw new Error("Invalid ID number");
                 }
                 value = new model_1.SomeReturnValue();
                 value.myValue = 12345;
@@ -268,7 +264,7 @@ var ServerInterface = /** @class */ (function () {
             var value;
             return __generator(this, function (_a) {
                 if (id > 12) {
-                    throw new Error('Invalid ID number');
+                    throw new Error("Invalid ID number");
                 }
                 value = new model_1.SomeReturnValue();
                 value.myValue = 12345;
@@ -279,8 +275,8 @@ var ServerInterface = /** @class */ (function () {
     ServerInterface.prototype.HelloWorld = function (name) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                if (name === 'tero')
-                    throw { errorCode: 403, message: 'What the...' };
+                if (name === "tero")
+                    throw { errorCode: 403, message: "What the..." };
                 return [2 /*return*/, "Hello World " + name];
             });
         });
@@ -293,9 +289,9 @@ var ServerInterface = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 console.log(this.req.headers);
-                this.res.cookie('hahaa', 'Just set you a cookie');
-                if (name === 'tero')
-                    throw { errorCode: 403, message: 'User not found' };
+                this.res.cookie("hahaa", "Just set you a cookie");
+                if (name === "tero")
+                    throw { errorCode: 403, message: "User not found" };
                 return [2 /*return*/, "Hello " + name + "!!!"];
             });
         });
@@ -309,15 +305,15 @@ var ServerInterface = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 console.log(this.req.headers);
-                this.res.sendFile(__dirname + '/index.js');
-                return [2 /*return*/, 'ok'];
+                this.res.sendFile(__dirname + "/index.js");
+                return [2 /*return*/, "ok"];
             });
         });
     };
     ServerInterface.prototype.test = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, 'test'];
+                return [2 /*return*/, "test"];
             });
         });
     };

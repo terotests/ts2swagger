@@ -1,6 +1,13 @@
 /**
  * @model true
  */
+export declare class TreeModel {
+    name: string;
+    children: TreeModel[];
+}
+/**
+ * @model true
+ */
 export declare class SomeKeyWord {
     name: string;
 }

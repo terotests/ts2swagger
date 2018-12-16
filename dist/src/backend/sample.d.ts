@@ -1,5 +1,5 @@
-import * as express from 'express';
-import { AnyResponse } from './models/model';
+import * as express from "express";
+import { AnyResponse, TreeModel } from "./models/model";
 /**
  * Freeform test of the API comes here
  *
@@ -25,6 +25,7 @@ export declare class MyService {
      */
     upload(): Promise<number>;
     testAnyResp(value: string): Promise<AnyResponse<string, any>>;
+    recursiveTest(): Promise<TreeModel>;
 }
 /**
  * @model true

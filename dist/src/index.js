@@ -39,7 +39,7 @@ var ts_simple_ast_1 = require("ts-simple-ast");
 var R = require("robowr");
 var ProgrammerBase = require("./programmer/service");
 var utils_1 = require("./utils");
-var path = require('path');
+var path = require("path");
 function createProject(settings) {
     return __awaiter(this, void 0, void 0, function () {
         var project, RFs, webclient, services, clients;
@@ -49,16 +49,16 @@ function createProject(settings) {
                     project = new ts_simple_ast_1.default();
                     project.addExistingSourceFiles([settings.path + "/**/*.ts"]); // , "!**/*.d.ts"
                     RFs = new R.CodeFileSystem();
-                    webclient = RFs.getFile('/src/frontend/api/', 'index.ts').getWriter();
-                    services = webclient.getState().services = {};
-                    clients = webclient.getState().clients = {};
+                    webclient = RFs.getFile("/src/frontend/api/", "index.ts").getWriter();
+                    services = (webclient.getState().services = {});
+                    clients = (webclient.getState().clients = {});
                     // const client:{[key:string]:FunctionDeclaration} = {}
                     project.getSourceFiles().forEach(function (sourceFile) {
                         sourceFile.getFunctions().forEach(function (f) {
                             f.getJsDocs().forEach(function (doc) {
-                                var serviceName = '';
+                                var serviceName = "";
                                 var is_client = doc.getTags().filter(function (tag) {
-                                    if (tag.getName() === 'client') {
+                                    if (tag.getName() === "client") {
                                         serviceName = tag.getComment();
                                         return true;
                                     }
@@ -77,7 +77,7 @@ function createProject(settings) {
                     project.getSourceFiles().forEach(function (sourceFile) {
                         sourceFile.getFunctions().forEach(function (f) {
                             f.getJsDocs().forEach(function (doc) {
-                                var is_client = doc.getTags().filter(function (tag) { return tag.getName() === 'client'; }).length > 0;
+                                var is_client = doc.getTags().filter(function (tag) { return tag.getName() === "client"; }).length > 0;
                                 if (is_client) {
                                     webclient.getState().clients[f.getName()] = f;
                                 }
@@ -85,7 +85,7 @@ function createProject(settings) {
                         });
                         sourceFile.getClasses().forEach(function (c) {
                             c.getJsDocs().forEach(function (doc) {
-                                var is_service = doc.getTags().filter(function (tag) { return tag.getName() === 'service'; }).length > 0;
+                                var is_service = doc.getTags().filter(function (tag) { return tag.getName() === "service"; }).length > 0;
                                 if (is_service) {
                                     webclient.getState().services[c.getName()] = {
                                         description: doc.getComment()
@@ -123,13 +123,13 @@ function createProject(settings) {
                                         var info = utils_1.getFunctionDoc(f);
                                         if (info.tags.service === serviceinfo_1.service) {
                                             f.setBodyText(function (writer) {
-                                                writer.setIndentationLevel('  ').write(injectWriter_1.getCode());
+                                                writer.setIndentationLevel("  ").write(injectWriter_1.getCode());
                                             });
                                         }
                                         if (info.tags.client === serviceinfo_1.service) {
                                             f.setBodyText(function (writer) {
                                                 // writer.write('/* OK */')
-                                                writer.setIndentationLevel('  ').write(clientWriter_1.getCode());
+                                                writer.setIndentationLevel("  ").write(clientWriter_1.getCode());
                                             });
                                         }
                                     });
@@ -143,13 +143,13 @@ function createProject(settings) {
                             }
                         });
                     });
-                    return [4 /*yield*/, RFs.saveTo('./', { usePrettier: true })];
+                    return [4 /*yield*/, RFs.saveTo("./", { usePrettier: true })];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, project.save()];
                 case 2:
                     _a.sent();
-                    console.log('Project saved');
+                    console.log("Project saved");
                     return [2 /*return*/];
             }
         });

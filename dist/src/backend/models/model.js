@@ -3,9 +3,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @model true
  */
+var TreeModel = /** @class */ (function () {
+    function TreeModel() {
+        this.name = "";
+    }
+    return TreeModel;
+}());
+exports.TreeModel = TreeModel;
+/**
+ * @model true
+ */
 var SomeKeyWord = /** @class */ (function () {
     function SomeKeyWord() {
-        this.name = '';
+        this.name = "";
     }
     return SomeKeyWord;
 }());
@@ -36,7 +46,7 @@ exports.ErrorForbidden = ErrorForbidden;
 var SomeReturnValue = /** @class */ (function () {
     function SomeReturnValue() {
         this.myValue = 100;
-        this.response = '';
+        this.response = "";
     }
     return SomeReturnValue;
 }());
