@@ -1,24 +1,23 @@
-
-
 // Remember to import the model declararations etc. for the
 // compiles interface class over here...
 
-import { 
-  SomeReturnValue, 
-  TestUser, 
-  Device, 
-  CreateDevice, 
+import {
+  SomeReturnValue,
+  TestUser,
+  Device,
+  CreateDevice,
   CreateUser,
-  AnyResponse
-} from '../../backend/models/model'
+  AnyResponse,
+  TreeModel
+} from "../../backend/models/model";
 
-/** 
+/**
  * API Client Could be written in here...
- * 
+ *
  * @client myserviceid
- * 
+ *
  */
-export function N(axios:any) {
+export function N(axios: any) {
   return new class MyService {
     // client for endpoint ping
     async ping(message:string) : Promise<string> {
@@ -28,9 +27,13 @@ export function N(axios:any) {
     async sayHello(name:string) : Promise<string> {
       return (await axios.get(`/sometest/v1/hello/${name}/`,{params:{}})).data;
     }
-    // client for endpoint getDevices
-    async getDevices() : Promise<Device[]> {
-      return (await axios.get(`/sometest/v1/getDevices/`,{params:{}})).data;
+    // client for endpoint getDevice
+    async getDevice(id:number, yesno:boolean, what:string) : Promise<Device[]> {
+      return (await axios.get(`/sometest/v1/getDevice/${id}/`,{params:{yesno, what}})).data;
+    }
+    // client for endpoint getDeviceSecond
+    async getDeviceSecond(id:number, yesno:boolean, what:string) : Promise<Device[]> {
+      return (await axios.get(`/sometest/v1/getDeviceSecond/`,{params:{id, yesno, what}})).data;
     }
     // client for endpoint upload
     async upload() : Promise<number> {
@@ -46,4 +49,3 @@ export function N(axios:any) {
     }
   }
 }
-

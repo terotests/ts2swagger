@@ -127,7 +127,7 @@ export class ServerInterface {
    * List all devices in the system
    * @param {string} id here could be the documentation of the ID value
    */
-  async getDevices(id: string): Promise<Device[]> {
+  async getDevices(id: number): Promise<Device[]> {
     return [
       { id: 1, name: "MacBook Pro" },
       { id: 2, name: "iPhone" },

@@ -188,7 +188,7 @@
             "in": "path",
             "description": "",
             "required": true,
-            "type": "string"
+            "type": "number"
           }
         ],
         "description": "List all devices in the system",

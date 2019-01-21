@@ -73,10 +73,20 @@ var MyService = /** @class */ (function () {
             });
         });
     };
-    MyService.prototype.getDevices = function () {
+    MyService.prototype.getDevice = function (id, yesno, what) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, [{ id: 1, name: "iPhone" }]];
+                return [2 /*return*/, [{ id: id, name: "iPhone" }]];
+            });
+        });
+    };
+    /**
+     * @query id
+     */
+    MyService.prototype.getDeviceSecond = function (id, yesno, what) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, [{ id: id, name: "iPhone" }]];
             });
         });
     };

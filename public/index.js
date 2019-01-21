@@ -70,12 +70,23 @@ function N(axios) {
                 });
             });
         };
-        // client for endpoint getDevices
-        MyService.prototype.getDevices = function () {
+        // client for endpoint getDevice
+        MyService.prototype.getDevice = function (id, yesno, what) {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, axios.get("/sometest/v1/getDevices/", { params: {} })];
+                        case 0: return [4 /*yield*/, axios.get("/sometest/v1/getDevice/" + id + "/", { params: { yesno: yesno, what: what } })];
+                        case 1: return [2 /*return*/, (_a.sent()).data];
+                    }
+                });
+            });
+        };
+        // client for endpoint getDeviceSecond
+        MyService.prototype.getDeviceSecond = function (id, yesno, what) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, axios.get("/sometest/v1/getDeviceSecond/", { params: { id: id, yesno: yesno, what: what } })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });
@@ -98,6 +109,17 @@ function N(axios) {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0: return [4 /*yield*/, axios.get("/sometest/v1/testAnyResp/" + value + "/", { params: {} })];
+                        case 1: return [2 /*return*/, (_a.sent()).data];
+                    }
+                });
+            });
+        };
+        // client for endpoint recursiveTest
+        MyService.prototype.recursiveTest = function () {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, axios.get("/sometest/v1/recursiveTest/", { params: {} })];
                         case 1: return [2 /*return*/, (_a.sent()).data];
                     }
                 });

@@ -19,7 +19,11 @@ export declare class MyService {
      * @alias hello
      */
     sayHello(name: string): Promise<string>;
-    getDevices(): Promise<Device[]>;
+    getDevice(id: number, yesno: boolean, what: string): Promise<Device[]>;
+    /**
+     * @query id
+     */
+    getDeviceSecond(id: number, yesno: boolean, what: string): Promise<Device[]>;
     /**
      * @method post
      */
