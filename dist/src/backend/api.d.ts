@@ -80,7 +80,7 @@ export declare class ServerInterface {
      * List all devices in the system
      * @param {string} id here could be the documentation of the ID value
      */
-    getDevices(id: string): Promise<Device[]>;
+    getDevices(id: number): Promise<Device[]>;
     allUsers(): Promise<TestUser[]>;
     /**
      * Fetch all users

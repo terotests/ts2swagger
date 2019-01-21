@@ -28,8 +28,19 @@ export class MyService {
     return `Hello ${name}!!!`;
   }
 
-  async getDevices(): Promise<Device[]> {
-    return [{ id: 1, name: "iPhone" }];
+  async getDevice(id: number, yesno: boolean, what: string): Promise<Device[]> {
+    return [{ id: id, name: "iPhone" }];
+  }
+
+  /**
+   * @query id
+   */
+  async getDeviceSecond(
+    id: number,
+    yesno: boolean,
+    what: string
+  ): Promise<Device[]> {
+    return [{ id: id, name: "iPhone" }];
   }
 
   /**

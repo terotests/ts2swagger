@@ -4,7 +4,8 @@ import {
   ClassDeclaration,
   Project,
   InterfaceDeclaration,
-  ParameterDeclaration
+  ParameterDeclaration,
+  CodeBlockWriter
 } from "ts-simple-ast";
 import * as utils from "../utils";
 import { isBoolean } from "util";
@@ -14,6 +15,8 @@ const isSimpleType = utils.isSimpleType;
 const getTypePath = utils.getTypePath;
 const getSwaggerType = utils.getSwaggerType;
 const getMethodDoc = utils.getMethodDoc;
+
+let models: { [key: string]: utils.InterfaceOrClass } = {};
 
 export const initSwagger = (wr: R.CodeWriter, service: any): R.CodeWriter => {
   const base = {
@@ -31,6 +34,7 @@ export const initSwagger = (wr: R.CodeWriter, service: any): R.CodeWriter => {
     tags: []
   };
   wr.getState().swagger = base;
+  models = {};
   return wr;
 };
 
@@ -54,9 +58,9 @@ export const WriteEndpoint = (
 
   const basePath = wr.getState().swagger.basePath;
 
-  let pathParams = [];
-  let queryParams = [];
-  let bodyParams = [];
+  let pathParams: ParameterDeclaration[] = [];
+  let queryParams: ParameterDeclaration[] = [];
+  let bodyParams: ParameterDeclaration[] = [];
 
   const path = methodAlias.split("/"); // for example "users/documents"
   const methodParams = method.getParameters();
@@ -136,13 +140,22 @@ export const WriteEndpoint = (
 
   wr.out("try {", true);
   wr.indent(1);
-  const pathArgs = pathParams.map(param => "req.params." + param.getName());
+
+  // Validate the imput parametes from path
+
+  const pathArgs = pathParams.map(param =>
+    createValidatorFor(wr, "req.params." + param.getName(), param)
+  );
+
   const queryArgs = queryParams.map(param => {
+    return createValidatorFor(wr, "req.query." + param.getName(), param);
+    /*
     const pname = "req.query." + param.getName();
     if (getTypeName(param.getType()) === "boolean") {
       return `typeof(${pname}) === 'undefined' ? ${pname} : ${pname} === 'true'`;
     }
     return "req.query." + param.getName();
+    */
   });
   const postArgs = bodyParams.length > 0 ? ["req.body"] : [];
   const paramList = [...pathArgs, ...queryArgs, ...postArgs].join(", ");
@@ -249,14 +262,14 @@ export const WriteEndpoint = (
   const definitions: { [key: string]: any } = {};
   const hasProcessed: { [key: string]: boolean } = {};
 
-  const models: { [key: string]: utils.InterfaceOrClass } = {};
-
   const createClassDef = (className: string) => {
     if (hasProcessed[className]) {
       return;
     }
     hasProcessed[className] = true;
     const modelClass = utils.findModel(project, className);
+
+    // Writing the model...
 
     // TODO: find out how to fix this in TypeScript, this if and the if below repeat
     // code too much...
@@ -424,6 +437,38 @@ export const WriteEndpoint = (
   };
   state.definitions = Object.assign(state.definitions, definitions);
   return wr;
+};
+
+export const createValidatorFor = (
+  wr: R.CodeWriter,
+  name: string,
+  param: ParameterDeclaration
+): string => {
+  // check for ID values too ?
+  const n = param.getName();
+  const maybe = "maybe_" + n;
+  if (getTypeName(param.getType()) === "number") {
+    wr.out(`const ${maybe}:any = parseInt(String(${name})) `, true);
+    wr.out(
+      `const ${n}:number | null = (!isNaN(${maybe}) && (Number.isInteger(${maybe})) && (${maybe} >= 0)) ? ${maybe} : null`,
+      true
+    );
+    wr.out(`if(${n} === null) throw({statusCode:422})`, true);
+    return n;
+  }
+  if (getTypeName(param.getType()) === "string") {
+    wr.out(`if(typeof ${name} !== 'string') throw({statusCode:422})`, true);
+    return name;
+  }
+  if (getTypeName(param.getType()) === "boolean") {
+    wr.out(
+      `const ${n}:any = ${name} === "true" ? true : ${name} === "false" ? false : ${name}`,
+      true
+    );
+    wr.out(`if(typeof ${n} !== 'boolean') throw({statusCode:422})`, true);
+    return n;
+  }
+  return name;
 };
 
 // write axios client endpoint for method

@@ -52,9 +52,70 @@
         "tags": []
       }
     },
-    "/getDevices": {
+    "/getDevice/{id}": {
       "get": {
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "yesno",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "boolean"
+          },
+          {
+            "name": "what",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "",
+        "summary": "",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          }
+        },
+        "tags": []
+      }
+    },
+    "/getDeviceSecond": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "yesno",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "boolean"
+          },
+          {
+            "name": "what",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "description": "",
         "summary": "",
         "produces": ["application/json"],

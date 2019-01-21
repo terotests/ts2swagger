@@ -18,6 +18,7 @@ var isSimpleType = utils.isSimpleType;
 var getTypePath = utils.getTypePath;
 var getSwaggerType = utils.getSwaggerType;
 var getMethodDoc = utils.getMethodDoc;
+var models = {};
 exports.initSwagger = function (wr, service) {
     var base = {
         swagger: "2.0",
@@ -34,6 +35,7 @@ exports.initSwagger = function (wr, service) {
         tags: []
     };
     wr.getState().swagger = base;
+    models = {};
     return wr;
 };
 exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
@@ -113,13 +115,19 @@ exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
     wr.indent(1);
     wr.out("try {", true);
     wr.indent(1);
-    var pathArgs = pathParams.map(function (param) { return "req.params." + param.getName(); });
+    // Validate the imput parametes from path
+    var pathArgs = pathParams.map(function (param) {
+        return exports.createValidatorFor(wr, "req.params." + param.getName(), param);
+    });
     var queryArgs = queryParams.map(function (param) {
-        var pname = "req.query." + param.getName();
+        return exports.createValidatorFor(wr, "req.query." + param.getName(), param);
+        /*
+        const pname = "req.query." + param.getName();
         if (getTypeName(param.getType()) === "boolean") {
-            return "typeof(" + pname + ") === 'undefined' ? " + pname + " : " + pname + " === 'true'";
+          return `typeof(${pname}) === 'undefined' ? ${pname} : ${pname} === 'true'`;
         }
         return "req.query." + param.getName();
+        */
     });
     var postArgs = bodyParams.length > 0 ? ["req.body"] : [];
     var paramList = pathArgs.concat(queryArgs, postArgs).join(", ");
@@ -205,13 +213,13 @@ exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
     var successResponse = {};
     var definitions = {};
     var hasProcessed = {};
-    var models = {};
     var createClassDef = function (className) {
         if (hasProcessed[className]) {
             return;
         }
         hasProcessed[className] = true;
         var modelClass = utils.findModel(project, className);
+        // Writing the model...
         // TODO: find out how to fix this in TypeScript, this if and the if below repeat
         // code too much...
         if (modelClass instanceof ts_simple_ast_1.ClassDeclaration &&
@@ -336,6 +344,27 @@ exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
     }, _a));
     state.definitions = Object.assign(state.definitions, definitions);
     return wr;
+};
+exports.createValidatorFor = function (wr, name, param) {
+    // check for ID values too ?
+    var n = param.getName();
+    var maybe = "maybe_" + n;
+    if (getTypeName(param.getType()) === "number") {
+        wr.out("const " + maybe + ":any = parseInt(String(" + name + ")) ", true);
+        wr.out("const " + n + ":number | null = (!isNaN(" + maybe + ") && (Number.isInteger(" + maybe + ")) && (" + maybe + " >= 0)) ? " + maybe + " : null", true);
+        wr.out("if(" + n + " === null) throw({statusCode:422})", true);
+        return n;
+    }
+    if (getTypeName(param.getType()) === "string") {
+        wr.out("if(typeof " + name + " !== 'string') throw({statusCode:422})", true);
+        return name;
+    }
+    if (getTypeName(param.getType()) === "boolean") {
+        wr.out("const " + n + ":any = " + name + " === \"true\" ? true : " + name + " === \"false\" ? false : " + name, true);
+        wr.out("if(typeof " + n + " !== 'boolean') throw({statusCode:422})", true);
+        return n;
+    }
+    return name;
 };
 // write axios client endpoint for method
 exports.WriteClient = function (wr, project, clName, method) {
