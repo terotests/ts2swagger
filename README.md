@@ -1,10 +1,9 @@
-
 # TypeScript to Swagger
 
 Automatically create Swagger documentation and Express endpoints from TypeScript classes.
 The tool supports
 
-- Automatically inferring types from TypeScript function declarations 
+- Automatically inferring types from TypeScript function declarations
 - Generating callable service endpoint for Express
 - Reading class, interface and method and JSDoc comments into Swagger docs
 - Defining parameter and return value Models using TypeScript
@@ -25,7 +24,7 @@ ts2swagger <directory>
 
 Then the tool will
 
-1. Locate all classes with **JSDoc** comment `@service <serviceid>` 
+1. Locate all classes with **JSDoc** comment `@service <serviceid>`
 2. Locate all intefaces or classes with **JSDoc** comment `/** model true */`
 3. It will create Swagger documentation specified with `@swagger <filename>`
 4. It will locate all functions having comment `@service <serviceid>` and create express endpoint in them
@@ -43,26 +42,26 @@ npm -g i ts2swagger
 - `@swagger <filename>` output Swagger (OpenAPI 2) file
 - `@title <document title>` title of the service
 - `@service <serviceid>` used to identify service
-- `@endpoint <path>` path where service is located 
+- `@endpoint <path>` path where service is located
 - `@version <versionnumber>` for example 1.0.0 or something
 
 ```typescript
-/** 
+/**
  * Freeform test of the API comes here
- * 
+ *
  * @swagger /src/swagger/sample.json
  * @title The title of the Doc
  * @service myserviceid
  * @endpoint /sometest/v1/
- * @version 1.0.1  
+ * @version 1.0.1
  */
-export class MyService {  
-  constructor( private req:express.Request, private res: express.Response) {}
-  ping(message:string) : string {
-    return `you sent ${message}`
-  } 
-  async getDevices() :Promise<Device[]> {
-    return []
+export class MyService {
+  constructor(private req: express.Request, private res: express.Response) {}
+  ping(message: string): string {
+    return `you sent ${message}`;
+  }
+  async getDevices(): Promise<Device[]> {
+    return [];
   }
 }
 ```
@@ -82,10 +81,9 @@ automatically by detecting their value and with some information from the JSDoc 
 - `@tagdescription <text>` description for the tag (multiple occurrence override each other)
 - `@error <code> <model>` HTTP response code and message which is returned
 
-
 ```typescript
   /**
-   * 
+   *
    * @alias user
    * @method delete
    * @param id set user to some value
@@ -96,12 +94,12 @@ automatically by detecting their value and with some information from the JSDoc 
    */
   deleteUser(id:string) : TestUser {
     return {name:'foobar'}
-  }  
+  }
 ```
 
 ### Private methods
 
-You can declare methods private in TypeScript and they will not be part of the 
+You can declare methods private in TypeScript and they will not be part of the
 
 ```typescript
   private getUser() {
@@ -122,21 +120,21 @@ example
  * @model true
  */
 export class Device {
-  id: number
-  name: string
-  description?: string 
+  id: number;
+  name: string;
+  description?: string;
 }
 ```
 
 ## Express bootstrap definition
 
 ```typescript
-import * as express from 'express'
-const app = express()
+import * as express from "express";
+const app = express();
 /**
  * @service myserviceid
  */
-function bootstrap(app:any, server:(req,res) => MyService) {
+function bootstrap(app: any, server: (req, res) => MyService) {
   // The code will be generated in here
 }
 ```
@@ -144,35 +142,35 @@ function bootstrap(app:any, server:(req,res) => MyService) {
 After running `ts2swagger` the function `bootstrap` will be overwritten to have contents
 
 ```typescript
-function bootstrap(app:any, server:(req,res) => MyService) {
+function bootstrap(app: any, server: (req, res) => MyService) {
   // Service endpoint for ping
-  app.get('/sometest/v1/ping/:message/', async function( req, res ) {
+  app.get("/sometest/v1/ping/:message/", async function(req, res) {
     try {
-      res.json( await server(req, res).ping(req.params.message) );
-    } catch(e) {
+      res.json(await server(req, res).ping(req.params.message));
+    } catch (e) {
       res.status(e.statusCode || 400);
-      res.json( e );
+      res.json(e);
     }
-  })
+  });
 }
 ```
 
 It is almost ready to be used as a service, but you have to start it by adding line
 
 ```typescript
-bootstrap( app, ( req, res ) => new MyService(req, res) )
+bootstrap(app, (req, res) => new MyService(req, res));
 // and start listening to some port with express
 app.listen(1337);
-console.log('listening on port 1337');
+console.log("listening on port 1337");
 ```
 
 The if you navigate to `http://localhost:1337/sometest/v1/ping/hello` you get
+
 ```
 "you sent hello"
 ```
 
-You will also get Swagger documentation in JSON 
-
+You will also get Swagger documentation in JSON
 
 ## Handling Errors
 
@@ -183,15 +181,15 @@ Define Error model, which must have `statusCode` set to the HTTP status code val
  * @model true
  */
 export class ErrorNotFound {
-  statusCode = 404
-  message?: string
+  statusCode = 404;
+  message?: string;
 }
 ```
 
 That class can then be thrown in the service handler
 
 ```typescript
-  if(somethingwrong) throw ErrorNotFound();
+if (somethingwrong) throw ErrorNotFound();
 ```
 
 The Inteface declaration has error defined like this
@@ -204,7 +202,27 @@ The Inteface declaration has error defined like this
   async hello(name:string) : Promise<string> {
     if(name==='foo') throw { errorCode:404, message:'User not found'}
     return `Hello ${name}!!!`
-  } 
+  }
+```
+
+### Upload parameters
+
+File upload must be handled manually at the moment, no server code is generated for it. Swagger documentation can have three variables
+
+- `@upload` which defines the name of the uploaded file variable in form data
+- `@uploadmeta` is name for text field which can contain encoded JSON metadata
+- `@uploadmetadesc` Documentation for the uploadmeta contents
+
+```typescript
+  /**
+   * @method post
+   * @upload file
+   * @uploadmeta into
+   * @uploadmetadesc send JSON encoded string here...
+   */
+  async upload(): Promise<any> {
+    // handle upload params manually
+  }
 ```
 
 ## Full Generated Frontend Sample
@@ -222,70 +240,74 @@ the service.
 you can manually edit other parts of the code as a programmer.
 
 ```typescript
-import * as express from 'express'
-import {MyService} from './sample';
+import * as express from "express";
+import { MyService } from "./sample";
 
-const app = express()
+const app = express();
 
-const bodyParser = require('body-parser')
-app.use( bodyParser.json() ); 
-app.use( express.static('public'))
-const swaggerUi = require('swagger-ui-express');
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(express.static("public"));
+const swaggerUi = require("swagger-ui-express");
 
 // sample server...
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('../../swagger/sample.json')));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(require("../../swagger/sample.json"))
+);
 
-type serverFactory = (req,res) => MyService
+type serverFactory = (req, res) => MyService;
 
 /**
  * @service myserviceid
  */
-function bootstrap(app:any, server:serverFactory) {
+function bootstrap(app: any, server: serverFactory) {
   // Automatically generated endpoint for ping
-  app.get('/sometest/v1/ping/:message/', async function( req, res ) {
+  app.get("/sometest/v1/ping/:message/", async function(req, res) {
     try {
-      res.json( await server(req, res).ping(req.params.message) );
-    } catch(e) {
+      res.json(await server(req, res).ping(req.params.message));
+    } catch (e) {
       res.status(e.statusCode || 400);
-      res.json( e );
+      res.json(e);
     }
-  })
+  });
   // Automatically generated endpoint for sayHello
-  app.get('/sometest/v1/hello/:name/', async function( req, res ) {
+  app.get("/sometest/v1/hello/:name/", async function(req, res) {
     try {
-      res.json( await server(req, res).sayHello(req.params.name) );
-    } catch(e) {
+      res.json(await server(req, res).sayHello(req.params.name));
+    } catch (e) {
       res.status(e.statusCode || 400);
-      res.json( e );
+      res.json(e);
     }
-  })
+  });
   // Automatically generated endpoint for getDevices
-  app.get('/sometest/v1/getDevices/', async function( req, res ) {
+  app.get("/sometest/v1/getDevices/", async function(req, res) {
     try {
-      res.json( await server(req, res).getDevices() );
-    } catch(e) {
+      res.json(await server(req, res).getDevices());
+    } catch (e) {
       res.status(e.statusCode || 400);
-      res.json( e );
+      res.json(e);
     }
-  })
+  });
   // Automatically generated endpoint for upload
-  app.post('/sometest/v1/upload/', async function( req, res ) {
+  app.post("/sometest/v1/upload/", async function(req, res) {
     try {
-      res.json( await server(req, res).upload() );
-    } catch(e) {
+      res.json(await server(req, res).upload());
+    } catch (e) {
       res.status(e.statusCode || 400);
-      res.json( e );
+      res.json(e);
     }
-  })
+  });
 }
 
 // initialize the API endpoint
-bootstrap( app, ( req, res ) => new MyService(req, res) )
+bootstrap(app, (req, res) => new MyService(req, res));
 
 if (!module.parent) {
   app.listen(1337);
-  console.log('listening on port 1337');
-}  
+  console.log("listening on port 1337");
+}
 ```
 
 ## License

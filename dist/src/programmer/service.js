@@ -294,6 +294,17 @@ exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
         addTag(methodInfo.tags.tag, "");
         addTagDescription(methodInfo.tags.tag, methodInfo.tags.tagdescription);
     }
+    var fileParams = [];
+    var fileMetaParams = [];
+    if (methodInfo.tags.upload) {
+        fileParams.push({ tag: "upload", value: methodInfo.tags.upload });
+    }
+    if (methodInfo.tags.uploadmeta) {
+        fileMetaParams.push({
+            tag: "uploadmeta",
+            value: methodInfo.tags.uploadmeta
+        });
+    }
     // NOTE: in Swagger parameter types are
     // -path
     // -query
@@ -301,7 +312,23 @@ exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
     // -cookie (not implemented)
     var previous = state.paths[swaggerPath];
     state.paths[swaggerPath] = __assign({}, previous, (_a = {}, _a[httpMethod] = {
-        parameters: pathParams.map(function (param) {
+        parameters: fileParams.map(function (item) {
+            return {
+                name: item.value,
+                in: "formData",
+                description: "Uploaded file",
+                required: true,
+                type: "file"
+            };
+        }).concat(fileMetaParams.map(function (item) {
+            return {
+                name: item.value,
+                in: "formData",
+                description: methodInfo.tags.uploadmetadesc || "",
+                required: true,
+                type: "string"
+            };
+        }), pathParams.map(function (param) {
             return {
                 name: param.getName(),
                 in: "path",
@@ -309,7 +336,7 @@ exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
                 required: true,
                 type: getTypeName(param.getType())
             };
-        }).concat(queryParams.map(function (param) {
+        }), queryParams.map(function (param) {
             return {
                 name: param.getName(),
                 in: "query",

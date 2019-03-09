@@ -26,6 +26,9 @@ export declare class MyService {
     getDeviceSecond(id: number, yesno: boolean, what: string): Promise<Device[]>;
     /**
      * @method post
+     * @upload file
+     * @uploadmeta into
+     * @uploadmetadesc send JSON encoded string here...
      */
     upload(): Promise<number>;
     testAnyResp(value: string): Promise<AnyResponse<string, any>>;

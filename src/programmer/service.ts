@@ -370,6 +370,19 @@ export const WriteEndpoint = (
     addTag(methodInfo.tags.tag, "");
     addTagDescription(methodInfo.tags.tag, methodInfo.tags.tagdescription);
   }
+
+  const fileParams: { tag: string; value: string }[] = [];
+  const fileMetaParams: { tag: string; value: string }[] = [];
+
+  if (methodInfo.tags.upload) {
+    fileParams.push({ tag: "upload", value: methodInfo.tags.upload });
+  }
+  if (methodInfo.tags.uploadmeta) {
+    fileMetaParams.push({
+      tag: "uploadmeta",
+      value: methodInfo.tags.uploadmeta
+    });
+  }
   // NOTE: in Swagger parameter types are
   // -path
   // -query
@@ -380,6 +393,24 @@ export const WriteEndpoint = (
     ...previous,
     [httpMethod]: {
       parameters: [
+        ...fileParams.map(item => {
+          return {
+            name: item.value,
+            in: "formData",
+            description: "Uploaded file",
+            required: true,
+            type: "file"
+          };
+        }),
+        ...fileMetaParams.map(item => {
+          return {
+            name: item.value,
+            in: "formData",
+            description: methodInfo.tags.uploadmetadesc || "",
+            required: true,
+            type: "string"
+          };
+        }),
         ...pathParams.map(param => {
           return {
             name: param.getName(),

@@ -45,6 +45,9 @@ export class MyService {
 
   /**
    * @method post
+   * @upload file
+   * @uploadmeta into
+   * @uploadmetadesc send JSON encoded string here...
    */
   async upload(): Promise<number> {
     // output results to some file...
