@@ -92,6 +92,9 @@ var MyService = /** @class */ (function () {
     };
     /**
      * @method post
+     * @upload file
+     * @uploadmeta into
+     * @uploadmetadesc send JSON encoded string here...
      */
     MyService.prototype.upload = function () {
         return __awaiter(this, void 0, void 0, function () {

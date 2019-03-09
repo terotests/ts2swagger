@@ -132,7 +132,22 @@
     },
     "/upload": {
       "post": {
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "Uploaded file",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "into",
+            "in": "formData",
+            "description": "send JSON encoded string here...",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "description": "",
         "summary": "",
         "produces": ["application/json"],
