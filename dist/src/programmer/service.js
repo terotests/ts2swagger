@@ -111,7 +111,7 @@ exports.WriteEndpoint = function (wr, project, clName, method, clientWriter) {
         }
     });
     wr.out("// Automatically generated endpoint for " + methodName, true);
-    wr.out("app." + httpMethod + "('" + basePath + apiPath + "', async function( req, res ) {", true);
+    wr.out("app." + httpMethod + "('" + basePath + apiPath + "', async function( req:TRequest, res:TResponse ) {", true);
     wr.indent(1);
     wr.out("try {", true);
     wr.indent(1);
