@@ -133,7 +133,7 @@ export const WriteEndpoint = (
 
   wr.out(`// Automatically generated endpoint for ${methodName}`, true);
   wr.out(
-    `app.${httpMethod}('${basePath}${apiPath}', async function( req, res ) {`,
+    `app.${httpMethod}('${basePath}${apiPath}', async function( req:TRequest, res:TResponse ) {`,
     true
   );
   wr.indent(1);
