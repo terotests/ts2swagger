@@ -49,15 +49,15 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(require("../../swagger/sam
  */
 function bootstrap(app, server) {
     // Automatically generated endpoint for ping
-    app.get('/sometest/v1/ping/:message/', function (req, res) {
+    app.get("/sometest/v1/ping/:message/", function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_1;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
-                        if (typeof req.params.message !== 'string')
-                            throw ({ statusCode: 422 });
+                        if (typeof req.params.message !== "string")
+                            throw { statusCode: 422 };
                         _b = (_a = res).json;
                         return [4 /*yield*/, server(req, res).ping(req.params.message)];
                     case 1:
@@ -74,15 +74,15 @@ function bootstrap(app, server) {
         });
     });
     // Automatically generated endpoint for sayHello
-    app.get('/sometest/v1/hello/:name/', function (req, res) {
+    app.get("/sometest/v1/hello/:name/", function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_2;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
-                        if (typeof req.params.name !== 'string')
-                            throw ({ statusCode: 422 });
+                        if (typeof req.params.name !== "string")
+                            throw { statusCode: 422 };
                         _b = (_a = res).json;
                         return [4 /*yield*/, server(req, res).sayHello(req.params.name)];
                     case 1:
@@ -99,7 +99,7 @@ function bootstrap(app, server) {
         });
     });
     // Automatically generated endpoint for getDevice
-    app.get('/sometest/v1/getDevice/:id/', function (req, res) {
+    app.get("/sometest/v1/getDevice/:id/", function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var maybe_id, id, yesno, _a, _b, e_3;
             return __generator(this, function (_c) {
@@ -107,14 +107,20 @@ function bootstrap(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         maybe_id = parseInt(String(req.params.id));
-                        id = (!isNaN(maybe_id) && (Number.isInteger(maybe_id)) && (maybe_id >= 0)) ? maybe_id : null;
+                        id = !isNaN(maybe_id) && Number.isInteger(maybe_id) && maybe_id >= 0
+                            ? maybe_id
+                            : null;
                         if (id === null)
-                            throw ({ statusCode: 422 });
-                        yesno = req.query.yesno === "true" ? true : req.query.yesno === "false" ? false : req.query.yesno;
-                        if (typeof yesno !== 'boolean')
-                            throw ({ statusCode: 422 });
-                        if (typeof req.query.what !== 'string')
-                            throw ({ statusCode: 422 });
+                            throw { statusCode: 422 };
+                        yesno = req.query.yesno === "true"
+                            ? true
+                            : req.query.yesno === "false"
+                                ? false
+                                : req.query.yesno;
+                        if (typeof yesno !== "boolean")
+                            throw { statusCode: 422 };
+                        if (typeof req.query.what !== "string")
+                            throw { statusCode: 422 };
                         _b = (_a = res).json;
                         return [4 /*yield*/, server(req, res).getDevice(id, yesno, req.query.what)];
                     case 1:
@@ -131,7 +137,7 @@ function bootstrap(app, server) {
         });
     });
     // Automatically generated endpoint for getDeviceSecond
-    app.get('/sometest/v1/getDeviceSecond/', function (req, res) {
+    app.get("/sometest/v1/getDeviceSecond/", function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var maybe_id, id, yesno, _a, _b, e_4;
             return __generator(this, function (_c) {
@@ -139,14 +145,20 @@ function bootstrap(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         maybe_id = parseInt(String(req.query.id));
-                        id = (!isNaN(maybe_id) && (Number.isInteger(maybe_id)) && (maybe_id >= 0)) ? maybe_id : null;
+                        id = !isNaN(maybe_id) && Number.isInteger(maybe_id) && maybe_id >= 0
+                            ? maybe_id
+                            : null;
                         if (id === null)
-                            throw ({ statusCode: 422 });
-                        yesno = req.query.yesno === "true" ? true : req.query.yesno === "false" ? false : req.query.yesno;
-                        if (typeof yesno !== 'boolean')
-                            throw ({ statusCode: 422 });
-                        if (typeof req.query.what !== 'string')
-                            throw ({ statusCode: 422 });
+                            throw { statusCode: 422 };
+                        yesno = req.query.yesno === "true"
+                            ? true
+                            : req.query.yesno === "false"
+                                ? false
+                                : req.query.yesno;
+                        if (typeof yesno !== "boolean")
+                            throw { statusCode: 422 };
+                        if (typeof req.query.what !== "string")
+                            throw { statusCode: 422 };
                         _b = (_a = res).json;
                         return [4 /*yield*/, server(req, res).getDeviceSecond(id, yesno, req.query.what)];
                     case 1:
@@ -163,7 +175,7 @@ function bootstrap(app, server) {
         });
     });
     // Automatically generated endpoint for upload
-    app.post('/sometest/v1/upload/', function (req, res) {
+    app.post("/sometest/v1/upload/", function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_5;
             return __generator(this, function (_c) {
@@ -186,15 +198,15 @@ function bootstrap(app, server) {
         });
     });
     // Automatically generated endpoint for testAnyResp
-    app.get('/sometest/v1/testAnyResp/:value/', function (req, res) {
+    app.get("/sometest/v1/testAnyResp/:value/", function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_6;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
-                        if (typeof req.params.value !== 'string')
-                            throw ({ statusCode: 422 });
+                        if (typeof req.params.value !== "string")
+                            throw { statusCode: 422 };
                         _b = (_a = res).json;
                         return [4 /*yield*/, server(req, res).testAnyResp(req.params.value)];
                     case 1:
@@ -211,7 +223,7 @@ function bootstrap(app, server) {
         });
     });
     // Automatically generated endpoint for recursiveTest
-    app.get('/sometest/v1/recursiveTest/', function (req, res) {
+    app.get("/sometest/v1/recursiveTest/", function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_7;
             return __generator(this, function (_c) {
