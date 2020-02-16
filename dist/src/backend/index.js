@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -38,12 +39,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var sample_1 = require("./sample");
 var app = express();
-var bodyParser = require('body-parser');
+var bodyParser = require("body-parser");
 app.use(bodyParser.json());
-app.use(express.static('public'));
-var swaggerUi = require('swagger-ui-express');
+app.use(express.static("public"));
+var swaggerUi = require("swagger-ui-express");
 // sample server...
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('../../swagger/sample.json')));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(require("../../swagger/sample.json")));
 /**
  * @service myserviceid
  */
@@ -71,8 +72,8 @@ function bootstrap(app, server) {
             });
         });
     });
-    // Automatically generated endpoint for sayHello
-    app.get('/sometest/v1/hello/:name/', function (req, res) {
+    // Automatically generated endpoint for test2
+    app.get('/sometest/v1/test2/:name/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_2;
             return __generator(this, function (_c) {
@@ -80,7 +81,7 @@ function bootstrap(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server(req, res).sayHello(req.params.name)];
+                        return [4 /*yield*/, server(req, res).test2(req.params.name)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
@@ -94,8 +95,8 @@ function bootstrap(app, server) {
             });
         });
     });
-    // Automatically generated endpoint for getDevices
-    app.get('/sometest/v1/getDevices/', function (req, res) {
+    // Automatically generated endpoint for sayHello
+    app.get('/sometest/v1/hello/:name/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_3;
             return __generator(this, function (_c) {
@@ -103,7 +104,7 @@ function bootstrap(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server(req, res).getDevices()];
+                        return [4 /*yield*/, server(req, res).sayHello(req.params.name)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
@@ -117,8 +118,8 @@ function bootstrap(app, server) {
             });
         });
     });
-    // Automatically generated endpoint for upload
-    app.post('/sometest/v1/upload/', function (req, res) {
+    // Automatically generated endpoint for getDevices
+    app.get('/sometest/v1/getDevices/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_4;
             return __generator(this, function (_c) {
@@ -126,7 +127,7 @@ function bootstrap(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server(req, res).upload()];
+                        return [4 /*yield*/, server(req, res).getDevices()];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
@@ -140,8 +141,8 @@ function bootstrap(app, server) {
             });
         });
     });
-    // Automatically generated endpoint for testAnyResp
-    app.get('/sometest/v1/testAnyResp/:value/', function (req, res) {
+    // Automatically generated endpoint for upload
+    app.post('/sometest/v1/upload/', function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_5;
             return __generator(this, function (_c) {
@@ -149,7 +150,7 @@ function bootstrap(app, server) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, server(req, res).testAnyResp(req.params.value)];
+                        return [4 /*yield*/, server(req, res).upload()];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
@@ -163,11 +164,34 @@ function bootstrap(app, server) {
             });
         });
     });
+    // Automatically generated endpoint for testAnyResp
+    app.get('/sometest/v1/testAnyResp/:value/', function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, _b, e_6;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 2, , 3]);
+                        _b = (_a = res).json;
+                        return [4 /*yield*/, server(req, res).testAnyResp(req.params.value)];
+                    case 1:
+                        _b.apply(_a, [_c.sent()]);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_6 = _c.sent();
+                        res.status(e_6.statusCode || 400);
+                        res.json(e_6);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    });
 }
 // initialize the API endpoint
 bootstrap(app, function (req, res) { return new sample_1.MyService(req, res); });
 if (!module.parent) {
     app.listen(1337);
-    console.log('listening on port 1337');
+    console.log("listening on port 1337");
 }
 //# sourceMappingURL=index.js.map

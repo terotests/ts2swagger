@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -53,8 +54,7 @@ var MyService = /** @class */ (function () {
         this.req = req;
         this.res = res;
     }
-    MyService.prototype.getUserName = function () {
-    };
+    MyService.prototype.getUserName = function () { };
     MyService.prototype.ping = function (message) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -62,14 +62,22 @@ var MyService = /** @class */ (function () {
             });
         });
     };
+    MyService.prototype.test2 = function (name) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, "test2 " + name];
+            });
+        });
+    };
     /**
+     * This comment should be visible in the doc
      * @alias hello
      */
     MyService.prototype.sayHello = function (name) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                if (name === 'foo')
-                    throw { errorCode: 404, message: 'User not found' };
+                if (name === "foo")
+                    throw { errorCode: 404, message: "User not found" };
                 return [2 /*return*/, "Hello " + name + "!!!"];
             });
         });
@@ -77,7 +85,7 @@ var MyService = /** @class */ (function () {
     MyService.prototype.getDevices = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, [{ id: 1, name: 'iPhone' }]];
+                return [2 /*return*/, [{ id: 1, name: "iPhone" }]];
             });
         });
     };
@@ -88,8 +96,8 @@ var MyService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 // output results to some file...
-                // this.req.pipe( )    
-                this.req.pipe(fs_1.default.createWriteStream(__dirname + '/uploadedFile.bin'));
+                // this.req.pipe( )
+                this.req.pipe(fs_1.default.createWriteStream(__dirname + "/uploadedFile.bin"));
                 return [2 /*return*/, 0];
             });
         });
@@ -99,9 +107,9 @@ var MyService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 // This example does not work properly
                 try {
-                    if (value === 'error')
+                    if (value === "error")
                         throw { mistake: true };
-                    return [2 /*return*/, new model_1.AnyResponse('OK', '')];
+                    return [2 /*return*/, new model_1.AnyResponse("OK", "")];
                 }
                 catch (e) {
                     return [2 /*return*/, new model_1.AnyResponse(null, e)];

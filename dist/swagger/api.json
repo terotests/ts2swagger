@@ -29,8 +29,6 @@
             }
           }
         ],
-        "description": "",
-        "summary": "",
         "produces": ["application/json"],
         "responses": {
           "200": {
@@ -52,8 +50,6 @@
             "type": "string"
           }
         ],
-        "description": "",
-        "summary": "",
         "produces": ["application/json"],
         "responses": {
           "200": {
@@ -141,8 +137,6 @@
             "type": "string"
           }
         ],
-        "description": "",
-        "summary": "",
         "produces": ["application/json"],
         "responses": {
           "200": {

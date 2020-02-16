@@ -22,15 +22,19 @@ export function N(axios:any) {
   return new class MyService {
     // client for endpoint ping
     async ping(message:string) : Promise<string> {
-      return (await axios.get(`/sometest/v1/ping/${message}/`,{params:{}})).data;
+      return (await axios.get(`/sometest/v1/ping/${message}/`,{params:{}})).data; /* ! */
+    }
+    // client for endpoint test2
+    async test2(name:string) : Promise<string> {
+      return (await axios.get(`/sometest/v1/test2/${name}/`,{params:{}})).data; /* ! */
     }
     // client for endpoint sayHello
     async sayHello(name:string) : Promise<string> {
-      return (await axios.get(`/sometest/v1/hello/${name}/`,{params:{}})).data;
+      return (await axios.get(`/sometest/v1/hello/${name}/`,{params:{}})).data; /* ! */
     }
     // client for endpoint getDevices
     async getDevices() : Promise<Device[]> {
-      return (await axios.get(`/sometest/v1/getDevices/`,{params:{}})).data;
+      return (await axios.get(`/sometest/v1/getDevices/`,{params:{}})).data; /* ! */
     }
     // client for endpoint upload
     async upload() : Promise<number> {
@@ -38,7 +42,7 @@ export function N(axios:any) {
     }
     // client for endpoint testAnyResp
     async testAnyResp(value:string) : Promise<AnyResponse<string, any>> {
-      return (await axios.get(`/sometest/v1/testAnyResp/${value}/`,{params:{}})).data;
+      return (await axios.get(`/sometest/v1/testAnyResp/${value}/`,{params:{}})).data; /* ! */
     }
   }
 }

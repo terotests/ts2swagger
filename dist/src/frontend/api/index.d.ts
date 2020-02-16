@@ -7,6 +7,7 @@ import { Device, AnyResponse } from '../../backend/models/model';
  */
 export declare function N(axios: any): {
     ping(message: string): Promise<string>;
+    test2(name: string): Promise<string>;
     sayHello(name: string): Promise<string>;
     getDevices(): Promise<Device[]>;
     upload(): Promise<number>;

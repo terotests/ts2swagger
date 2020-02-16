@@ -1,5 +1,5 @@
-import * as express from 'express';
-import { AnyResponse } from './models/model';
+import * as express from "express";
+import { AnyResponse } from "./models/model";
 /**
  * Freeform test of the API comes here
  *
@@ -15,7 +15,9 @@ export declare class MyService {
     constructor(req: express.Request, res: express.Response);
     private getUserName;
     ping(message: string): Promise<string>;
+    test2(name: string): Promise<string>;
     /**
+     * This comment should be visible in the doc
      * @alias hello
      */
     sayHello(name: string): Promise<string>;

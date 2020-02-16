@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -35,30 +36,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var ts_simple_ast_1 = require("ts-simple-ast");
+var ts_morph_1 = require("ts-morph");
 var R = require("robowr");
 var ProgrammerBase = require("./programmer/service");
 var utils_1 = require("./utils");
-var path = require('path');
+var path = require("path");
 function createProject(settings) {
     return __awaiter(this, void 0, void 0, function () {
         var project, RFs, webclient, services, clients;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    project = new ts_simple_ast_1.default();
-                    project.addExistingSourceFiles([settings.path + "/**/*.ts"]); // , "!**/*.d.ts"
+                    project = new ts_morph_1.Project({});
+                    project.addSourceFilesAtPaths([settings.path + "/**/*.ts"]); // , "!**/*.d.ts"
                     RFs = new R.CodeFileSystem();
-                    webclient = RFs.getFile('/src/frontend/api/', 'index.ts').getWriter();
-                    services = webclient.getState().services = {};
-                    clients = webclient.getState().clients = {};
+                    webclient = RFs.getFile("/src/frontend/api/", "index.ts").getWriter();
+                    services = (webclient.getState().services = {});
+                    clients = (webclient.getState().clients = {});
                     // const client:{[key:string]:FunctionDeclaration} = {}
                     project.getSourceFiles().forEach(function (sourceFile) {
                         sourceFile.getFunctions().forEach(function (f) {
                             f.getJsDocs().forEach(function (doc) {
-                                var serviceName = '';
+                                var serviceName = "";
                                 var is_client = doc.getTags().filter(function (tag) {
-                                    if (tag.getName() === 'client') {
+                                    if (tag.getTagName() === "client") {
                                         serviceName = tag.getComment();
                                         return true;
                                     }
@@ -77,7 +78,7 @@ function createProject(settings) {
                     project.getSourceFiles().forEach(function (sourceFile) {
                         sourceFile.getFunctions().forEach(function (f) {
                             f.getJsDocs().forEach(function (doc) {
-                                var is_client = doc.getTags().filter(function (tag) { return tag.getName() === 'client'; }).length > 0;
+                                var is_client = doc.getTags().filter(function (tag) { return tag.getTagName() === "client"; }).length > 0;
                                 if (is_client) {
                                     webclient.getState().clients[f.getName()] = f;
                                 }
@@ -85,13 +86,14 @@ function createProject(settings) {
                         });
                         sourceFile.getClasses().forEach(function (c) {
                             c.getJsDocs().forEach(function (doc) {
-                                var is_service = doc.getTags().filter(function (tag) { return tag.getName() === 'service'; }).length > 0;
+                                var is_service = doc.getTags().filter(function (tag) { return tag.getTagName() === "service"; }).length >
+                                    0;
                                 if (is_service) {
                                     webclient.getState().services[c.getName()] = {
-                                        description: doc.getComment()
+                                        description: doc.compilerNode.comment
                                     };
                                     doc.getTags().forEach(function (tag) {
-                                        webclient.getState().services[c.getName()][tag.getName()] = tag.getComment();
+                                        webclient.getState().services[c.getName()][tag.getTagName()] = tag.getComment();
                                     });
                                 }
                             });
@@ -112,7 +114,10 @@ function createProject(settings) {
                                     clientWriter_1.out("}", true);
                                 }
                                 ProgrammerBase.initSwagger(webclient, serviceinfo_1);
-                                var injectWriter_1 = new R.CodeWriter();
+                                var injectWriter_1 = new R.CodeFileSystem()
+                                    .getFile(".", "empty")
+                                    .getWriter();
+                                injectWriter_1.getState().swagger = webclient.getState().swagger;
                                 c.getMethods().forEach(function (m) {
                                     ProgrammerBase.WriteEndpoint(injectWriter_1, project, c, m, clientInnerWriter_1);
                                     // if(clientWriter) ProgrammerBase.WriteClientEndpoint( clientWriter, project, c, m )
@@ -123,13 +128,13 @@ function createProject(settings) {
                                         var info = utils_1.getFunctionDoc(f);
                                         if (info.tags.service === serviceinfo_1.service) {
                                             f.setBodyText(function (writer) {
-                                                writer.setIndentationLevel('  ').write(injectWriter_1.getCode());
+                                                writer.setIndentationLevel("  ").write(injectWriter_1.getCode());
                                             });
                                         }
                                         if (info.tags.client === serviceinfo_1.service) {
                                             f.setBodyText(function (writer) {
                                                 // writer.write('/* OK */')
-                                                writer.setIndentationLevel('  ').write(clientWriter_1.getCode());
+                                                writer.setIndentationLevel("  ").write(clientWriter_1.getCode());
                                             });
                                         }
                                     });
@@ -143,13 +148,13 @@ function createProject(settings) {
                             }
                         });
                     });
-                    return [4 /*yield*/, RFs.saveTo('./', { usePrettier: true })];
+                    return [4 /*yield*/, RFs.saveTo("./", { usePrettier: true })];
                 case 1:
                     _a.sent();
                     return [4 /*yield*/, project.save()];
                 case 2:
                     _a.sent();
-                    console.log('Project saved');
+                    console.log("Project saved!!!");
                     return [2 /*return*/];
             }
         });
